@@ -64,6 +64,7 @@ export default {
   },
   created() {
     this.user.age = new Date().toISOString().substr(0, 10);
+    
   },
   methods: {
     async registrarUsuario() {

@@ -45,8 +45,8 @@
         </v-card>
       </v-flex>
       <v-flex xs12 sm6 md4>
-        <v-card class="mx-4" style="background-color: rgb(247,239,219)" @click="verUsuarios">
-          <v-img src="https://raw.githubusercontent.com/ossiansm26/FitFlow/main/images/gimnasio-con-usuarios.png" aspect-ratio="1"></v-img>
+        <v-card class="mx-4" style="background-color:" @click="verUsuarios">
+          <v-img src="https://raw.githubusercontent.com/ossiansm26/FitFlow/main/images/gimnasio-con-usuarios.jpg" aspect-ratio="1"></v-img>
           <v-card-title class="headline text">Ver Usuarios</v-card-title>
         </v-card>
       </v-flex>

@@ -4,6 +4,7 @@ import router from './router';
 import store from './store';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
+import 'bootstrap/dist/css/bootstrap.css'
 
 Vue.use(Vuetify);
 

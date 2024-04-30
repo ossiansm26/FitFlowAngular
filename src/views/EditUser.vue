@@ -3,17 +3,38 @@
     <v-row justify="center">
       <v-col cols="12" sm="8" md="6">
         <v-card>
-          <v-card-title class="headline">Edit User</v-card-title>
+          <v-card-title class="headline center">Edit User</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="saveUser">
-              <v-text-field v-model="user.name" label="Name" required></v-text-field>
-              <v-text-field v-model="user.lastNames" label="Last Names" required></v-text-field>
-              <v-text-field v-model="user.age" label="Age" type="date" required></v-text-field>
-              <v-text-field v-model="user.email" label="Email" type="email" required></v-text-field>
-              <v-text-field v-model="user.password" label="Password" type="password" required></v-text-field>
-              <v-text-field v-model="user.phoneNumber" label="Phone Number" required></v-text-field>
-              <v-text-field v-model="user.address" label="Address" required></v-text-field>
-              <v-btn type="submit" color="primary">Save</v-btn>
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input v-model="user.name" type="text" class="form-control" id="name" required>
+              </div>
+              <div class="form-group">
+                <label for="lastNames">Last Names</label>
+                <input v-model="user.lastNames" type="text" class="form-control" id="lastNames" required>
+              </div>
+              <div class="form-group">
+                <label for="age">Age</label>
+                <input v-model="user.age" type="date" class="form-control" id="age" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input v-model="user.email" type="email" class="form-control" id="email" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input v-model="user.password" type="password" class="form-control" id="password" required>
+              </div>
+              <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input v-model="user.phoneNumber" type="text" class="form-control" id="phoneNumber" required>
+              </div>
+              <div class="form-group">
+                <label for="address">Address</label>
+                <input v-model="user.address" type="text" class="form-control" id="address" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Save</button>
             </v-form>
           </v-card-text>
         </v-card>
@@ -49,4 +70,8 @@ export default {
 </script>
 
 <style scoped>
+.center {
+  display: flex;
+  justify-content: center;
+}
 </style>
