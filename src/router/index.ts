@@ -12,6 +12,7 @@ import CreateMuscleGroup from '@/views/CreateMuscleGroup.vue'
 import ExercicesView from '@/views/ExercicesView.vue'
 import ExercicesCollectionView from '@/views/ExercicesCollectionView.vue'
 import RoutinesView from '@/views/RoutinesView.vue'
+import UserDetails from '@/views/UserDetails.vue'
 
 Vue.use(VueRouter)
 
@@ -24,7 +25,14 @@ const routes: Array<RouteConfig> = [
     path: '/Usuarios',
     name: 'usuarios',
     component: UsersView
-  },{
+  },
+  {
+    path: '/userDetails',
+      name: 'UserDetails',
+      component: UserDetails,
+      props: true,
+  }
+  ,{
     path: '/ReguistrarUsuario',
     name: 'reguistrarUsuario',
     component: UserRegister

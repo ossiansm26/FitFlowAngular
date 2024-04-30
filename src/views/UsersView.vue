@@ -9,7 +9,7 @@
       class="elevation-1"
     >
       <template v-slot:item="{ item }">
-        <tr>
+        <tr @click="viewUserDetail(item)">
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.lastNames }}</td>
@@ -20,8 +20,8 @@
           <td>{{ item.address }}</td>
           <td>{{ item.role }}</td>
           <td class="acciones">
-            <v-icon mid color="blue" @click="editUser(item)">mdi-pencil</v-icon>
-            <v-icon mid color="red" @click="confirmDeleteUser(item.id)">mdi-delete</v-icon>
+            <v-icon mid color="blue" @click.stop="editUser(item)">mdi-pencil</v-icon>
+            <v-icon mid color="red" @click.stop="confirmDeleteUser(item.id)">mdi-delete</v-icon>
           </td>
         </tr>
       </template>
@@ -95,6 +95,9 @@ export default {
     editUser(user) {
       this.$router.push({ name: 'editarUsuario', params: { user } });
     },
+    viewUserDetail(user) {
+      this.$router.push({ name: 'UserDetails', params: { user: user } });
+    },
     confirmDeleteUser(userId) {
       this.userToDelete = userId;
       this.dialogDeleteUser = true;
@@ -133,4 +136,3 @@ export default {
     display: flex;
 }
 </style>
-
