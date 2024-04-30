@@ -40,7 +40,7 @@
       </v-col>
     </v-row>
     <v-progress-linear v-else indeterminate color="primary"></v-progress-linear>
-    <v-btn class="add-btn" fab dark fixed bottom right @click="addMaterial">
+    <v-btn class="add-btn" color="success" fab large @click="addMaterial">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
   </v-container>
@@ -94,7 +94,8 @@ export default {
 
 <style scoped>
 .add-btn {
-  margin-bottom: 20px;
-  margin-right: 20px;
+  position: fixed;
+    bottom: 20px;
+    right: 20px;
 }
 </style>

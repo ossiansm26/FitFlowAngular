@@ -10,6 +10,8 @@ import CreateMaterial from '@/views/CreateMaterial.vue'
 import MuscleGroupView from '@/views/MuscleGroupView.vue'
 import CreateMuscleGroup from '@/views/CreateMuscleGroup.vue'
 import ExercicesView from '@/views/ExercicesView.vue'
+import ExercicesCollectionView from '@/views/ExercicesCollectionView.vue'
+import RoutinesView from '@/views/RoutinesView.vue'
 
 Vue.use(VueRouter)
 
@@ -62,6 +64,16 @@ const routes: Array<RouteConfig> = [
     name: 'exercices',
     component: ExercicesView
 
+  },
+  {
+    path: '/ExercicesCollection',
+    name: 'exercicesCollection',
+    component: ExercicesCollectionView
+  },
+  {
+    path: '/Routine',
+    name: 'routine',
+    component: RoutinesView
   }
 ]
 

@@ -20,8 +20,8 @@
           <td>{{ item.address }}</td>
           <td>{{ item.role }}</td>
           <td class="acciones">
-            <v-icon mid @click="editUser(item)">mdi-pencil</v-icon>
-            <v-icon mid @click="confirmDeleteUser(item.id)">mdi-delete</v-icon>
+            <v-icon mid color="blue" @click="editUser(item)">mdi-pencil</v-icon>
+            <v-icon mid color="red" @click="confirmDeleteUser(item.id)">mdi-delete</v-icon>
           </td>
         </tr>
       </template>
@@ -133,3 +133,4 @@ export default {
     display: flex;
 }
 </style>
+

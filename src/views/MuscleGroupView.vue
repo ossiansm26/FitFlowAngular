@@ -15,7 +15,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-btn class="create-btn" fab dark fixed bottom right @click="createGroup">
+    <v-btn class="create-btn" color="success" fab large @click="createGroup">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
   </v-container>
@@ -66,7 +66,8 @@ export default {
 
 <style scoped>
 .create-btn {
-  margin-bottom: 20px;
-  margin-right: 20px;
+  position: fixed;
+    bottom: 20px;
+    right: 20px;
 }
 </style>
