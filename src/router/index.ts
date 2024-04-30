@@ -6,6 +6,10 @@ import UserRegister from '../views/UserRegister.vue'
 import EditUser from '../views/EditUser.vue'
 import MaterialView from '@/views/MaterialView.vue'
 import EditMaterial from '@/views/EditMaterial.vue'
+import CreateMaterial from '@/views/CreateMaterial.vue'
+import MuscleGroupView from '@/views/MuscleGroupView.vue'
+import CreateMuscleGroup from '@/views/CreateMuscleGroup.vue'
+import ExercicesView from '@/views/ExercicesView.vue'
 
 Vue.use(VueRouter)
 
@@ -29,14 +33,35 @@ const routes: Array<RouteConfig> = [
     component: EditUser
   },
   {
-    path: '/material',
+    path: '/Material',
     name: 'material',
     component: MaterialView
   },
   {
-    path: '/editMaterial',
+    path: '/EditMaterial',
     name: 'editMaterial',
     component: EditMaterial
+  },
+  {
+    path: '/CrearMaterial',
+    name: 'crearMaterial',
+    component: CreateMaterial
+  },
+  {
+    path: '/MuscleGroup',
+    name: 'muscleGroup',
+    component: MuscleGroupView
+  },
+  {
+    path: '/CreateMuscleGroup',
+    name: 'createMuscleGroup',
+    component: CreateMuscleGroup
+  },
+  {
+    path: '/Exercices',
+    name: 'exercices',
+    component: ExercicesView
+
   }
 ]
 

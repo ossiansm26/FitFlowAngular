@@ -123,12 +123,13 @@ export default {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
 }
 .elevation-1 {
   box-shadow: 0px 2px 4px rgba(34, 50, 1, 0.1); 
 }
 .acciones{
     display: flex;
-    justify-content: space-around;
 }
 </style>

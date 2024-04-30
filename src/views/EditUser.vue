@@ -46,7 +46,12 @@
 <script>
 import User from '@/models/User';
 import axios from 'axios';
+import BackHome from '../components/navbar/BackHome.vue';
+
 export default {
+  comments: {
+    BackHome
+  },
   data() {
     return {
       user: new User()

@@ -20,13 +20,14 @@
                 <v-list-item-content>
                   <v-list-item-title>
                     <strong>Disponibilidad:</strong>
-                    {{ material.availabilityStatus ? 'Disponible' : 'No disponible' }}
+                    {{ material.availabilityStatus }}
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title><strong>Último mantenimiento:</strong> {{ formattedLastMaintenance(material) }}</v-list-item-title>
+                  <v-list-item-title><strong>Último mantenimiento:</strong> {{
+                    formattedlastMaintence(material)}}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item>
@@ -39,9 +40,9 @@
       </v-col>
     </v-row>
     <v-progress-linear v-else indeterminate color="primary"></v-progress-linear>
-    
-    <!-- Botón para añadir material -->
-    <v-btn color="success" @click="addMaterial">Añadir Material</v-btn>
+    <v-btn class="add-btn" fab dark fixed bottom right @click="addMaterial">
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
   </v-container>
 </template>
 
@@ -55,11 +56,12 @@ export default {
     };
   },
   methods: {
-    formattedLastMaintenance(material) {
-      return new Date(material.lastMaintenance).toLocaleString();
+    formattedlastMaintence(material) {
+      const lastMaintenanceDate = new Date(material.lastMaintence);
+      return lastMaintenanceDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: '2-digit' });
     },
     editMaterial(material) {
-     this.$router.push({ name: 'editMaterial', params: { material } });
+      this.$router.push({ name: 'editMaterial', params: { material } });
       console.log('Editar material:', material);
     },
     deleteMaterial(materialId) {
@@ -70,11 +72,10 @@ export default {
         .catch(error => {
           console.error('Error al borrar el material:', error);
         });
-        
       console.log('Borrar material con ID:', materialId);
     },
     addMaterial() {
-      this.$router.push({ name: 'addMaterial' });
+      this.$router.push({ name: 'crearMaterial' });
       console.log('Añadir nuevo material');
     }
   },
@@ -92,5 +93,8 @@ export default {
 </script>
 
 <style scoped>
-
+.add-btn {
+  margin-bottom: 20px;
+  margin-right: 20px;
+}
 </style>

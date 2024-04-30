@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <BackHome/>
+    <BackHome />
     <v-card>
       <v-card-title>Registro de Usuario</v-card-title>
       <v-card-text>
@@ -13,21 +13,11 @@
               <v-text-field v-model="user.lastNames" label="Apellidos" required></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-menu
-                v-model="menu"
-                :close-on-content-click="false"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
+              <v-menu v-model="menu" :close-on-content-click="false" transition="scale-transition" offset-y
+                min-width="auto">
                 <template v-slot:activator="{ on }">
-                  <v-text-field
-                    v-model="user.age"
-                    label="Fecha de Nacimiento"
-                    readonly
-                    v-on="on"
-                    required
-                  ></v-text-field>
+                  <v-text-field v-model="user.age" label="Fecha de Nacimiento" readonly v-on="on"
+                    required></v-text-field>
                 </template>
                 <v-date-picker v-model="user.age" @input="menu = false" scrollable></v-date-picker>
               </v-menu>
@@ -54,17 +44,17 @@ import BackHome from '../components/navbar/BackHome.vue';
 export default {
   components: {
     BackHome
-    },
+  },
   data() {
     return {
       BackHome,
-      user: new User("", "", new Date(), "", "", new Date(), "", "", "", ""), 
+      user: new User("", "", new Date(), "", "", new Date(), "", "", "", ""),
       menu: false
     };
   },
   created() {
     this.user.age = new Date().toISOString().substr(0, 10);
-    
+
   },
   methods: {
     async registrarUsuario() {
