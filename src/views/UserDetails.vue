@@ -6,7 +6,7 @@
         <v-card-text>
           <v-row>
             <v-col cols="12" sm="6">
-              <strong>Nombre:</strong> {{ user.name }}
+              <strong>Nombre:</strong> {{ user.name }}  
             </v-col>
             <v-col cols="12" sm="6">
               <strong>Apellidos:</strong> {{ user.lastNames }}

@@ -1,13 +1,8 @@
 <template>
   <v-container>
-    <BackHome/>
+    <BackHome />
     <h1 class="headline">Lista de Usuarios</h1>
-    <v-data-table
-      :headers="headers"
-      :items="users"
-      item-key="id"
-      class="elevation-1"
-    >
+    <v-data-table :headers="headers" :items="users" item-key="id" class="elevation-1">
       <template v-slot:item="{ item }">
         <tr @click="viewUserDetail(item)">
           <td>{{ item.id }}</td>
@@ -15,7 +10,7 @@
           <td>{{ item.lastNames }}</td>
           <td>{{ calculateAge(item.age) }}</td>
           <td>{{ item.email }}</td>
-          <td>{{ formatDate(item.enrollmentDate) }}</td>
+          <td>{{ formatDate(item.enrollamentDate) }}</td>
           <td>{{ item.phoneNumber }}</td>
           <td>{{ item.address }}</td>
           <td>{{ item.role }}</td>
@@ -43,12 +38,12 @@
 import axios from 'axios';
 import BackHome from '../components/navbar/BackHome.vue';
 export default {
-    components: {
+  components: {
     BackHome
-    },
+  },
   data() {
     return {
-      users:[],
+      users: [],
       headers: [
         { text: 'ID', value: 'id' },
         { text: 'Nombre', value: 'name' },
@@ -70,8 +65,9 @@ export default {
   },
   methods: {
     fetchUsers() {
-      axios.get('http://localhost:3001/api/user') 
+      axios.get('http://localhost:3001/api/user')
         .then(response => {
+          console.log('Usuarios recuperados:', response.data);
           this.users = response.data;
         })
         .catch(error => {
@@ -89,8 +85,12 @@ export default {
       return age;
     },
     formatDate(date) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return new Date(date).toLocaleDateString(undefined, options);
+      const enrollmentDate = new Date(date);
+      return enrollmentDate.toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
     },
     editUser(user) {
       this.$router.push({ name: 'editarUsuario', params: { user } });
@@ -103,7 +103,7 @@ export default {
       this.dialogDeleteUser = true;
     },
     deleteUser(userId) {
-        console.log("Borrando usuario con ID:", userId);
+      console.log("Borrando usuario con ID:", userId);
       axios.delete(`http://localhost:3001/api/user/delete/${userId}`)
         .then(response => {
           console.log('Usuario borrado:', response.data);
@@ -112,8 +112,8 @@ export default {
         .catch(error => {
           console.error('Error al borrar usuario:', error);
         });
-      
-    
+
+
       this.dialogDeleteUser = false;
     }
   }
@@ -122,17 +122,19 @@ export default {
 
 <style scoped>
 .headline {
-  color: #1976d2; 
+  color: #1976d2;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
   display: flex;
   justify-content: center;
 }
+
 .elevation-1 {
-  box-shadow: 0px 2px 4px rgba(34, 50, 1, 0.1); 
+  box-shadow: 0px 2px 4px rgba(34, 50, 1, 0.1);
 }
-.acciones{
-    display: flex;
+
+.acciones {
+  display: flex;
 }
 </style>
