@@ -14,6 +14,8 @@ import ExercicesCollectionView from '@/views/ExercicesCollectionView.vue'
 import RoutinesView from '@/views/RoutinesView.vue'
 import UserDetails from '@/views/UserDetails.vue'
 import PostView from '@/views/PostView.vue'
+import CommunityView from '@/views/CommunityView.vue'
+import AchivementView from '@/views/AchivementView.vue'
 
 Vue.use(VueRouter)
 
@@ -88,6 +90,16 @@ const routes: Array<RouteConfig> = [
     path: '/Post',
     name: 'post',
     component: PostView
+  },
+  {
+    path: '/Community',
+    name: 'community',
+    component: CommunityView
+  },
+  {
+    path: '/Achievement',
+    name: 'achievement',
+    component: AchivementView
   }
 ]
 
