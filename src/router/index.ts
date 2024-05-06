@@ -13,6 +13,7 @@ import ExercicesView from '@/views/ExercicesView.vue'
 import ExercicesCollectionView from '@/views/ExercicesCollectionView.vue'
 import RoutinesView from '@/views/RoutinesView.vue'
 import UserDetails from '@/views/UserDetails.vue'
+import PostView from '@/views/PostView.vue'
 
 Vue.use(VueRouter)
 
@@ -82,6 +83,11 @@ const routes: Array<RouteConfig> = [
     path: '/Routine',
     name: 'routine',
     component: RoutinesView
+  },
+  {
+    path: '/Post',
+    name: 'post',
+    component: PostView
   }
 ]
 
