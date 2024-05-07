@@ -61,11 +61,12 @@ export default {
     };
   },
   created() {
-    this.fetchUsers();
+    const userId = localStorage.getItem('selectedRoutineId');
+    this.fetchUsers(userId);
   },
   methods: {
     fetchUsers() {
-      axios.get('http://localhost:3001/api/user/getAllUser')
+      axios.get(`http://localhost:3001/api/user/GetById/${userId}`)
         .then(response => {
           console.log('Usuarios recuperados:', response.data);
           this.users = response.data;

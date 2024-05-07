@@ -29,12 +29,7 @@ import Material from '@/models/Material';
 export default {
   data() {
     return {
-      editedMaterial: {
-        id: null,
-        materialName: '',
-        availabilityStatus: false,
-        lastMaintenance: ''
-      },
+      editedMaterial: new Material(),
       menu: false
     };
   },

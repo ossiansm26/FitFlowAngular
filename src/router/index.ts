@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import UsersView from '../views/user/UsersView.vue'
-import UserRegister from '../views/user/UserRegister.vue'
+import HomeView from '@/views/HomeView.vue'
+import UsersView from '@/views/user/UsersView.vue'
+import UserRegister from '@/views/user/UserRegister.vue'
 import EditUser from '../views/user/EditUser.vue'
 import MaterialView from '@/views/material/MaterialView.vue'
 import EditMaterial from '@/views/material/EditMaterial.vue'
@@ -18,6 +18,7 @@ import CommunityView from '@/views/community/CommunityView.vue'
 import AchivementView from '@/views/achivements/AchivementView.vue'
 import UserLogin from '@/views/user/UserLogin.vue'
 import CreateRoutines from '@/views/routines/CreateRoutines.vue'
+import RoutinesDetails from '@/views/routines/RoutinesDetails.vue'
 
 Vue.use(VueRouter)
 
@@ -28,7 +29,7 @@ const routes: Array<RouteConfig> = [
     component: HomeView
   },{
     path: '/',
-    name: 'home',
+    name: 'login',
     component: UserLogin
   },
   {
@@ -92,6 +93,11 @@ const routes: Array<RouteConfig> = [
     path: '/Routine',
     name: 'routine',
     component: RoutinesView
+  },{
+    path: '/RouterDetails',
+    name: 'routerDetails',
+    component: RoutinesDetails
+  
   },{
     path: '/CreateRoutine',
     name: 'createRoutine',

@@ -45,7 +45,7 @@ export default {
     };
   },
   mounted() {
-    this.id = this.$route.params.id;
+    this.id = localStorage.getItem('userId');
     this.fetchRoutines();
   },
   methods: {
@@ -54,7 +54,6 @@ export default {
         const response = await axios.get(`http://localhost:3001/api/user/getUserRoutines/${this.id}`);
         this.routines = response.data;
       } catch (error) {
-        const response = await axios.get(`http://localhost:3001/api/routine`);
         this.routines = response.data;
       }
     },
@@ -78,7 +77,8 @@ export default {
       this.$router.push({ name: 'createRoutine' });
     },
     viewDetails(routine) {
-      // Aquí puedes implementar la lógica para ver más detalles de la rutina
+      localStorage.setItem('selectedRoutineId', routine.id);
+      this.$router.push({ name: 'routerDetails', params: { id: routine.id } });
       
    
     }

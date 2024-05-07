@@ -67,7 +67,7 @@ export default {
         console.log('Registrando usuario:', this.user);
         const response = await axios.post('http://localhost:3001/api/user/createUser', this.user);
         console.log('Usuario registrado:', response.data);
-        this.$router.push({ name: 'usuarios' });
+        this.$router.push({ name: 'home' });
       } catch (error) {
         console.error('Error al registrar usuario:', error);
       }
