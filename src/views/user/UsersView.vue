@@ -36,7 +36,7 @@
 
 <script>
 import axios from 'axios';
-import BackHome from '../components/navbar/BackHome.vue';
+import BackHome from '../../components/navbar/BackHome.vue';
 export default {
   components: {
     BackHome
@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     fetchUsers() {
-      axios.get('http://localhost:3001/api/user')
+      axios.get('http://localhost:3001/api/user/getAllUser')
         .then(response => {
           console.log('Usuarios recuperados:', response.data);
           this.users = response.data;

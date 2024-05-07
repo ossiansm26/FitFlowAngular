@@ -14,6 +14,9 @@
             <p>End Date: {{ formatDate(routine.end) }}</p>
           </v-card-text>
           <v-card-actions>
+            <v-btn icon @click="viewDetails(routine)">
+              <v-icon color="purple darken-1">mdi-eye</v-icon>
+            </v-btn>
             <v-btn icon @click="editRoutine(routine)">
               <v-icon color="blue darken-1">mdi-pencil</v-icon>
             </v-btn>
@@ -32,23 +35,27 @@
 
 <script>
 import axios from 'axios';
+import User from '@/models/User';
 
 export default {
   data() {
     return {
-      routines: []
+      routines: [],
+      id: null
     };
   },
   mounted() {
+    this.id = this.$route.params.id;
     this.fetchRoutines();
   },
   methods: {
     async fetchRoutines() {
       try {
-        const response = await axios.get('http://localhost:3001/api/routine');
+        const response = await axios.get(`http://localhost:3001/api/user/getUserRoutines/${this.id}`);
         this.routines = response.data;
       } catch (error) {
-        console.error('Error fetching routines:', error);
+        const response = await axios.get(`http://localhost:3001/api/routine`);
+        this.routines = response.data;
       }
     },
     formatDate(dateString) {
@@ -56,13 +63,24 @@ export default {
       return date.toLocaleDateString('es-ES');
     },
     editRoutine(routine) {
-      // Add your edit routine logic here
+      // Aquí puedes implementar la lógica para editar la rutina
     },
     deleteRoutine(routineId) {
-      // Add your delete routine logic here
+      axios.delete(`http://localhost:3001/api/routine/delete/${routineId}`)
+        .then(() => {
+          this.routines = this.routines.filter(routine => routine.id !== routineId);
+        })
+        .catch(error => {
+          console.error('Error deleting routine:', error);
+        }); 
     },
     createRoutine() {
+      this.$router.push({ name: 'createRoutine' });
+    },
+    viewDetails(routine) {
+      // Aquí puedes implementar la lógica para ver más detalles de la rutina
       
+   
     }
   }
 };
@@ -71,7 +89,7 @@ export default {
 <style scoped>
 .create-btn {
   position: fixed;
-    bottom: 20px;
-    right: 20px;
+  bottom: 20px;
+  right: 20px;
 }
 </style>

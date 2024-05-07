@@ -1,30 +1,37 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import UsersView from '../views/UsersView.vue'
-import UserRegister from '../views/UserRegister.vue'
-import EditUser from '../views/EditUser.vue'
-import MaterialView from '@/views/MaterialView.vue'
-import EditMaterial from '@/views/EditMaterial.vue'
-import CreateMaterial from '@/views/CreateMaterial.vue'
-import MuscleGroupView from '@/views/MuscleGroupView.vue'
-import CreateMuscleGroup from '@/views/CreateMuscleGroup.vue'
-import ExercicesView from '@/views/ExercicesView.vue'
-import ExercicesCollectionView from '@/views/ExercicesCollectionView.vue'
-import RoutinesView from '@/views/RoutinesView.vue'
-import UserDetails from '@/views/UserDetails.vue'
-import PostView from '@/views/PostView.vue'
-import CommunityView from '@/views/CommunityView.vue'
-import AchivementView from '@/views/AchivementView.vue'
+import UsersView from '../views/user/UsersView.vue'
+import UserRegister from '../views/user/UserRegister.vue'
+import EditUser from '../views/user/EditUser.vue'
+import MaterialView from '@/views/material/MaterialView.vue'
+import EditMaterial from '@/views/material/EditMaterial.vue'
+import CreateMaterial from '@/views/material/CreateMaterial.vue'
+import MuscleGroupView from '@/views/muscleGroup/MuscleGroupView.vue'
+import CreateMuscleGroup from '@/views/muscleGroup/CreateMuscleGroup.vue'
+import ExercicesView from '@/views/exercice/ExercicesView.vue'
+import ExercicesCollectionView from '@/views/collectionExercices/ExercicesCollectionView.vue'
+import RoutinesView from '@/views/routines/RoutinesView.vue'
+import UserDetails from '@/views/user/UserDetails.vue'
+import PostView from '@/views/post/PostView.vue'
+import CommunityView from '@/views/community/CommunityView.vue'
+import AchivementView from '@/views/achivements/AchivementView.vue'
+import UserLogin from '@/views/user/UserLogin.vue'
+import CreateRoutines from '@/views/routines/CreateRoutines.vue'
 
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
   {
-    path: '/',
+    path: '/home',
     name: 'home',
     component: HomeView
   },{
+    path: '/',
+    name: 'home',
+    component: UserLogin
+  },
+  {
     path: '/Usuarios',
     name: 'usuarios',
     component: UsersView
@@ -85,6 +92,10 @@ const routes: Array<RouteConfig> = [
     path: '/Routine',
     name: 'routine',
     component: RoutinesView
+  },{
+    path: '/CreateRoutine',
+    name: 'createRoutine',
+    component: CreateRoutines
   },
   {
     path: '/Post',

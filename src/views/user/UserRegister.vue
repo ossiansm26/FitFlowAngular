@@ -32,9 +32,6 @@
             <v-col cols="12" sm="6">
               <v-text-field v-model="user.address" label="Dirección" required></v-text-field>
             </v-col>
-            <v-col cols="12" sm="6">
-              <v-text-field v-model="user.speciality" label="Especialidad"></v-text-field>
-            </v-col>
           </v-row>
           <v-btn type="submit" color="primary">Registrar</v-btn>
         </v-form>
@@ -45,8 +42,8 @@
 
 <script>
 import axios from 'axios';
-import User from '../models/User';
-import BackHome from '../components/navbar/BackHome.vue';
+import User from '../../models/User';
+import BackHome from '../../components/navbar/BackHome.vue';
 
 export default {
   components: {

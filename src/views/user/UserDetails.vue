@@ -65,7 +65,7 @@
   </template>
   
   <script>
-  import BackHome from '../components/navbar/BackHome.vue';
+  import BackHome from '../../components/navbar/BackHome.vue';
   
   export default {
     name: 'UserDetails',

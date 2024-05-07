@@ -1,6 +1,18 @@
-interface RootObject {
+export default class Achievement {
   id: number;
-  achivementName: string;
-  achivementDescription: string;
-  achivementURL: string;
+  achievementName: string;
+  achievementDescription: string;
+  achievementURL: string;
+
+  constructor(
+    id: number,
+    achievementName: string,
+    achievementDescription: string,
+    achievementURL: string
+  ) {
+    this.id = id;
+    this.achievementName = achievementName;
+    this.achievementDescription = achievementDescription;
+    this.achievementURL = achievementURL;
+  }
 }

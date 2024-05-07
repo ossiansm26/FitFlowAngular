@@ -1,12 +1,30 @@
-[
-    {
-        "id": 1,
-        "description": "Beginner Weightlifting Routine",
-        "category": "Weightlifting",
-        "status": true,
-        "start": "2024-04-20T06:00:00.000+00:00",
-        "end": "2024-04-26T06:00:00.000+00:00",
-        "coachsComments": "Keep up the good work!",
-        "exercicesCollection": []
+export default class Routine {
+    id: number;
+    description: string;
+    category: string;
+    status: boolean;
+    start: string;
+    end: string;
+    coachsComments: string;
+    exercicesCollection: any[];
+  
+    constructor(
+      id: number,
+      description: string,
+      category: string,
+      status: boolean,
+      start: string,
+      end: string,
+      coachsComments: string,
+      exercicesCollection: any[]
+    ) {
+      this.id = id;
+      this.description = description;
+      this.category = category;
+      this.status = status;
+      this.start = start;
+      this.end = end;
+      this.coachsComments = coachsComments;
+      this.exercicesCollection = exercicesCollection;
     }
-]
+  }

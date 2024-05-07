@@ -46,7 +46,7 @@
 <script>
 import User from '@/models/User';
 import axios from 'axios';
-import BackHome from '../components/navbar/BackHome.vue';
+import BackHome from '../../components/navbar/BackHome.vue';
 
 export default {
   comments: {

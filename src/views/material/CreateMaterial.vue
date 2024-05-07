@@ -33,8 +33,8 @@
 
 <script>
 import axios from 'axios';
-import Material from '../models/Material';
-import BackHome from '../components/navbar/BackHome.vue';
+import Material from '@/models/Material';
+import BackHome from '@/components/navbar/BackHome.vue';
 
 export default {
   components: {
