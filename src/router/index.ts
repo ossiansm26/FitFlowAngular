@@ -15,10 +15,19 @@ import RoutinesView from '@/views/routines/RoutinesView.vue'
 import UserDetails from '@/views/user/UserDetails.vue'
 import PostView from '@/views/post/PostView.vue'
 import CommunityView from '@/views/community/CommunityView.vue'
-import AchivementView from '@/views/achivements/AchivementView.vue'
+import AchievementView from '@/views/achievements/AchievementView.vue'
 import UserLogin from '@/views/user/UserLogin.vue'
 import CreateRoutines from '@/views/routines/CreateRoutines.vue'
 import RoutinesDetails from '@/views/routines/RoutinesDetails.vue'
+import EditRoutine from '@/views/routines/EditRoutine.vue'
+import EditCommunity from '@/views/community/EditCommunity.vue'
+import CommunityDetails from '@/views/community/CommunityDetails.vue'
+import CreateCommunity from '@/views/community/CreateCommunity.vue'
+import AchievementDetails from '@/views/achievements/AchievementDetails.vue'
+import CreateAchievement from '@/views/achievements/CreateAchievement.vue'
+import EditAchievement from '@/views/achievements/EditAchievement.vue'
+import EditMuscleGroup from '@/views/muscleGroup/EditMuscleGroup.vue'
+import MuscleGroupDetails from '@/views/muscleGroup/MuscleGroupDetails.vue'
 
 Vue.use(VueRouter)
 
@@ -74,9 +83,24 @@ const routes: Array<RouteConfig> = [
     component: MuscleGroupView
   },
   {
+    path: '/EditRoutine',
+    name: 'editRoutine',
+    component: EditRoutine
+  },
+  {
     path: '/CreateMuscleGroup',
     name: 'createMuscleGroup',
     component: CreateMuscleGroup
+  },
+  {
+    path: '/EditMuscleGroup',
+    name: 'editMuscleGroup',
+    component: EditMuscleGroup
+  },
+  {
+    path: '/MusleGroupDetails',
+    name: 'muscleGroupDetails',
+    component: MuscleGroupDetails
   },
   {
     path: '/Exercices',
@@ -114,9 +138,42 @@ const routes: Array<RouteConfig> = [
     component: CommunityView
   },
   {
+    path: '/EditCommunity',
+    name: 'editCommunity',
+    component: EditCommunity
+  },
+  {
+    path: '/CommunityDetails',
+    name: 'communityDetails',
+    component: CommunityDetails
+  
+  },
+  {
+    path: '/CommunityCreate',
+    name: 'communityCreate',
+    component: CreateCommunity
+  
+  
+  },
+  {
     path: '/Achievement',
     name: 'achievement',
-    component: AchivementView
+    component: AchievementView
+  },
+  {
+    path: '/AchievementDetails',
+    name: 'achievementDetails',
+    component: AchievementDetails
+  },
+  {
+    path: '/CreateAchievement',
+    name: 'createAchievement',
+    component: CreateAchievement
+  },
+  {
+    path: '/EditAchievement',
+    name: 'editAchievement',
+    component: EditAchievement
   }
 ]
 

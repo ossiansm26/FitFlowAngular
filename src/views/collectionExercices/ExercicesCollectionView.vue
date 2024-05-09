@@ -22,10 +22,10 @@
               <td>{{ exercise.totalExercices }}</td>
               <td>
                 <iframe
+                  title="Exercise Video"
                   width="560"
                   height="315"
                   :src="getYouTubeEmbedUrl(exercise.urlExplanatoryVideo)"
-                  frameborder="0"
                   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen
                 ></iframe>

@@ -54,7 +54,7 @@ export default {
         const response = await axios.get(`http://localhost:3001/api/user/getUserRoutines/${this.id}`);
         this.routines = response.data;
       } catch (error) {
-        this.routines = response.data;
+        console.error('Error fetching routines:', error);
       }
     },
     formatDate(dateString) {
@@ -62,10 +62,11 @@ export default {
       return date.toLocaleDateString('es-ES');
     },
     editRoutine(routine) {
-      // Aquí puedes implementar la lógica para editar la rutina
+      localStorage.setItem('selectedRoutineId', routine.id);
+      this.$router.push({ name: 'editRoutine', params: { id: routine.id } });
     },
     deleteRoutine(routineId) {
-      axios.delete(`http://localhost:3001/api/routine/delete/${routineId}`)
+      axios.delete(`http://localhost:3001/api/user/${this.id}/removeRoutine/${routineId}`)
         .then(() => {
           this.routines = this.routines.filter(routine => routine.id !== routineId);
         })
@@ -74,6 +75,7 @@ export default {
         }); 
     },
     createRoutine() {
+      localStorage.setItem('userId', this.id);
       this.$router.push({ name: 'createRoutine' });
     },
     viewDetails(routine) {

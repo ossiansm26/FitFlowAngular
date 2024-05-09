@@ -36,14 +36,20 @@ import Routine from '@/models/routine';
 export default {
   data() {
     return {
-      routine: new Routine("", "", "", "", "", "", [])
+      routine: new Routine("", "", "", "", "", "", ""),
+      userId: null
     };
+  },
+  created() {
+    this.userId = localStorage.getItem('userId');
+    console.log(this.userId); // Corregido: acceder a userId con this
   },
   methods: {
     crearRutina() {
       const nuevaRutina = this.routine;
-      axios.post('http://localhost:3001/api/routine/createRoutine', nuevaRutina)
+      axios.post(`http://localhost:3001/api/user/createRoutine/${this.userId}`, nuevaRutina)
         .then(() => {
+          console.log('Rutina creada');
           this.$router.push({ name: 'routine' });
         })
         .catch(error => {

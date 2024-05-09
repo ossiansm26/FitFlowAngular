@@ -2,9 +2,14 @@
   <v-container>
     <BackHome />
     <h1 class="headline">Lista de Usuarios</h1>
-    <v-data-table :headers="headers" :items="users" item-key="id" class="elevation-1">
+    <v-data-table
+      :headers="headers"
+      :items="users"
+      item-key="id"
+      class="elevation-1"
+    >
       <template v-slot:item="{ item }">
-        <tr @click="viewUserDetail(item)">
+        <tr>
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.lastNames }}</td>
@@ -14,9 +19,18 @@
           <td>{{ item.phoneNumber }}</td>
           <td>{{ item.address }}</td>
           <td>{{ item.role }}</td>
-          <td class="acciones">
-            <v-icon mid color="blue" @click.stop="editUser(item)">mdi-pencil</v-icon>
-            <v-icon mid color="red" @click.stop="confirmDeleteUser(item.id)">mdi-delete</v-icon>
+          <td>
+             <div class="button-group">
+            <v-btn color="blue darken-1" @click="editUser(item)">
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+            <v-btn color="red darken-1" @click="confirmDeleteUser(item)">
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+            <v-btn color="purple" @click="viewUserDetail(item)">
+              <v-icon>mdi-eye</v-icon>
+            </v-btn>
+          </div>
           </td>
         </tr>
       </template>
@@ -26,53 +40,58 @@
       <v-card>
         <v-card-title>¿Seguro que deseas borrar este usuario?</v-card-title>
         <v-card-actions>
-          <v-btn color="red darken-1" text @click="dialogDeleteUser = false">Cancelar</v-btn>
-          <v-btn color="green darken-1" text @click="deleteUser(userToDelete)">Confirmar</v-btn>
-        </v-card-actions>
+          <v-btn color="red darken-1" text @click="dialogDeleteUser = false"
+            >Cancelar</v-btn
+          >
+          <v-btn color="green darken-1" text @click="deleteUser(userToDelete)"
+            >Confirmar</v-btn
+          >
+        </v-card-actions> 
       </v-card>
     </v-dialog>
   </v-container>
 </template>
 
 <script>
-import axios from 'axios';
-import BackHome from '../../components/navbar/BackHome.vue';
+import axios from "axios";
+import BackHome from "../../components/navbar/BackHome.vue";
 export default {
   components: {
-    BackHome
+    BackHome,
   },
   data() {
     return {
       users: [],
       headers: [
-        { text: 'ID', value: 'id' },
-        { text: 'Nombre', value: 'name' },
-        { text: 'Apellidos', value: 'lastNames' },
-        { text: 'Edad', value: 'age' },
-        { text: 'Email', value: 'email' },
-        { text: 'Fecha de Inscripción', value: 'enrollmentDate' },
-        { text: 'Número de Teléfono', value: 'phoneNumber' },
-        { text: 'Dirección', value: 'address' },
-        { text: 'Rol', value: 'role' },
-        { text: 'Acciones', value: 'actions', sortable: false }
+        { text: "ID", value: "id" },
+        { text: "Nombre", value: "name" },
+        { text: "Apellidos", value: "lastNames" },
+        { text: "Edad", value: "age" },
+        { text: "Email", value: "email" },
+        { text: "Fecha de Inscripción", value: "enrollmentDate" },
+        { text: "Número de Teléfono", value: "phoneNumber" },
+        { text: "Dirección", value: "address" },
+        { text: "Rol", value: "role" },
+        { text: "Acciones", value: "actions", sortable: false },
       ],
       dialogDeleteUser: false,
-      userToDelete: null
+      userToDelete: null,
     };
   },
   created() {
-    const userId = localStorage.getItem('selectedRoutineId');
+    const userId = localStorage.getItem("selectedRoutineId");
     this.fetchUsers(userId);
   },
   methods: {
     fetchUsers() {
-      axios.get(`http://localhost:3001/api/user/GetById/${userId}`)
-        .then(response => {
-          console.log('Usuarios recuperados:', response.data);
+      axios
+        .get(`http://localhost:3001/api/user/getAllUser`)
+        .then((response) => {
+          console.log("Usuarios recuperados:", response.data);
           this.users = response.data;
         })
-        .catch(error => {
-          console.error('Error al recuperar usuarios:', error);
+        .catch((error) => {
+          console.error("Error al recuperar usuarios:", error);
         });
     },
     calculateAge(birthDate) {
@@ -80,7 +99,10 @@ export default {
       const birthDateObj = new Date(birthDate);
       let age = today.getFullYear() - birthDateObj.getFullYear();
       const month = today.getMonth() - birthDateObj.getMonth();
-      if (month < 0 || (month === 0 && today.getDate() < birthDateObj.getDate())) {
+      if (
+        month < 0 ||
+        (month === 0 && today.getDate() < birthDateObj.getDate())
+      ) {
         age--;
       }
       return age;
@@ -88,36 +110,38 @@ export default {
     formatDate(date) {
       const enrollmentDate = new Date(date);
       return enrollmentDate.toLocaleDateString(undefined, {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       });
     },
     editUser(user) {
-      this.$router.push({ name: 'editarUsuario', params: { user } });
+      localStorage.setItem("userId", user.id);
+      this.$router.push({ name: "editarUsuario" });
     },
     viewUserDetail(user) {
-      this.$router.push({ name: 'UserDetails', params: { user: user } });
+      localStorage.setItem("selectedUserId", user.id);
+      this.$router.push({ name: "UserDetails" });
     },
-    confirmDeleteUser(userId) {
-      this.userToDelete = userId;
+    confirmDeleteUser(user) {
+      this.userToDelete = user;
       this.dialogDeleteUser = true;
     },
-    deleteUser(userId) {
-      console.log("Borrando usuario con ID:", userId);
-      axios.delete(`http://localhost:3001/api/user/delete/${userId}`)
-        .then(response => {
-          console.log('Usuario borrado:', response.data);
+    deleteUser(user) {
+      console.log("Borrando usuario con ID:", user.id);
+      axios
+        .delete(`http://localhost:3001/api/user/delete/${user.id}`)
+        .then((response) => {
+          console.log("Usuario borrado:", response.data);
           this.fetchUsers();
         })
-        .catch(error => {
-          console.error('Error al borrar usuario:', error);
+        .catch((error) => {
+          console.error("Error al borrar usuario:", error);
         });
 
-
       this.dialogDeleteUser = false;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -134,8 +158,10 @@ export default {
 .elevation-1 {
   box-shadow: 0px 2px 4px rgba(34, 50, 1, 0.1);
 }
-
-.acciones {
-  display: flex;
+.button-group > * {
+  margin-right: 2px;
 }
+
+
+
 </style>

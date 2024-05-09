@@ -48,6 +48,7 @@ import User from '@/models/User';
 import axios from 'axios';
 import BackHome from '../../components/navbar/BackHome.vue';
 
+
 export default {
   comments: {
     BackHome
@@ -58,20 +59,30 @@ export default {
     };
   },
   created() {
-    this.user = this.$route.params.user;
+    const userId = localStorage.getItem('userId');
+    this.fetchUser(userId);
   },
   methods: {
     saveUser() {
-      axios.put(`http://localhost:3001/api/user/${this.user.id}`, this.user)
+      axios.put(`http://localhost:3001/api/user/update/${this.user.id}`, this.user)
         .then(() => {
           this.$router.push({ name: 'usuarios' });
         })
         .catch(error => {
           console.error('Error saving user:', error);
         });
+    },
+    fetchUser(userId) {
+      axios.get(`http://localhost:3001/api/user/getById/${userId}`)
+        .then(response => {
+          this.user = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching user:', error);
+        });
     }
   }
-};
+}
 </script>
 
 <style scoped>

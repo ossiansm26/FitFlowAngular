@@ -37,7 +37,7 @@
               <ul>
                 <strong>Rutinas Creadas:</strong>
                 <li v-for="routine in user.routinesCreated" :key="routine.id">
-                  {{ routine.title }}
+                  {{ routine.description }}
                 </li>
               </ul>
             </v-col>
@@ -52,7 +52,7 @@
               </ul>
             </v-col>
           </div>
-          <v-col cols="12">
+        <v-col cols="12" v-if="user.communityCreated.length > 0">
             <strong>Comunidades Creadas:</strong>
             <ul>
               <li v-for="community in user.communityCreated" :key="community.id">
@@ -60,7 +60,7 @@
               </li>
             </ul>
           </v-col>
-          <v-col cols="12">
+          <v-col cols="12" v-if="user.communityAssociated.length > 0">
             <strong>Comunidades Asociadas:</strong>
             <ul>
               <li v-for="community in user.communityAssociated" :key="community.id">
@@ -68,15 +68,15 @@
               </li>
             </ul>
           </v-col>
-          <v-col cols="12">
+          <v-col cols="12" v-if="user.achievement.length > 0">
             <strong>Logros:</strong>
             <ul>
               <li v-for="achievement in user.achievement" :key="achievement.id">
-                {{ achievement.title }}
+                {{ achievement.achievementName }}
               </li>
             </ul>
           </v-col>
-          <v-col cols="12">
+          <v-col cols="12" v-if="user.post.length > 0">
             <strong>Posts Creados:</strong>
             <ul>
               <li v-for="post in user.post" :key="post.id">
@@ -84,7 +84,7 @@
               </li>
             </ul>
           </v-col>
-          <v-col cols="12">
+          <v-col cols="12" v-if="user.comment.length > 0">
             <strong>Comentarios:</strong>
             <ul>
               <li v-for="comment in user.comment" :key="comment.id">
@@ -119,7 +119,7 @@ export default {
   },
   methods: {
     fetchUser(userId) {
-      axios.get(`http://localhost:3001/api/user/GetById/${userId}`)
+      axios.get(`http://localhost:3001/api/user/getById/${userId}`)
         .then(response => {
           console.log('Usuario recuperado:', response.data);
           this.user = response.data;

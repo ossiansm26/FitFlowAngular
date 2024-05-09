@@ -43,15 +43,19 @@ export default {
         }
     },
     mounted() {
-        axios.get('http://localhost:3001/api/post')
+       const userId = localStorage.getItem('userId');
+       this.fetchPosts(userId);
+    },
+    methods: {
+        fetchPosts(userId) {
+            axios.get(`http://localhost:3001/api/user/get/findPostById/${userId}`)
             .then(response => {
                 this.posts = response.data;
             })
             .catch(error => {
                 console.error('Error fetching posts:', error)
             })
-    },
-    methods: {
+        },
         likePost(postId) {
             const post = this.posts.find(post => post.id === postId)
             if (post) {
