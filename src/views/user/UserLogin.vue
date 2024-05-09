@@ -39,6 +39,7 @@ export default {
             axios.put('http://localhost:3001/api/user/login', this.user)
                 .then(response => {     
                     localStorage.setItem('userId', response.data.id);
+                    console.log('Usuario autenticado:', response.data.id);
                     router.push({ name: 'home' }); 
                 }).catch(error => {
                     console.error('Error al autenticar usuario:', error);

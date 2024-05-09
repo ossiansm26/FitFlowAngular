@@ -37,12 +37,13 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      communitys: []
+      communitys: [],
+      userId: ''
     };
   },
   mounted() {
-    const userId = localStorage.getItem('userId');
-    this.fetchData(userId);
+     this.userId = localStorage.getItem('userId');
+    this.fetchData(this.userId);
   },
   methods: {
     fetchData(userId) {
@@ -55,7 +56,7 @@ export default {
         });
     },
     deleteCommunity(communityId) {
-      axios.delete(`http://localhost:3001/api/community/Delete/${communityId}`)
+      axios.delete(`http://localhost:3001/api/user/${this.userId}/removeCommunity/${communityId}`,)
         .then(() => {
           this.communitys = this.communitys.filter(c => c.id !== communityId);
         })

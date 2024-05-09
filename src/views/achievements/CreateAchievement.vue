@@ -28,7 +28,7 @@ export default {
     async crearLogro() {
       try {
         await axios.post('http://localhost:3001/api/achievement/add', this.logro);
-        console.log('Logro creado', this.logro);
+        console.log('Logro creado:', this.logro);
         this.$router.push('achievement');
       } catch (error) {
         console.error('Error al crear el logro:', error);

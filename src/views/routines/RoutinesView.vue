@@ -46,6 +46,7 @@ export default {
   },
   mounted() {
     this.id = localStorage.getItem('userId');
+    console.log('User ID:', this.id);
     this.fetchRoutines();
   },
   methods: {
