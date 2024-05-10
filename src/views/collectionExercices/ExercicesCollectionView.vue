@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BackBar />
     <v-card>
       <v-card-title>Lista de Ejercicios</v-card-title>
       <v-card-text>
@@ -52,9 +53,13 @@
 </template>
 
 <script>
+import BackBar from '@/components/navbar/BackBar.vue';
 import axios from 'axios';
 
 export default {
+  components: {
+    BackBar,
+  },
   data() {
     return {
       exercises: [],

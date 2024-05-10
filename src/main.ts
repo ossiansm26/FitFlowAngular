@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 
 Vue.use(Vuetify);
 
+
 new Vue({
   router,
   store,

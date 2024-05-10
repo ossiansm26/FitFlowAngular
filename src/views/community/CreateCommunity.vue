@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BackBar />
     <v-form @submit.prevent="createCommunity">
       <v-text-field v-model="newCommunity.name" label="Nombre"></v-text-field>
       <v-textarea v-model="newCommunity.description" label="Descripción"></v-textarea>
@@ -11,8 +12,12 @@
 <script>
 import axios from 'axios';
 import Community from '@/models/Community';
+import BackBar from '@/components/navbar/BackBar.vue';
 
 export default {
+  components: {
+    BackBar
+  },
   data() {
     return {
       newCommunity: new Community(),

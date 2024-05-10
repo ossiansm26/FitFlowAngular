@@ -1,6 +1,6 @@
 <template>
-  <div>
     <v-container>
+      <BackBar />
       <v-form @submit.prevent="crearObjeto">
         <v-row>
           <v-col cols="12">
@@ -29,9 +29,7 @@
               ref="dropzone"
               :id="'dropzoneId'"
               :options="dropzoneOptions"
-            >
-             
-            </vue-dropzone>
+            ></vue-dropzone>
             <v-btn
               @click="removeMuscleImage"
               class="mt-2"
@@ -51,7 +49,6 @@
         </v-row>
       </v-form>
     </v-container>
-  </div>
 </template>
 
 <script>
@@ -59,11 +56,13 @@ import axios from "axios";
 import VueDropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
 import MuscleGroup from '@/models/MuscleGroup';
+import BackBar from "@/components/navbar/BackBar.vue";
 
 export default {
   name: "CrearObjeto",
   components: {
     VueDropzone,
+    BackBar
   },
   data() {
     return {

@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BackBar />
     <h2 class="display-4 mb-4">Routines</h2>
     <v-row>
       <v-col v-for="routine in routines" :key="routine.id" cols="12">
@@ -34,10 +35,14 @@
 </template>
 
 <script>
+import BackBar from '@/components/navbar/BackBar.vue';
 import axios from 'axios';
-import User from '@/models/User';
+
 
 export default {
+  components: {
+    BackBar,
+  },
   data() {
     return {
       routines: [],
@@ -64,7 +69,7 @@ export default {
     },
     editRoutine(routine) {
       localStorage.setItem('selectedRoutineId', routine.id);
-      this.$router.push({ name: 'editRoutine', params: { id: routine.id } });
+      this.$router.push({ name: 'editRoutine' });
     },
     deleteRoutine(routineId) {
       axios.delete(`http://localhost:3001/api/user/${this.id}/removeRoutine/${routineId}`)

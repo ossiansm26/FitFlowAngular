@@ -1,33 +1,7 @@
 <template>
   <v-container>
-    
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="FitFlow Logo"
-          class="shrink mr-2"
-          contain
-          src="https://raw.githubusercontent.com/ossiansm26/FitFlow/main/images/logo-hombre.png"
-          transition="scale-transition"
-          width="55"
-        />
-        <v-img
-          alt="FitFlow name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://raw.githubusercontent.com/ossiansm26/FitFlow/main/images/logo-texto.png"
-          width="200"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn icon>
-        <v-icon>mdi-export</v-icon>
-      </v-btn>
-    </v-app-bar>
-    <v-layout justify-center row wrap>
+    <HomeBar/>
+    <v-layout align-start justify-center>
       <v-flex xs12 sm6 md4>
         <v-card class="mx-4" @click="verLogros">
           <v-img
@@ -60,7 +34,12 @@
 </template>
 
 <script>
+import HomeBar from '@/components/navbar/HomeBar.vue';
+
 export default {
+  components: {
+    HomeBar,
+  },
   created() {
     const userId = localStorage.getItem("userId");
     localStorage.setItem("userId", userId);

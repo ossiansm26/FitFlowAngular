@@ -1,5 +1,6 @@
 <template>
     <v-container>
+      <BackBar />
       <v-card v-for="(exercise, index) in exercises" :key="index" class="mb-4">
         <v-card-title class="headline">{{ exercise.exerciseName }}</v-card-title>
         <v-card-text>
@@ -33,7 +34,8 @@
   </template>
   
   <script>
-  import axios from 'axios';
+  import BackBar from '@/components/navbar/BackBar.vue';
+import axios from 'axios';
   
   export default {
     data() {

@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BackBar />
     <v-card class="achievement-edit">
       <v-card-title>Editar Logro</v-card-title>
       <v-card-text>
@@ -19,8 +20,12 @@
 <script>
 import axios from 'axios';
 import Achievement from '@/models/Achievement';
+import BackBar from '@/components/navbar/BackBar.vue';
 
 export default {
+  components: {
+    BackBar
+  },
   data() {
     return {
       achievement: new Achievement(),

@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BackBar />
     <v-card>
       <v-card-title>Edit Muscle Group</v-card-title>
       <v-card-text>
@@ -34,10 +35,12 @@ import axios from 'axios';
 import VueDropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
 import MuscleGroup from '@/models/MuscleGroup';
+import BackBar from '@/components/navbar/BackBar.vue';
 
 export default {
   components: {
     VueDropzone,
+    BackBar
   },
   data() {
     return {

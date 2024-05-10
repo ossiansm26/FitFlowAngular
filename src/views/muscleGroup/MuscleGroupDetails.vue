@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BackBar />
     <v-row>
       <v-col cols="12">
         <v-card>
@@ -17,8 +18,12 @@
 <script>
 import axios from 'axios';
 import MuscleGroup from '@/models/MuscleGroup';
+import BackBar from '@/components/navbar/BackBar.vue';
 
 export default {
+  components: {
+    BackBar
+  },
   data() {
     return {
       muscleGroup: new MuscleGroup(0, '', '', '')

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <BackHome />
+    <BackBar/>
     <v-card>
       <v-card-title>Registro de Material</v-card-title>
       <v-card-text>
@@ -10,14 +10,13 @@
               <v-text-field v-model="material.materialName" label="Nombre del Material" required></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
-              <v-select v-model="material.availabilityStatus" :items="[true, false]" label="Estado de Disponibilidad"
-                required></v-select>
+              <v-switch v-model="material.availabilityStatus" label="Estado de Disponibilidad"></v-switch>
             </v-col>
             <v-col cols="12">
               <v-menu v-model="menu" :close-on-content-click="false" transition="scale-transition" offset-y
                 min-width="auto">
                 <template v-slot:activator="{ on }">
-                  <v-text-field v-model="material.lastMaintenance" label="Último Mantenimiento" readonly v-on="on"
+                  <v-text-field v-model="formattedLastMaintenance" label="Último Mantenimiento" readonly v-on="on"
                     required></v-text-field>
                 </template>
                 <v-date-picker v-model="material.lastMaintenance" @input="menu = false" scrollable></v-date-picker>
@@ -34,17 +33,23 @@
 <script>
 import axios from 'axios';
 import Material from '@/models/Material';
-import BackHome from '@/components/navbar/BackHome.vue';
+import BackBar from '@/components/navbar/BackBar.vue';
 
 export default {
   components: {
-    BackHome
+    BackBar
   },
   data() {
     return {
       material: new Material(null, '', true, new Date().toISOString().substr(0, 10)),
       menu: false
     };
+  },
+  computed: {
+    formattedLastMaintenance() {
+      // Formatea la fecha de último mantenimiento
+      return this.material.lastMaintenance ? new Date(this.material.lastMaintenance).toLocaleDateString() : '';
+    }
   },
   methods: {
     async registrarMaterial() {

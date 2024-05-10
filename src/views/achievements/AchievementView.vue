@@ -1,74 +1,58 @@
 <template>
-  <div>
-    <v-container>
-      <h2 class="display-1">Achievements</h2>
-      <v-row v-if="achievements && achievements.length > 0">
-        <v-col
-          v-for="achievement in achievements"
-          :key="achievement.id"
-          cols="12"
-        >
-          <v-card>
-            <v-card-title
-              ><strong>ID:</strong> {{ achievement.id }}</v-card-title
-            >
-            <v-card-text>
-              <p><strong>Name:</strong> {{ achievement.achievementName }}</p>
-              <p>
-                <strong>Description:</strong>
-                {{ achievement.achievementDescription }}
-              </p>
-              <p>
-                <strong>URL:</strong>
-                <a :href="achievement.achievementURL" target="_blank">{{
-                  achievement.achievementURL
-                }}</a>
-              </p>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn
-                color="blue darken-1"
-                @click="editAchievement(achievement)"
-              >
-                <v-icon left>mdi-pencil</v-icon>
-              </v-btn>
-              <v-btn
-                color="red darken-1"
-                @click="deleteAchievement(achievement)"
-              >
-                <v-icon left>mdi-delete</v-icon>
-              </v-btn>
-              <v-btn color="purple" @click="viewAchievement(achievement)">
-                <v-icon>mdi-eye</v-icon>
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-      <v-row v-else>
-        <v-col cols="12">
-          <p>No achievements found.</p>
-        </v-col>
-      </v-row>
-      <v-btn
-        color="success"
-        fab
-        dark
-        fixed
-        right
-        bottom
-        @click="addAchievement"
-      >
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
-    </v-container>
-  </div>
+  <v-container>
+    <BackBar />
+    <h2 class="display-1">Achievements</h2>
+    <v-row v-if="achievements && achievements.length > 0">
+      <v-col v-for="achievement in achievements" :key="achievement.id" cols="12">
+        <v-card>
+          <v-card-title><strong>ID:</strong> {{ achievement.id }}</v-card-title>
+          <v-card-text>
+            <p><strong>Name:</strong> {{ achievement.achievementName }}</p>
+            <p>
+              <strong>Description:</strong>
+              {{ achievement.achievementDescription }}
+            </p>
+            <p>
+              <strong>URL:</strong>
+              <a :href="achievement.achievementURL" target="_blank">{{
+                achievement.achievementURL
+              }}</a>
+            </p>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="blue darken-1" @click="editAchievement(achievement)">
+              <v-icon left>mdi-pencil</v-icon>
+            </v-btn>
+            <v-btn color="red darken-1" @click="deleteAchievement(achievement)">
+              <v-icon left>mdi-delete</v-icon>
+            </v-btn>
+            <v-btn color="purple" @click="viewAchievement(achievement)">
+              <v-icon>mdi-eye</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row v-else>
+      <v-col cols="12">
+        <p>No achievements found.</p>
+      </v-col>
+    </v-row>
+    <v-btn color="success" fab dark fixed right bottom @click="addAchievement">
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
+  </v-container>
 </template>
-  
-  <script>
+
+<script>
+import BackBar from "@/components/navbar/BackBar.vue";
 import axios from "axios";
 
+
 export default {
+  components: {
+    BackBar,
+  },
   data() {
     return {
       achievements: [],
@@ -115,8 +99,7 @@ export default {
   },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 /* You can add custom styles here */
 </style>
-  

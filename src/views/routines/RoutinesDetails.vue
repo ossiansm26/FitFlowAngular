@@ -1,5 +1,6 @@
 <template>
     <v-container>
+      <BackBar />
       <h2 class="display-4 mb-4">Detalles de la Rutina</h2>
       <v-card class="mb-4">
         <v-card-title>{{ routine.description }}</v-card-title>
@@ -20,9 +21,13 @@
   </template>
   
   <script>
-  import Routine  from '@/models/routine';
+  import BackBar from '@/components/navbar/BackBar.vue';
+import Routine  from '@/models/routine';
   import axios from 'axios';
   export default {
+    components: {
+      BackBar
+    },
     data() {
       return {
         routine: new Routine("", "", "", "", "", "", [])
@@ -51,6 +56,5 @@
   </script>
   
   <style scoped>
-  /* Estilos específicos para esta pantalla de detalle */
   </style>
   

@@ -9,6 +9,7 @@ export default class User {
     address: string;
     rol: string;
     speciality: string;
+    image: string;
     routinesCreated: any[];
     routinesAssociated: any[];
     communityCreated: any[];
@@ -17,7 +18,7 @@ export default class User {
     post: any[];
     comment: any[];
 
-    constructor(name: string, lastNames: string, age: Date, email: string, password: string, enrollamentDate: Date, phoneNumber: string, address: string, rol: string, speciality: string) {
+    constructor(name: string, lastNames: string, age: Date, email: string, password: string, enrollamentDate: Date, phoneNumber: string, address: string, rol: string, speciality: string,  image: string) {
         this.name = name;
         this.lastNames = lastNames;
         this.age = age;
@@ -28,6 +29,7 @@ export default class User {
         this.address = address;
         this.rol = rol;
         this.speciality = speciality;
+        this.image = image;
         this.routinesCreated = [];
         this.routinesAssociated = [];
         this.communityCreated = [];

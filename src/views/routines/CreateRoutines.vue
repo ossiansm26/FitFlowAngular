@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BackBar />
     <h2>Crear Nueva Rutina</h2>
     <v-form @submit.prevent="crearRutina">
       <v-row>
@@ -32,8 +33,12 @@
 <script>
 import axios from 'axios';
 import Routine from '@/models/routine';
+import BackBar from '@/components/navbar/BackBar.vue';
 
 export default {
+  components: {
+    BackBar
+  },
   data() {
     return {
       routine: new Routine("", "", "", "", "", "", ""),
@@ -42,7 +47,7 @@ export default {
   },
   created() {
     this.userId = localStorage.getItem('userId');
-    console.log(this.userId); // Corregido: acceder a userId con this
+    console.log(this.userId);
   },
   methods: {
     crearRutina() {

@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BackBar/>
     <v-row>
       <v-col v-for="community in communitys" :key="community.id" cols="12" md="6">
         <v-card class="mb-4">
@@ -32,9 +33,13 @@
 </template>
 
 <script>
+import BackBar from '@/components/navbar/BackBar.vue';
 import axios from 'axios';
 
 export default {
+  components: {
+    BackBar
+  },
   data() {
     return {
       communitys: [],

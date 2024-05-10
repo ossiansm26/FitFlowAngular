@@ -13,12 +13,6 @@ export default Vue.extend({
   name: 'App',
 
   data: () => ({
-  }),
-  methods: {
-    goToHome() {
-      if (this.$route.name === 'home') return;
-      this.$router.push({ name: 'home' });
-    }
-  }
+  })
 });
 </script>

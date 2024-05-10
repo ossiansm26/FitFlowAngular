@@ -1,5 +1,6 @@
 <template>
   <v-container>
+  <BackBar/>
     <v-row>
       <v-col cols="12">
         <h2>Nuevo Logro</h2>
@@ -17,8 +18,12 @@
 <script>
 import axios from 'axios';
 import Achievement from '@/models/Achievement';
+import BackBar from '@/components/navbar/BackBar.vue';
 
 export default {
+  components: {
+    BackBar
+  },
   data() {
     return {
       logro: new Achievement('', '', '')
@@ -39,5 +44,5 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos específicos de esta vista, si es necesario */
+
 </style>

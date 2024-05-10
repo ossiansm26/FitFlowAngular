@@ -18,16 +18,19 @@
               </v-list-item>
               <v-list-item>
                 <v-list-item-content>
+
                   <v-list-item-title>
-                    <strong>Disponibilidad:</strong>
-                    {{ material.availabilityStatus }}
+                    
+                    
+                    <p v-if="material.availabilityStatus" class="text-success">Disponibilidad: Disponible</p>
+                    <p v-else class="text-danger">Disponibilidad: No Disponible</p>
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title><strong>Último mantenimiento:</strong> {{
-                    formattedlastMaintence(material)}}</v-list-item-title>
+                    formattedlastMaintence(material) }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item>
@@ -95,7 +98,7 @@ export default {
 <style scoped>
 .add-btn {
   position: fixed;
-    bottom: 20px;
-    right: 20px;
+  bottom: 20px;
+  right: 20px;
 }
 </style>

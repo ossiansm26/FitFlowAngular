@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <BackHome />
+    <BackBar/>
     <v-card>
       <v-card-title>Detalles del Usuario</v-card-title>
       <v-card-text>
@@ -99,18 +99,18 @@
 </template>
 
 <script>
-import BackHome from '../../components/navbar/BackHome.vue';
-import User from '../../models/User';
+import BackBar from '@/components/navbar/BackBar.vue';
+import User from '@/models/User';
 import axios from 'axios';
 
 export default {
   name: 'UserDetails',
   components: {
-    BackHome,
+    BackBar,
   },
   data() {
     return {
-      user: new User('', '', new Date(), '', '', new Date(), '', '', 'User', ''),
+      user: new User('', '', new Date(), '', '', new Date(), '', '', 'User', '',''),
     };
   },
   mounted() {

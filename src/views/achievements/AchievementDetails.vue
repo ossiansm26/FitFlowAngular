@@ -1,5 +1,6 @@
 <template>
   <v-container>
+  <BackBar/>
     <v-card class="achievement-details" v-if="achievement">
       <v-img :src="achievement.achievementURL" height="200px"></v-img>
       <v-card-title class="headline">{{ achievement.achievementName }}</v-card-title>
@@ -12,8 +13,12 @@
 <script>
 import axios from 'axios';
 import Achievement from '@/models/Achievement';
+import BackBar from '@/components/navbar/BackBar.vue';
 
 export default {
+  components: {
+    BackBar
+  },
   data() {
     return {
       achievement: new Achievement()

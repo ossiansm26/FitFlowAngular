@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BackBar />
     <h2 class="headline">Editar Material</h2>
     <v-card class="mb-5">
       <v-card-text>
@@ -25,8 +26,12 @@
 <script>
 import axios from 'axios';
 import Material from '@/models/Material';
+import BackBar from '@/components/navbar/BackBar.vue';
 
 export default {
+  components: {
+    BackBar
+  },
   data() {
     return {
       editedMaterial: new Material(),

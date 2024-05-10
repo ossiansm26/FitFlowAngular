@@ -5,10 +5,9 @@
       <v-text-field v-model="editedRoutine.description" label="Description"></v-text-field>
       <v-text-field v-model="editedRoutine.category" label="Category"></v-text-field>
       <v-checkbox v-model="editedRoutine.status" label="Status"></v-checkbox>
-      <v-text-field v-model="editedRoutine.start" label="Start" type="datetime-local"></v-text-field>
-      <v-text-field v-model="editedRoutine.end" label="End" type="datetime-local"></v-text-field>
+      <v-text-field v-model="formattedStartDate" label="Start" type="datetime-local"></v-text-field>
+      <v-text-field v-model="formattedEndDate" label="End" type="datetime-local"></v-text-field>
       <v-textarea v-model="editedRoutine.coachsComments" label="Coach's Comments"></v-textarea>
-      <!-- Add more fields as needed -->
 
       <v-btn color="primary" type="submit">Save Changes</v-btn>
     </v-form>
@@ -23,14 +22,34 @@ export default {
     return {
       editedRoutine: new Routine("", "", "", "", "", "", [])
     };
-  },mounted() {
+  },
+  computed: {
+    formattedStartDate: {
+      get() {
+        return this.formatDate(this.editedRoutine.start);
+      },
+      set(value) {
+        this.editedRoutine.start = new Date(value).toISOString();
+      }
+    },
+    formattedEndDate: {
+      get() {
+        return this.formatDate(this.editedRoutine.end);
+      },
+      set(value) {
+        this.editedRoutine.end = new Date(value).toISOString();
+      }
+    }
+  },
+  mounted() {
     const routineId = localStorage.getItem('selectedRoutineId'); 
     this.fetchRoutineDetails(routineId);
   },
   methods: {
     fetchRoutineDetails(routineId) {
-      axios.get(`http://localhost:3001/api/routine/getById/${routineId}`)
+      axios.get(`http://localhost:3001/api/routine/getRoutineById/${routineId}`)
         .then(response => {
+          console.log('Routine details:', response.data);
           this.editedRoutine = response.data;
         })
         .catch(error => {
@@ -38,6 +57,10 @@ export default {
         });
     },
     saveChanges() {
+      // Formatear las fechas antes de guardar
+      this.editedRoutine.start = this.formatDate(this.editedRoutine.start);
+      this.editedRoutine.end = this.formatDate(this.editedRoutine.end);
+
       axios.put(`http://localhost:3001/api/routine/update/${this.editedRoutine.id}`, this.editedRoutine)
         .then(() => {
           this.$router.push({ name: 'routine' });
@@ -45,12 +68,21 @@ export default {
         .catch(error => {
           console.error('Error saving routine:', error);
         });
+    },
+    formatDate(dateString) {
+      if (!dateString) return '';
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = `${date.getMonth() + 1}`.padStart(2, '0');
+      const day = `${date.getDate()}`.padStart(2, '0');
+      const hours = `${date.getHours()}`.padStart(2, '0');
+      const minutes = `${date.getMinutes()}`.padStart(2, '0');
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
     }
-  },
-  
+  }
 };
 </script>
 
 <style scoped>
-/* Estilos CSS opcionales */
+
 </style>

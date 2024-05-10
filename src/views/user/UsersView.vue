@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <BackHome />
+    <BackBar />
     <h1 class="headline">Lista de Usuarios</h1>
     <v-data-table
       :headers="headers"
@@ -54,10 +54,10 @@
 
 <script>
 import axios from "axios";
-import BackHome from "../../components/navbar/BackHome.vue";
+import BackBar from "@/components/navbar/BackBar.vue";
 export default {
   components: {
-    BackHome,
+    BackBar,
   },
   data() {
     return {

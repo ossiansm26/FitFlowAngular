@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BackBar />
     <v-card>
       <v-card-title>{{ community.name }}</v-card-title>
       <v-card-text>
@@ -18,6 +19,7 @@
 </template>
 
 <script>
+import BackBar from '@/components/navbar/BackBar.vue';
 import axios from 'axios';
 import { VContainer, VCard, VCardTitle, VCardText } from 'vuetify/lib';
 
@@ -26,7 +28,8 @@ export default {
     VContainer,
     VCard,
     VCardTitle,
-    VCardText
+    VCardText,
+    BackBar
   },
   data() {
     return {

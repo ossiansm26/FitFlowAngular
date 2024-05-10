@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BackBar/>
     <v-row>
       <v-col
         v-for="(group, index) in muscleGroups"
@@ -40,10 +41,15 @@
     </v-btn>
   </v-container>
 </template>
+
 <script>
 import axios from "axios";
+import BackBar from "@/components/navbar/BackBar.vue";
 
 export default {
+  components: {
+    BackBar,
+  },
   data() {
     return {
       muscleGroups: [],
@@ -72,8 +78,7 @@ export default {
       this.$router.push({ name: "editMuscleGroup" });
     },
     deleteGroup(groupId) {
-      axios
-        .delete(`http://localhost:3001/api/muscleGroup/${groupId}`)
+      axios.delete(`http://localhost:3001/api/muscleGroup/${groupId}`)
         .then(() => {
           this.muscleGroups = this.muscleGroups.filter(
             (group) => group.id !== groupId

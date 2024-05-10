@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BackBar/>
     <v-row justify="center">
       <v-col cols="12" sm="8" md="6">
         <v-card>
@@ -46,12 +47,12 @@
 <script>
 import User from '@/models/User';
 import axios from 'axios';
-import BackHome from '../../components/navbar/BackHome.vue';
+import BackBar from '@/components/navbar/BackBar.vue';
 
 
 export default {
   comments: {
-    BackHome
+    BackBar
   },
   data() {
     return {

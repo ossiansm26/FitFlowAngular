@@ -25,21 +25,22 @@
 <script>
 import axios from 'axios';
 import router from '@/router';
-import User from '../../models/User';
+import User from '@/models/User';
 
 export default {
     data() {
         return {
-            user: new User("", "", new Date(), "", "", new Date(), "", "", "User", ""),
+            user: new User("", "", new Date(), "", "", new Date(), "", "", "User", "",""),
             valid: true
         };
     },
     methods: {
         login() {
+            localStorage.clear();
             axios.put('http://localhost:3001/api/user/login', this.user)
                 .then(response => {     
                     localStorage.setItem('userId', response.data.id);
-                    console.log('Usuario autenticado:', response.data.id);
+                    localStorage.setItem('userImg', response.data.image);
                     router.push({ name: 'home' }); 
                 }).catch(error => {
                     console.error('Error al autenticar usuario:', error);

@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <BackHome />
     <v-card>
       <v-card-title>Registro de Usuario</v-card-title>
       <v-card-text>
@@ -32,6 +31,20 @@
             <v-col cols="12" sm="6">
               <v-text-field v-model="user.address" label="Dirección" required></v-text-field>
             </v-col>
+            <v-col cols="12" sm="6">
+              <vue-dropzone
+              @vdropzone-success="onDropSuccess"
+              ref="dropzone"
+              :id="'dropzoneId'"
+              :options="dropzoneOptions"
+            ></vue-dropzone>
+            <v-btn
+              class="mt-2"
+              color="error"
+              v-if="user.image"
+              >Eliminar Imagen</v-btn
+            >
+            </v-col>
           </v-row>
           <v-btn type="submit" color="primary">Registrar</v-btn>
         </v-form>
@@ -42,18 +55,22 @@
 
 <script>
 import axios from 'axios';
-import User from '../../models/User';
-import BackHome from '../../components/navbar/BackHome.vue';
+import User from '@/models/User';
+import VueDropzone from "vue2-dropzone";
 
 export default {
   components: {
-    BackHome
+    VueDropzone
   },
   data() {
     return {
-      BackHome,
-      user: new User("", "", new Date(), "", "", new Date(), "", "", "User", ""),
-      menu: false
+      user: new User("", "", new Date(), "", "", new Date(), "", "", "User", "",""),
+      menu: false,
+      dropzoneOptions: {
+        url: "http://localhost:3001/api/file/upload" ,
+        maxFilesize: 10, // MB
+        acceptedFiles: "image/*",
+      }
      };
   },
   created() {
@@ -71,6 +88,10 @@ export default {
       } catch (error) {
         console.error('Error al registrar usuario:', error);
       }
+    },
+    onDropSuccess(file) {
+      console.log("Archivo subido:", file.upload.filename);
+      this.user.image = file.upload.filename;
     }
   }
 };
