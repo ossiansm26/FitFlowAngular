@@ -23,9 +23,24 @@
           />
       </div>
       <v-spacer></v-spacer>
-      <v-avatar color="indigo" size="57">
-        <img :src="userImageUrl" alt="User Image">
-      </v-avatar>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-avatar color="indigo" size="57" v-bind="attrs" v-on="on">
+            <img :src="userImageUrl" alt="User Image">
+          </v-avatar>
+        </template>
+        <v-list>
+          <v-list-item link>
+            <v-list-item-title @click="viewProfile">View Profile</v-list-item-title>
+          </v-list-item>
+          <v-list-item link>
+            <v-list-item-title @click="editProfile">Edit Profile</v-list-item-title>
+          </v-list-item>
+          <v-list-item link>
+            <v-list-item-title @click="logout">Log Out</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
   </template>
   
@@ -45,18 +60,25 @@
       },fetchUserImage() {
       const cachedLogoImage = localStorage.getItem('cachedLogoImage');
       if (cachedLogoImage) {
-        console.log('Using cached user image2:', cachedLogoImage);
         this.userImageUrl = cachedLogoImage;
       } else {
         const nameImg = localStorage.getItem('userImg');
         if (nameImg) {
           this.userImageUrl = `http://localhost:3001/api/file/download/${nameImg}`;
-          console.log('User image fetched:', this.userImageUrl);
           localStorage.setItem('cachedLogoImage', this.userImageUrl);
         } else {
           console.error('No image name found in localStorage');
         }
       }
+    },logout() {
+      console.log('Cerrando sesión...');
+      this.$router.push('/'); 
+    },
+    viewProfile() {
+      this.$router.push({ name: 'UserDetails'});
+    },
+    editProfile() {
+      this.$router.push({ name: 'editarUsuario'});
     }
   }
     

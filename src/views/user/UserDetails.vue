@@ -12,13 +12,10 @@
             <strong>Apellidos:</strong> {{ user.lastNames }}
           </v-col>
           <v-col cols="12" sm="6">
-            <strong>Edad:</strong> {{ calculateAge(user.age) }}
+            <strong>Edad:</strong> {{ user.age }}
           </v-col>
           <v-col cols="12" sm="6">
             <strong>Email:</strong> {{ user.email }}
-          </v-col>
-          <v-col cols="12" sm="6">
-            <strong>Fecha de Inscripción:</strong> {{ formatDate(user.enrollmentDate) }}
           </v-col>
           <v-col cols="12" sm="6">
             <strong>Número de Teléfono:</strong> {{ user.phoneNumber }}
@@ -52,7 +49,7 @@
               </ul>
             </v-col>
           </div>
-        <v-col cols="12" v-if="user.communityCreated.length > 0">
+          <v-col cols="12" v-if="user.communityCreated.length > 0">
             <strong>Comunidades Creadas:</strong>
             <ul>
               <li v-for="community in user.communityCreated" :key="community.id">
@@ -102,6 +99,7 @@
 import BackBar from '@/components/navbar/BackBar.vue';
 import User from '@/models/User';
 import axios from 'axios';
+import { calculateAge, formatDateDDMMYYYY } from '@/utils/utils.ts';
 
 export default {
   name: 'UserDetails',
@@ -110,38 +108,25 @@ export default {
   },
   data() {
     return {
-      user: new User('', '', new Date(), '', '', new Date(), '', '', 'User', '',''),
+      user: new User('', '', new Date(), '', '', new Date(), '', '', 'User', '', ''),
     };
   },
   mounted() {
-    const userId = localStorage.getItem('userId');
-    this.fetchUser(userId);
+    const ID = localStorage.getItem('userId');
+    this.fetchUser(ID);
   },
   methods: {
-    fetchUser(userId) {
-      axios.get(`http://localhost:3001/api/user/getById/${userId}`)
+    fetchUser(ID) {
+      axios.get(`http://localhost:3001/api/user/getById/${ID}`)
         .then(response => {
-          console.log('Usuario recuperado:', response.data);
           this.user = response.data;
+          this.user.age = calculateAge(this.user.age);
         })
         .catch(error => {
           console.error('Error al recuperar usuario:', error);
         });
     },
-    calculateAge(birthDate) {
-      const today = new Date();
-      const birthDateObj = new Date(birthDate);
-      let age = today.getFullYear() - birthDateObj.getFullYear();
-      const month = today.getMonth() - birthDateObj.getMonth();
-      if (month < 0 || (month === 0 && today.getDate() < birthDateObj.getDate())) {
-        age--;
-      }
-      return age;
-    },
-    formatDate(date) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return new Date(date).toLocaleDateString(undefined, options);
-    },
+
   },
 };
 </script>

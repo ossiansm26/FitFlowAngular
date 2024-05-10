@@ -20,8 +20,6 @@
                 <v-list-item-content>
 
                   <v-list-item-title>
-                    
-                    
                     <p v-if="material.availabilityStatus" class="text-success">Disponibilidad: Disponible</p>
                     <p v-else class="text-danger">Disponibilidad: No Disponible</p>
                   </v-list-item-title>
@@ -43,6 +41,7 @@
       </v-col>
     </v-row>
     <v-progress-linear v-else indeterminate color="primary"></v-progress-linear>
+    
     <v-btn class="add-btn" color="success" fab large @click="addMaterial">
       <v-icon>mdi-plus</v-icon>
     </v-btn>

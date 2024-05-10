@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <HomeBar/>
-    <v-layout align-start justify-center>
+    <v-layout>
       <v-flex xs12 sm6 md4>
         <v-card class="mx-4" @click="verLogros">
           <v-img

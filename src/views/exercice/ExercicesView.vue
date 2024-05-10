@@ -7,6 +7,8 @@
           <p><strong>ID:</strong> {{ exercise.id }}</p>
           <p><strong>Duration:</strong> {{ exercise.duration }}</p>
           <p><strong>Description:</strong> {{ exercise.description }}</p>
+        
+
           <div>
             <strong>Materials:</strong>
             <ul>
@@ -40,7 +42,9 @@ import axios from 'axios';
   export default {
     data() {
       return {
-        exercises: []
+        exercises: [],
+        rating: 0
+
       };
     },
     mounted() {

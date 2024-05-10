@@ -76,11 +76,11 @@ export default {
       ],
       dialogDeleteUser: false,
       userToDelete: null,
+      userId: null,
     };
   },
   created() {
-    const userId = localStorage.getItem("selectedRoutineId");
-    this.fetchUsers(userId);
+    this.fetchUsers();
   },
   methods: {
     fetchUsers() {

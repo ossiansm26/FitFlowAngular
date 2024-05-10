@@ -48,6 +48,7 @@
 import User from '@/models/User';
 import axios from 'axios';
 import BackBar from '@/components/navbar/BackBar.vue';
+import {   } from '@/utils/utils.ts';
 
 
 export default {
@@ -67,7 +68,7 @@ export default {
     saveUser() {
       axios.put(`http://localhost:3001/api/user/update/${this.user.id}`, this.user)
         .then(() => {
-          this.$router.push({ name: 'usuarios' });
+          this.$router.push({ name: 'home' });
         })
         .catch(error => {
           console.error('Error saving user:', error);
@@ -77,6 +78,7 @@ export default {
       axios.get(`http://localhost:3001/api/user/getById/${userId}`)
         .then(response => {
           this.user = response.data;
+          this.user.age = formatDateYYMMDD(this.user.age);
         })
         .catch(error => {
           console.error('Error fetching user:', error);
