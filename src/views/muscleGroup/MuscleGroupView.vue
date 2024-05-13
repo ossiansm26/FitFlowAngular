@@ -23,14 +23,14 @@
             <p><strong>Body Part:</strong> {{ group.bodyPart }}</p>
           </v-card-text>
           <v-card-actions>
-            <v-btn small color="blue darken-1" @click="editGroup(group)">
-              <v-icon>mdi-pencil</v-icon>
+            <v-btn icon @click="viewGroupDetail(group)">
+              <v-icon color="purple darken-1">mdi-eye</v-icon>
             </v-btn>
-            <v-btn small color="red darken-1" @click="deleteGroup(group.id)">
-              <v-icon>mdi-delete</v-icon>
+            <v-btn icon @click="editGroup(group)">
+              <v-icon color="blue darken-1">mdi-pencil</v-icon>
             </v-btn>
-            <v-btn small color="purple" @click="viewGroupDetail(group)">
-              <v-icon>mdi-eye</v-icon>
+            <v-btn icon @click="deleteGroup(group.id)">
+              <v-icon color="red darken-1">mdi-delete</v-icon>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -103,15 +103,27 @@ export default {
 
 <style scoped>
 .card {
-  height: 100%; /* Asegura que todas las tarjetas tengan la misma altura */
+  height: 100%; 
 }
 .card-image {
-  width: 100%; /* Ajusta el tamaño de la imagen para que ocupe todo el espacio disponible */
-  height: 200px; /* Ajusta la altura de la imagen según tus preferencias */
+  width: 100%; 
+  height: 200px; 
 }
 .create-btn {
   position: fixed;
   bottom: 20px;
   right: 20px;
+}
+.card-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.card-actions button {
+  transition: background-color 0.3s, color 0.3s;
+}
+.card-actions button:hover {
+  background-color: #eee;
+  color: #333;
 }
 </style>

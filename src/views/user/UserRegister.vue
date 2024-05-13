@@ -36,8 +36,11 @@
               @vdropzone-success="onDropSuccess"
               ref="dropzone"
               :id="'dropzoneId'"
-              :options="dropzoneOptions"
-            ></vue-dropzone>
+              :options="dropzoneOptions">
+              <div class="dropzone">
+                
+              </div>
+            </vue-dropzone>
             <v-btn
               class="mt-2"
               color="error"
@@ -74,6 +77,7 @@ export default {
      };
   },
   created() {
+    localStorage.clear();
     this.user.dateOfBirth = new Date().toISOString().substr(0, 10);
   },
   methods: {
@@ -84,7 +88,7 @@ export default {
         console.log('Registrando usuario:', this.user);
         const response = await axios.post('http://localhost:3001/api/user/createUser', this.user);
         console.log('Usuario registrado:', response.data);
-        this.$router.push({ name: 'home' });
+        this.$router.push({ name: 'login' });
       } catch (error) {
         console.error('Error al registrar usuario:', error);
       }

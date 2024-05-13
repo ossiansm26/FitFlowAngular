@@ -29,6 +29,10 @@
           <v-col cols="12" sm="6">
             <strong>Especialidad:</strong> {{ user.speciality }}
           </v-col>
+          <v-col cols="12" sm="6" class="userProfile">
+           <strong>Foto de perfil:</strong> 
+            <img class="userProfileImage" :src="getImageUrl(user.image)" alt="User profile picture">
+          </v-col>
           <div v-if="user.routinesCreated.length > 0">
             <v-col cols="12">
               <ul>
@@ -126,9 +130,24 @@ export default {
           console.error('Error al recuperar usuario:', error);
         });
     },
-
-  },
+    getImageUrl(imageName) {
+      return `http://localhost:3001/api/file/download/${imageName}`;
+    }
+  }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.userProfile {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: auto;
+
+}
+.userProfileImage {
+  border: 3px solid #ccc;
+    border-radius: 8px; 
+    padding: 4px;
+}
+</style>

@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BackBar />
     <h2 class="headline">Detalles de los Materiales</h2>
     <v-row v-if="materials.length > 0">
       <v-col v-for="material in materials" :key="material.id" cols="12">
@@ -20,8 +21,9 @@
                 <v-list-item-content>
 
                   <v-list-item-title>
-                    <p v-if="material.availabilityStatus" class="text-success">Disponibilidad: Disponible</p>
+                    <p v-if="material.avalibilityStatus" class="text-success">Disponibilidad: Disponible</p>
                     <p v-else class="text-danger">Disponibilidad: No Disponible</p>
+
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
@@ -31,17 +33,20 @@
                     formattedlastMaintence(material) }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item>
-                <v-btn color="primary" @click="editMaterial(material)">Editar</v-btn>
-                <v-btn color="error" @click="deleteMaterial(material.id)">Borrar</v-btn>
-              </v-list-item>
+              <v-card-actions>
+            <v-btn icon @click="editMaterial(material)">
+              <v-icon color="blue darken-1">mdi-pencil</v-icon>
+            </v-btn>
+            <v-btn icon @click="deleteMaterial(material.id)">
+              <v-icon color="red darken-1">mdi-delete</v-icon>
+            </v-btn>
+          </v-card-actions>
             </v-list>
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
     <v-progress-linear v-else indeterminate color="primary"></v-progress-linear>
-    
     <v-btn class="add-btn" color="success" fab large @click="addMaterial">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -50,8 +55,13 @@
 
 <script>
 import axios from 'axios';
+import {formatDateDDMMYYYY } from '@/utils/utils.ts';
+import BackBar from '@/components/navbar/BackBar.vue';
 
 export default {
+  components: {
+    BackBar
+  },
   data() {
     return {
       materials: []
@@ -59,8 +69,7 @@ export default {
   },
   methods: {
     formattedlastMaintence(material) {
-      const lastMaintenanceDate = new Date(material.lastMaintence);
-      return lastMaintenanceDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: '2-digit' });
+      return material.lastMaintence ? formatDateDDMMYYYY(material.lastMaintence) : '';
     },
     editMaterial(material) {
       this.$router.push({ name: 'editMaterial', params: { material } });
