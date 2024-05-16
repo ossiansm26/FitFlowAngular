@@ -15,7 +15,7 @@
             </v-col>
             <v-col cols="12" sm="6">
               <v-switch
-                v-model="material.avalibilityStatus"
+                v-model="material.availabilityStatus"
                 label="Estado de Disponibilidad"
               ></v-switch>
             </v-col>
@@ -49,43 +49,14 @@
       </v-card-text>
     </v-card>
 
-
-    <v-dialog v-model="loading" persistent max-width="400">
-      <v-card color="white" dark elevation="0">
-        <v-card-text class="text-center">
-          <v-progress-circular
-            indeterminate
-            color="primary"
-          ></v-progress-circular>
-          <br />
-          <div class="black--text">Cargando...</div>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-    <v-dialog v-model="errorMaterial" max-width="400">
-      <v-card color="white" dark elevation="0">
-        <v-card-text class="text-center">
-          <v-icon size="64" color="error">mdi-alert-circle</v-icon>
-          <br />
-          <div class="black--text">No se pudo guardar el material.</div>
-        </v-card-text>
-        <v-card-actions class="justify-center">
-          <v-btn color="error" @click="handleErrorOK">OK</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-dialog v-model="success" max-width="400">
-      <v-card color="white" dark elevation="0">
-        <v-card-text class="text-center">
-          <v-icon size="64" color="success">mdi-check-circle</v-icon>
-          <br />
-          <div class="black--text">Material registrado exitosamente!</div>
-        </v-card-text>
-        <v-card-actions class="justify-center">
-          <v-btn color="success" @click="handleSuccessOK">OK</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <CustomDialog
+      v-if="showDialog"
+      :error-text="errorText"
+      :success-text="successText"
+      :route-on-success="routeOnSuccess"
+      :route-on-error="routeOnError"
+      @close="showDialog = false"
+    ></CustomDialog>
   </v-container>
 </template>
 
@@ -93,11 +64,12 @@
 import axios from "axios";
 import Material from "@/models/Material";
 import BackBar from "@/components/navbar/BackBar.vue";
-import router from "@/router";
+import CustomDialog from "@/components/dialogs/Dialog.vue";
 
 export default {
   components: {
     BackBar,
+    CustomDialog
   },
   data() {
     return {
@@ -108,9 +80,11 @@ export default {
         new Date().toISOString().substr(0, 10)
       ),
       menu: false,
-      loading: false,
-      success: false,
-      errorMaterial: false,
+      showDialog: false,
+      successText: "",
+      errorText: "",
+      routeOnSuccess: "",
+      routeOnError: ""
     };
   },
   computed: {
@@ -118,35 +92,29 @@ export default {
       return this.material.lastMaintenance
         ? new Date(this.material.lastMaintenance).toLocaleDateString()
         : "";
-    },
+    }
   },
   methods: {
     async submitForm() {
       try {
-        this.loading = true;
         console.log("Registrando material:", this.material);
         const response = await axios.post(
           "http://localhost:3001/api/material",
           this.material
         );
         console.log("Material registrado:", response.data);
-        this.success = true;
-      } catch (eror) {
-        console.error("Error al registrar material:", eror);
-        this.errorMaterial = true;
-      } finally {
-        this.loading = false;
+        this.successText = "¡Material registrado con éxito!";
+        this.routeOnSuccess = "/ruta-exito";
+        this.showDialog = true;
+      } catch (error) {
+        console.error("Error al registrar material:", error);
+        this.errorText =
+          "Error al registrar el material. Por favor, inténtalo de nuevo.";
+        this.routeOnError = "/ruta-error";
+        this.showDialog = true;
       }
-    },
-    handleSuccessOK() {
-      this.success = false;
-      router.push({ name: "material" });
-    },
-    handleErrorOK() {
-      this.errorMaterial = false;
-      router.push({ name: "material" });
-    },
-  },
+    }
+  }
 };
 </script>
 
