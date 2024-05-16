@@ -8,33 +8,77 @@
         <div><strong>Descripción:</strong> {{ community.description }}</div>
       </v-card-text>
     </v-card>
+
+    <v-btn @click="showForm = !showForm" color="primary" class="mb-4">
+      Añadir nueva publicación
+    </v-btn>
+
+    <v-expand-transition>
+      <v-card v-if="showForm" class="mb-4">
+        <v-card-title>Añadir nueva publicación</v-card-title>
+        <v-card-text>
+          <v-form @submit.prevent="addPost">
+            <v-text-field
+              v-model="newPostTitle"
+              label="Título de la publicación"
+              required
+            ></v-text-field>
+            <v-textarea
+              v-model="newPostContent"
+              label="Contenido de la publicación"
+              required
+            ></v-textarea>
+            <v-select
+              v-model="newPostCategory"
+              :items="categories"
+              item-text="name"
+              item-value="value"
+              label="Categoría"
+              required
+            ></v-select>
+            <v-btn type="submit" color="primary">Añadir Publicación</v-btn>
+          </v-form>
+        </v-card-text>
+      </v-card>
+    </v-expand-transition>
+
     <v-card v-if="community.post && community.post.length > 0">
       <v-card-title>Publicaciones</v-card-title>
       <v-list>
-        <v-list-item v-for="(post, index) in community.post" :key="index" class="forum-post">
+        <v-list-item
+          v-for="(post, index) in community.post"
+          :key="index"
+          class="forum-post"
+        >
           <v-list-item-content>
             <v-list-item-title class="post-title">{{ post.title }}</v-list-item-title>
             <v-list-item-subtitle class="post-content">
               {{ post.content }}
-              <br>
+              <br />
               <strong>Categoria:</strong> {{ getCategoryName(post.category) }}
-              <br>
+              <br />
               <strong>Fecha de Creación:</strong> {{ post.creationDate }}
-              <br>
-              <strong>Likes:</strong> {{ post.likes }}
-              <br>
+              <br />
               <strong>Comentarios:</strong>
               <ul>
-                <li v-for="(comment, idx) in post.comments" :key="idx">
-                  {{ comment }}
+                <li v-for="(comment, commentIndex) in post.comment" :key="comment.id" class="comment-item">
+                  <strong>{{ commentIndex + 1 }}</strong><br />
+                  <strong>Contenido:</strong> {{ comment.content }}<br />
+                  <strong>Fecha:</strong> {{ comment.creationDate }}
                 </li>
               </ul>
-              <v-btn @click="showReplyForm(index)" color="primary" class="mt-2">Responder</v-btn>
+              <v-btn @click="showReplyForm(index)" color="primary" class="mt-2">
+                Responder
+              </v-btn>
               <v-expand-transition>
                 <v-card v-if="replyFormIndex === index" class="reply-form">
                   <v-card-text>
                     <v-form @submit.prevent="addReply(post.id)">
-                      <v-textarea v-model="newReplyContent" label="Tu respuesta" required></v-textarea>
+                      <v-textarea
+                        v-model="newReplyContent"
+                        label="Tu respuesta"
+                        required
+                      ></v-textarea>
                       <v-btn type="submit" color="primary">Enviar Respuesta</v-btn>
                     </v-form>
                   </v-card-text>
@@ -48,40 +92,34 @@
     <div v-else>
       <v-alert type="info">No hay publicaciones disponibles</v-alert>
     </div>
-
-    <v-btn @click="showForm = !showForm" color="primary" class="mb-4">
-      Añadir nueva publicación
-    </v-btn>
-
-    <v-expand-transition>
-      <v-card v-if="showForm" class="mb-4">
-        <v-card-title>Añadir nueva publicación</v-card-title>
-        <v-card-text>
-          <v-form @submit.prevent="addPost">
-            <v-text-field v-model="newPostTitle" label="Título de la publicación" required></v-text-field>
-            <v-textarea v-model="newPostContent" label="Contenido de la publicación" required></v-textarea>
-            <v-select v-model="newPostCategory" :items="categories" item-text="name" item-value="value" label="Categoría" required></v-select>
-            <v-btn type="submit" color="primary">Añadir Publicación</v-btn>
-          </v-form>
-        </v-card-text>
-      </v-card>
-    </v-expand-transition>
   </v-container>
 </template>
 
 
-
-
-
 <script>
-import BackBar from '@/components/navbar/BackBar.vue';
-import axios from 'axios';
-import Community from '@/models/Community';
-import { 
-  VContainer, VCard, VCardTitle, VCardText, VTextField, VTextarea, VBtn, VForm, VList, VListItem, 
-  VListItemContent, VListItemTitle, VListItemSubtitle, VAlert, VExpandTransition, VSelect 
-} from 'vuetify/lib';
-import Post from '@/models/Post';
+import BackBar from "@/components/navbar/BackBar.vue";
+import axios from "axios";
+import Community from "@/models/Community";
+import {
+  VContainer,
+  VCard,
+  VCardTitle,
+  VCardText,
+  VTextField,
+  VTextarea,
+  VBtn,
+  VForm,
+  VList,
+  VListItem,
+  VListItemContent,
+  VListItemTitle,
+  VListItemSubtitle,
+  VAlert,
+  VExpandTransition,
+  VSelect,
+} from "vuetify/lib";
+import Post from "@/models/Post";
+import Comments from "@/models/Comments";
 
 export default {
   components: {
@@ -101,89 +139,109 @@ export default {
     VAlert,
     VExpandTransition,
     VSelect,
-    BackBar
+    BackBar,
   },
   data() {
     return {
       community: new Community(),
-      newPostTitle: '',
-      newPostContent: '',
-      newPostCategory: '',
+      newPostTitle: "",
+      newPostContent: "",
+      newPostCategory: "",
       showForm: false,
       replyFormIndex: null,
-      newReplyContent: '',
+      newReplyContent: "",
       categories: [
-        { name: 'Gimnasio', value: 'gym' },
-        { name: 'Top', value: 'top' },
-        { name: 'Eventos', value: 'events' },
-        { name: 'Noticias', value: 'news' },
-        { name: 'Discusión', value: 'discussion' },
-        { name: 'Ayuda', value: 'help' },
-        { name: 'Otros', value: 'others' }
+        { name: "Gimnasio", value: "gym" },
+        { name: "Top", value: "top" },
+        { name: "Eventos", value: "events" },
+        { name: "Noticias", value: "news" },
+        { name: "Discusión", value: "discussion" },
+        { name: "Ayuda", value: "help" },
+        { name: "Otros", value: "others" },
       ],
-      userId: ''
+      userId: "",
     };
   },
   mounted() {
-    const communityId = localStorage.getItem('selectedCommunityId');
-    this.userId = localStorage.getItem('userId');
+    const communityId = localStorage.getItem("selectedCommunityId");
+    this.userId = localStorage.getItem("userId");
     this.fetchCommunityDetails(communityId);
   },
   methods: {
     fetchCommunityDetails(communityId) {
-      axios.get(`http://localhost:3001/api/community/getCommunityById/${communityId}`)
-        .then(response => {
-          console.log('Comunidad cargada exitosamente:', response.data);
+      axios
+        .get(
+          `http://localhost:3001/api/community/getCommunityById/${communityId}`
+        )
+        .then((response) => {
+          console.log("Comunidad cargada exitosamente:", response.data);
           this.community = response.data;
         })
-        .catch(error => {
-          console.error('Error al cargar detalles de la comunidad:', error);
+        .catch((error) => {
+          console.error("Error al cargar detalles de la comunidad:", error);
         });
     },
     addPost() {
-      const newPost = new Post('', this.newPostTitle, this.newPostContent, new Date().toISOString(), this.newPostCategory, 0, []);
-      console.log('Nueva publicación:', newPost);
-      axios.post(`http://localhost:3001/api/community/addPost/${this.community.id}/${this.userId}`, newPost)
-        .then(response => {
-          console.log('Publicación añadida exitosamente:', response.data);
+      const newPost = new Post(
+        "",
+        this.newPostTitle,
+        this.newPostContent,
+        new Date().toISOString(),
+        this.newPostCategory,
+        [],
+        []
+      );
+      console.log("Nueva publicación:", newPost);
+      axios
+        .post(
+          `http://localhost:3001/api/community/addPost/${this.community.id}/${this.userId}`,
+          newPost
+        )
+        .then((response) => {
+          console.log("Publicación añadida exitosamente:", response.data);
           this.fetchCommunityDetails(this.community.id);
-          this.newPostTitle = '';
-          this.newPostContent = '';
-          this.newPostCategory = '';
+          this.newPostTitle = "";
+          this.newPostContent = "";
+          this.newPostCategory = "";
           this.showForm = false;
         })
-        .catch(error => {
-          console.error('Error al añadir publicación:', error);
+        .catch((error) => {
+          console.error("Error al añadir publicación:", newPost);
+          console.error("Error al añadir publicación:", error);
         });
     },
     showReplyForm(index) {
       this.replyFormIndex = this.replyFormIndex === index ? null : index;
     },
     addReply(postId) {
-      const newReply = {
-        content: this.newReplyContent,
-        creationDate: new Date().toISOString(),
-        userId: this.userId
-      };
-      axios.post(`http://localhost:3001/api/community/addReply/${postId}`, newReply)
-        .then(response => {
-          console.log('Respuesta añadida exitosamente:', response.data);
+      const newReply = new Comments("", this.newReplyContent, new Date().toISOString().replace(/\.\d{3}Z$/, '+00:00'));
+      
+      axios
+        .post(
+          `http://localhost:3001/api/community/addReply/${postId}`,
+          newReply
+        )
+        .then((response) => {
+          console.log("Respuesta añadida exitosamente:", response.data);
           this.fetchCommunityDetails(this.community.id);
-          this.newReplyContent = '';
+          this.newReplyContent = "";
           this.replyFormIndex = null;
         })
-        .catch(error => {
-          console.error('Error al añadir respuesta:', error);
+        .catch((error) => {
+          console.log("Nueva respuesta:", newReply);
+      console.log("ID de la publicación:", postId);
+          console.error("Error al añadir respuesta:", error);
         });
     },
     getCategoryName(categoryValue) {
-      const category = this.categories.find(cat => cat.value === categoryValue);
+      const category = this.categories.find(
+        (cat) => cat.value === categoryValue
+      );
       return category ? category.name : categoryValue;
-    }
-  }
+    },
+  },
 };
 </script>
-
 
 <style scoped>
 .mb-4 {
@@ -193,7 +251,7 @@ export default {
 .forum-post {
   border-bottom: 1px solid #e0e0e0;
   padding: 1rem 0;
-  margin-left: 20px; 
+  margin-left: 20px;
 }
 
 .post-title {
@@ -206,7 +264,6 @@ export default {
 }
 
 .reply-form {
-  margin-left: 200px; 
+  margin-left: 200px;
 }
 </style>
-

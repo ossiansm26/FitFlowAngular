@@ -31,7 +31,7 @@
           </v-col>
           <v-col cols="12" sm="6" class="userProfile">
            <strong>Foto de perfil:</strong> 
-            <img class="userProfileImage" :src="getImageUrl(user.image)" alt="User profile picture">
+            <img class="userProfileImage" :src="getImageUrl(user.image)" alt="User profile">
           </v-col>
           <div v-if="user.routinesCreated.length > 0">
             <v-col cols="12">

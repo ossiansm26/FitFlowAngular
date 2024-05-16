@@ -4,8 +4,7 @@ export default class Post {
   content: string;
   creationDate: Date;
   category: string;
-  likes: number;
-  comments: any[]; 
+  comments: any[];
 
   constructor(
     id: number,
@@ -13,7 +12,6 @@ export default class Post {
     content: string,
     creationDate: Date,
     category: string,
-    likes: number,
     comments: any[]
   ) {
     this.id = id;
@@ -21,7 +19,6 @@ export default class Post {
     this.content = content;
     this.creationDate = creationDate;
     this.category = category;
-    this.likes = likes;
     this.comments = comments;
   }
 }

@@ -14,9 +14,6 @@
                                 <div>Categoría: {{ post.category }}</div>
                             </v-col>
                             <v-col cols="12">
-                                <div>Likes: {{ post.likes }}</div>
-                            </v-col>
-                            <v-col cols="12">
                                 <v-btn color="primary" @click="likePost(post.id)">Me gusta</v-btn>
                             </v-col>
                         </v-row>
