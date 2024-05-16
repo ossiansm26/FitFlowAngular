@@ -2,16 +2,19 @@
   <v-container>
     <BackBar/>
     <v-row>
-      <v-col v-for="community in communitys" :key="community.id" cols="12" md="6">
+      <v-col v-for="community in communities" :key="community.id" cols="12" md="6">
         <v-card class="mb-4">
-          <v-card-title>{{ community.name }}</v-card-title>
+          <v-card-title>Comunidad: {{ community.name }}</v-card-title>
+          <div >
+            <v-img
+              class="card-image"
+              :src="getImageUrl(community.urlpicture)"
+              :alt="community.name"
+              contain
+            ></v-img>
+          </div>
           <v-card-text>{{ community.description }}</v-card-text>
-          <v-card-subtitle>Posts:</v-card-subtitle>
-          <v-list>
-            <v-list-item v-for="post in community.post" :key="post.id">
-              <v-list-item-content>{{ post.title }}</v-list-item-content>
-            </v-list-item>
-          </v-list>
+        
           <v-card-actions>
             <v-btn color="red" @click="deleteCommunity(community.id)">
               <v-icon>mdi-delete</v-icon>
@@ -42,28 +45,29 @@ export default {
   },
   data() {
     return {
-      communitys: [],
+      communities: [],
       userId: ''
     };
   },
   mounted() {
-     this.userId = localStorage.getItem('userId');
+    this.userId = localStorage.getItem('userId');
     this.fetchData(this.userId);
   },
   methods: {
     fetchData(userId) {
       axios.get(`http://localhost:3001/api/user/getCommunity/${userId}`)
         .then(response => {
-          this.communitys = response.data;
+          console.log('Comunidades:', response.data);
+          this.communities = response.data;
         })
         .catch(error => {
           console.error('Error al obtener los datos:', error);
         });
     },
     deleteCommunity(communityId) {
-      axios.delete(`http://localhost:3001/api/user/${this.userId}/removeCommunity/${communityId}`,)
+      axios.delete(`http://localhost:3001/api/user/${this.userId}/removeCommunity/${communityId}`)
         .then(() => {
-          this.communitys = this.communitys.filter(c => c.id !== communityId);
+          this.communities = this.communities.filter(c => c.id !== communityId);
         })
         .catch(error => {
           console.error('Error al eliminar la comunidad:', error);
@@ -71,14 +75,17 @@ export default {
     },
     editCommunity(communityId) {
       localStorage.setItem('selectedCommunityId', communityId);
-      this.$router.push({ name: 'editCommunity'});
+      this.$router.push({ name: 'editCommunity' });
     },
     viewCommunity(communityId) {
-       localStorage.setItem('selectedCommunityId', communityId);
-        this.$router.push({ name: 'communityDetails'});
+      localStorage.setItem('selectedCommunityId', communityId);
+      this.$router.push({ name: 'communityDetails' });
     },
     createCommunity() {
-      this.$router.push({ name: 'communityCreate'});
+      this.$router.push({ name: 'communityCreate' });
+    },
+    getImageUrl(imageName) {
+      return `http://localhost:3001/api/file/download/${imageName}`;
     }
   }
 }
@@ -93,4 +100,9 @@ export default {
   right: 20px;
   bottom: 20px;
 }
+.card-image {
+  height: 200px;
+  width: auto;
+}
 </style>
+

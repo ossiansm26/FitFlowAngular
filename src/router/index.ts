@@ -51,7 +51,6 @@ const routes: Array<RouteConfig> = [
     path: '/userDetails',
       name: 'UserDetails',
       component: UserDetails,
-      props: true,
   }
   ,{
     path: '/ReguistrarUsuario',

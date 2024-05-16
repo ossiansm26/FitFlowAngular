@@ -2,16 +2,16 @@ export default class Post {
   id: number;
   title: string;
   content: string;
-  creationDate: string;
+  creationDate: Date;
   category: string;
   likes: number;
-  comments: any[]; // Corregí el nombre de la propiedad de "comment" a "comments"
+  comments: any[]; 
 
   constructor(
     id: number,
     title: string,
     content: string,
-    creationDate: string,
+    creationDate: Date,
     category: string,
     likes: number,
     comments: any[]
