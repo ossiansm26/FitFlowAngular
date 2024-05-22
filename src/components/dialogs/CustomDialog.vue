@@ -9,7 +9,7 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="errorText" max-width="400">
+    <v-dialog v-model="showErrorDialog" max-width="400">
       <v-card color="white" dark elevation="0">
         <v-card-text class="text-center">
           <v-icon size="64" color="error">mdi-alert-circle</v-icon>
@@ -21,7 +21,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="successText" max-width="400">
+    <v-dialog v-model="showSuccessDialog" max-width="400">
       <v-card color="white" dark elevation="0">
         <v-card-text class="text-center">
           <v-icon size="64" color="success">mdi-check-circle</v-icon>
@@ -39,15 +39,19 @@
 <script>
 export default {
   props: {
+    loading: Boolean,
     errorText: String,
     successText: String,
     routeOnSuccess: String,
     routeOnError: String
   },
-  data() {
-    return {
-      loading: false
-    };
+  computed: {
+    showErrorDialog() {
+      return !!this.errorText;
+    },
+    showSuccessDialog() {
+      return !!this.successText;
+    }
   },
   methods: {
     handleSuccessOK() {

@@ -50,7 +50,7 @@
     </v-card>
 
     <CustomDialog
-      v-if="showDialog"
+      :loading="loading"
       :error-text="errorText"
       :success-text="successText"
       :route-on-success="routeOnSuccess"
@@ -64,7 +64,7 @@
 import axios from "axios";
 import Material from "@/models/Material";
 import BackBar from "@/components/navbar/BackBar.vue";
-import CustomDialog from "@/components/dialogs/Dialog.vue";
+import CustomDialog from "@/components/dialogs/CustomDialog.vue";
 
 export default {
   components: {
@@ -81,6 +81,7 @@ export default {
       ),
       menu: false,
       showDialog: false,
+      loading: false,
       successText: "",
       errorText: "",
       routeOnSuccess: "",
@@ -96,6 +97,7 @@ export default {
   },
   methods: {
     async submitForm() {
+      this.loading = true;
       try {
         console.log("Registrando material:", this.material);
         const response = await axios.post(
@@ -105,13 +107,13 @@ export default {
         console.log("Material registrado:", response.data);
         this.successText = "¡Material registrado con éxito!";
         this.routeOnSuccess = "/ruta-exito";
-        this.showDialog = true;
       } catch (error) {
         console.error("Error al registrar material:", error);
-        this.errorText =
-          "Error al registrar el material. Por favor, inténtalo de nuevo.";
+        this.errorText = "Error al registrar el material. Por favor, inténtalo de nuevo.";
         this.routeOnError = "/ruta-error";
+      } finally {
         this.showDialog = true;
+        this.loading = false;
       }
     }
   }

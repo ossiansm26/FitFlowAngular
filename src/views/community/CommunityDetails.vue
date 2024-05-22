@@ -215,12 +215,8 @@ export default {
     },
     addReply(postId) {
       const newReply = new Comments("", this.newReplyContent, new Date().toISOString().replace(/\.\d{3}Z$/, '+00:00'));
-      
-      axios
-        .post(
-          `http://localhost:3001/api/community/addReply/${postId}`,
-          newReply
-        )
+      console.log("Nueva respuesta:", newReply);
+      axios.post(`http://localhost:3001/api/community/addReply/${postId}/${this.userId}`,newReply)
         .then((response) => {
           console.log("Respuesta añadida exitosamente:", response.data);
           this.fetchCommunityDetails(this.community.id);

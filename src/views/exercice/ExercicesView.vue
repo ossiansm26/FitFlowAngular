@@ -1,48 +1,89 @@
 <template>
   <v-container>
     <BackBar />
-    <v-card-title>Lista de Ejercicios en la colecion {{ collectionId }}</v-card-title>
-
-    <v-card v-for="(exercise, index) in exercises" :key="index" class="mb-4">
-      <v-card-title class="headline">{{ exercise.exerciseName }}</v-card-title>
+    <v-card>
+      <v-card-title>
+        Lista de Ejercicios para la Rutina {{ collectionId }}
+      </v-card-title>
       <v-card-text>
-        <p><strong>ID:</strong> {{ exercise.id }}</p>
-        <p><strong>Duration:</strong> {{ exercise.duration }}</p>
-        <p><strong>Description:</strong> {{ exercise.description }}</p>
-
-        <div>
-          <strong>Materials:</strong>
-          <ul>
-            <li v-for="(material, index) in exercise.material" :key="index">
-              {{ material }}
-            </li>
-          </ul>
-        </div>
-        <div>
-          <strong>Muscle Groups:</strong>
-          <ul>
-            <li v-for="(muscle, index) in exercise.muscleGroup" :key="index">
-              {{ muscle }}
-            </li>
-          </ul>
-        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>ID</th>
+              <th>Nombre del Ejercicio</th>
+              <th>Duración (min)</th>
+              <th>Descripción</th>
+              <th>Sentimientos</th>
+              <th>Material</th>
+              <th>Grupos Musculares</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="exercise in sortedExercises" :key="exercise.id">
+              <td>
+                <v-checkbox
+                  v-model="selectedExercises"
+                  :value="exercise.id"
+                  @change="checkboxChanged(exercise)"
+                ></v-checkbox>
+              </td>
+              <td>{{ exercise.id }}</td>
+              <td>{{ exercise.exerciseName }}</td>
+              <td>{{ exercise.duration }}</td>
+              <td>{{ exercise.description }}</td>
+              <td>{{ exercise.feelings }}</td>
+              <td>
+                <ul>
+                  <li v-for="(material, index) in exercise.material" :key="index">
+                    {{ material }}
+                  </li>
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  <li v-for="(muscle, index) in exercise.muscleGroup" :key="index">
+                    {{ muscle }}
+                  </li>
+                </ul>
+              </td>
+              <td>
+                <v-row class="actions-row">
+                  <v-col cols="12" sm="4">
+                    <v-btn icon color="primary" @click="editExercise(exercise)">
+                      <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+                  </v-col>
+                  <v-col cols="12" sm="4">
+                    <v-btn icon color="error" @click="deleteExercise(exercise.id)">
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </v-col>
+                  <v-col cols="12" sm="4">
+                    <v-btn icon color="purple" @click="viewExerciseDetail(exercise.id)">
+                      <v-icon>mdi-eye</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </v-card-text>
-      <v-card-actions>
-        <v-btn color="primary" @click="editExercise(exercise)">Editar</v-btn>
-        <v-btn color="error" @click="deleteExercise(exercise.id)">Borrar</v-btn>
-      </v-card-actions>
     </v-card>
-    <v-alert v-if="exercises.length === 0" class="mt-4"
-      >No se encontraron datos de ejercicio.</v-alert
-    >
-
-    <v-btn class="floating-btn" color="success" fab large @click="addExercise">
-      <v-icon>mdi-plus</v-icon>
-    </v-btn>
+    <div class="floating-btn">
+      <v-btn fab dark color="green" @click="addExercise">
+        <v-icon dark>mdi-plus</v-icon>
+      </v-btn>
+      <v-btn fab dark color="blue" @click="goBack">
+        <v-icon dark>mdi-content-save</v-icon>
+      </v-btn>
+    </div>
   </v-container>
 </template>
-  
-  <script>
+
+<script>
 import BackBar from "@/components/navbar/BackBar.vue";
 import axios from "axios";
 
@@ -53,24 +94,45 @@ export default {
   data() {
     return {
       exercises: [],
-      rating: 0,
+      selectedExercises: [],
       collectionId: 0,
     };
   },
+  computed: {
+    sortedExercises() {
+      return this.exercises.slice().sort((a, b) => {
+        return this.selectedExercises.includes(b.id) - this.selectedExercises.includes(a.id);
+      });
+    },
+  },
   created() {
-   this.collectionId=localStorage.getItem("selectedExerciseId")
+    this.collectionId = localStorage.getItem("selectedExerciseId");
   },
   mounted() {
-    axios
-      .get(`http://localhost:3001/api/exercices`)
-      .then((response) => {
-        this.exercises = response.data;
-      })
-      .catch((error) => {
-        console.error("Error fetching exercise data:", error);
-      });
+    this.loadExercises();
+    this.loadSelectedExercises();
   },
   methods: {
+    loadExercises() {
+      axios
+        .get(`http://localhost:3001/api/exercices`)
+        .then((response) => {
+          this.exercises = response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching exercise data:", error);
+        });
+    },
+    loadSelectedExercises() {
+      axios
+        .get(`http://localhost:3001/api/collectionExercices/${this.collectionId}/getExercices`)
+        .then((response) => {
+          this.selectedExercises = response.data.map(exercise => exercise.id);
+        })
+        .catch((error) => {
+          console.error("Error fetching selected exercises:", error);
+        });
+    },
     editExercise(exercise) {
       // Lógica para editar un ejercicio
     },
@@ -89,11 +151,45 @@ export default {
     addExercise() {
       // Lógica para añadir un nuevo ejercicio
     },
+    checkboxChanged(exercise) {
+      const exerciseId = exercise.id;
+      if (this.selectedExercises.includes(exerciseId)) {
+        this.addExerciseToCollection(exerciseId);
+      } else {
+        this.removeExerciseFromCollection(exerciseId);
+      }
+    },
+    addExerciseToCollection(exerciseId) {
+      axios
+        .post(`http://localhost:3001/api/collectionExercices/${this.collectionId}/addExercices/${exerciseId}`)
+        .then(() => {
+          console.log(`Exercise ${exerciseId} added to collection ${this.collectionId}`);
+        })
+        .catch((error) => {
+          console.error(`Error adding exercise ${exerciseId} to collection:`, error);
+        });
+    },
+    removeExerciseFromCollection(exerciseId) {
+      axios
+        .delete(`http://localhost:3001/api/collectionExercices/${this.collectionId}/removeExercices/${exerciseId}`)
+        .then(() => {
+          console.log(`Exercise ${exerciseId} removed from collection ${this.collectionId}`);
+        })
+        .catch((error) => {
+          console.error(`Error removing exercise ${exerciseId} from collection:`, error);
+        });
+    },
+    viewExerciseDetail(exerciseId) {
+      // Lógica para ver el detalle de un ejercicio
+    },
+    goBack() {
+      window.history.go(-1); 
+    },
   },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .headline {
   font-size: 24px;
   margin-bottom: 10px;
@@ -112,6 +208,9 @@ export default {
   bottom: 20px;
   right: 20px;
 }
+
+.actions-row {
+  display: flex;
+  flex-wrap: wrap;
+}
 </style>
-  
-  

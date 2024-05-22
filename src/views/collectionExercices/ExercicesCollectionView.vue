@@ -2,9 +2,9 @@
   <v-container>
     <BackBar />
     <v-card>
-      <v-card-title
-        >Lista de Ejercicios para la Rutina {{ routineId }}</v-card-title
-      >
+      <v-card-title>
+        Lista de Ejercicios para la Rutina {{ routineId }}
+      </v-card-title>
       <v-card-text>
         <table class="table">
           <thead>
@@ -19,7 +19,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="exercise in exercises" :key="exercise.id">
+            <tr v-for="exercise in sortedExercises" :key="exercise.id">
               <td>
                 <v-checkbox
                   v-model="selectedExercises"
@@ -82,6 +82,13 @@ export default {
       selectedExercises: [],
       routineId: 0,
     };
+  },
+  computed: {
+    sortedExercises() {
+      return this.exercises.slice().sort((a, b) => {
+        return this.selectedExercises.includes(b.id) - this.selectedExercises.includes(a.id);
+      });
+    },
   },
   mounted() {
     this.fetchExercises();
@@ -159,7 +166,6 @@ export default {
 };
 </script>
 
-
 <style>
 .floating-button {
   position: fixed;
@@ -167,4 +173,3 @@ export default {
   right: 20px;
 }
 </style>
-

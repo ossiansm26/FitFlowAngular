@@ -22,11 +22,10 @@
             <p><strong>Video Explicativo:</strong> <a :href="exercise.urlExplanatoryVideo" target="_blank">Ver Video</a></p>
             <p><strong>Ejercicios:</strong></p>
             <ul>
-              <li v-for="(ex, exIndex) in exercise.exercises" :key="exIndex">{{ ex }}</li>
+              <li v-for="(ex, exIndex) in exercise.exercices" :key="exIndex">{{ ex.exerciseName }}</li>
             </ul>
           </li>
         </ul>
-        
       </v-card-text>
     </v-card>
   </v-container>
