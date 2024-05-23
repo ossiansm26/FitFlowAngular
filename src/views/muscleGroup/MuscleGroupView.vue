@@ -21,11 +21,14 @@
           </div>
           <v-card-text>
             <p><strong>Body Part:</strong> {{ group.bodyPart }}</p>
+            
           </v-card-text>
           <v-card-actions>
-            <v-btn icon @click="viewGroupDetail(group)">
-              <v-icon color="purple darken-1">mdi-eye</v-icon>
-            </v-btn>
+            <v-checkbox
+              v-model="selectedGroups"
+              :value="group.id"
+              @change="checkboxChanged(group)"
+            ></v-checkbox>
             <v-btn icon @click="editGroup(group)">
               <v-icon color="blue darken-1">mdi-pencil</v-icon>
             </v-btn>
@@ -42,6 +45,7 @@
   </v-container>
 </template>
 
+
 <script>
 import axios from "axios";
 import BackBar from "@/components/navbar/BackBar.vue";
@@ -53,17 +57,19 @@ export default {
   data() {
     return {
       muscleGroups: [],
+      selectedGroups: [],
+      exerciseId: 0,
     };
   },
   mounted() {
+    this.exerciseId = localStorage.getItem('exerciseId');
     this.fetchData();
+    this.fetchSelectedGroups();
   },
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get(
-          "http://localhost:3001/api/muscleGroup/getAll"
-        );
+        const response = await axios.get("http://localhost:3001/api/muscleGroup/getAll");
         this.muscleGroups = response.data;
         console.log("Grupos musculares:", this.muscleGroups);
       } catch (error) {
@@ -97,8 +103,45 @@ export default {
       localStorage.setItem("selectedGroupId", group.id);
       this.$router.push({ name: "muscleGroupDetails" });
     },
-  },
+    checkboxChanged(group) {
+      const groupId = group.id;
+      if (this.selectedGroups.includes(groupId)) {
+        this.addGroupToExercise(groupId);
+      } else {
+        this.removeGroupFromExercise(groupId);
+      }
+    },
+    addGroupToExercise(groupId) {
+      axios.post(`http://localhost:3001/api/exercices/${this.exerciseId}/addMuscleGroup/${groupId}`)
+        .then(() => {
+          console.log(`Muscle group ${groupId} added to exercise ${this.exerciseId}`);
+        })
+        .catch((error) => {
+          console.error(`Error adding muscle group ${groupId} to exercise:`, error);
+        });
+    },
+    removeGroupFromExercise(groupId) {
+      axios.delete(`http://localhost:3001/api/exercices/${this.exerciseId}/deleteMuscleGroup/${groupId}`)
+        .then(() => {
+          console.log(`Muscle group ${groupId} removed from exercise ${this.exerciseId}`);
+        })
+        .catch((error) => {
+          console.error(`Error removing muscle group ${groupId} from exercise:`, error);
+        });
+    },
+    fetchSelectedGroups() {
+      axios.get(`http://localhost:3001/api/exercices/${this.exerciseId}/muscleGroups`)
+        .then(response => {
+          this.selectedGroups = response.data.map(group => group.id);
+          console.log('Selected muscle groups:', this.selectedGroups);
+        })
+        .catch(error => {
+          console.error('Error fetching selected muscle groups:', error);
+        });
+    }
+  }
 };
+
 </script>
 
 <style scoped>

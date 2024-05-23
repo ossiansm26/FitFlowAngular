@@ -29,6 +29,7 @@ import EditAchievement from '@/views/achievements/EditAchievement.vue'
 import EditMuscleGroup from '@/views/muscleGroup/EditMuscleGroup.vue'
 import MuscleGroupDetails from '@/views/muscleGroup/MuscleGroupDetails.vue'
 import CreateExercice from '@/views/exercice/CreateExercice.vue'
+import ExercicesDetails from '@/views/exercice/ExercicesDetails.vue'
 
 Vue.use(VueRouter)
 
@@ -106,6 +107,11 @@ const routes: Array<RouteConfig> = [
     path: '/Exercices',
     name: 'exercices',
     component: ExercicesView
+  },
+  {
+    path: '/ExercicesDetails',
+    name: 'exercicesDetails',
+    component: ExercicesDetails
   },
   {
     path: '/CreateExercice',

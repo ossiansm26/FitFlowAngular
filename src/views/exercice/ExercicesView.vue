@@ -180,7 +180,8 @@ export default {
         });
     },
     viewExerciseDetail(exerciseId) {
-      // Lógica para ver el detalle de un ejercicio
+      localStorage.setItem("selectedExerciseId", exerciseId);
+      this.$router.push({ name: "exercicesDetails" });
     },
     goBack() {
       window.history.go(-1); 
