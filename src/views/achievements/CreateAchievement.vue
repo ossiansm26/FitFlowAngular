@@ -1,15 +1,27 @@
 <template>
   <v-container>
-  <BackBar/>
-    <v-row>
-      <v-col cols="12">
-        <h2>Nuevo Logro</h2>
-        <v-form @submit.prevent="crearLogro">
-          <v-text-field v-model="logro.achievementName" label="Nombre del Logro" required></v-text-field>
-          <v-textarea v-model="logro.achievementDescription" label="Descripción del Logro" required></v-textarea>
-          <v-text-field v-model="logro.achievementURL" label="URL del Logro" required></v-text-field>
-          <v-btn color="primary" type="submit">Crear Logro</v-btn>
-        </v-form>
+    <BackBar/>
+    <v-row justify="center">
+      <v-col cols="12" sm="8" md="6">
+        <v-card>
+          <v-card-title class="headline center">Nuevo Logro</v-card-title>
+          <v-card-text>
+            <v-form @submit.prevent="crearLogro">
+              <div class="form-group">
+                <v-text-field v-model="logro.achievementName" label="Nombre del Logro" required></v-text-field>
+              </div>
+              <div class="form-group">
+                <v-textarea v-model="logro.achievementDescription" label="Descripción del Logro" required></v-textarea>
+              </div>
+              <div class="form-group">
+                <v-text-field v-model="logro.achievementURL" label="URL del Logro" required></v-text-field>
+              </div>
+              <div class="form-group">
+                <v-btn color="primary" type="submit">Crear Logro</v-btn>
+              </div>
+            </v-form>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>

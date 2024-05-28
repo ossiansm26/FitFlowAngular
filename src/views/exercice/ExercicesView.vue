@@ -14,9 +14,9 @@
               <th>Nombre del Ejercicio</th>
               <th>Duración (min)</th>
               <th>Descripción</th>
-              <th>Sentimientos</th>
               <th>Material</th>
               <th>Grupos Musculares</th>
+              <th>Imagen</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -33,7 +33,6 @@
               <td>{{ exercise.exerciseName }}</td>
               <td>{{ exercise.duration }}</td>
               <td>{{ exercise.description }}</td>
-              <td>{{ exercise.feelings }}</td>
               <td>
                 <ul>
                   <li v-for="(material, index) in exercise.material" :key="index">
@@ -47,6 +46,14 @@
                     {{ muscle }}
                   </li>
                 </ul>
+              </td>
+              <td>
+                <v-img
+                  class="exercise-image"
+                  :src="getImageUrl(exercise.urlImage)"
+                  :alt="exercise.exerciseName"
+                  contain
+                ></v-img>
               </td>
               <td>
                 <v-row class="actions-row">
@@ -85,6 +92,7 @@
 
 <script>
 import BackBar from "@/components/navbar/BackBar.vue";
+import router from "@/router";
 import axios from "axios";
 
 export default {
@@ -117,6 +125,7 @@ export default {
       axios
         .get(`http://localhost:3001/api/exercices`)
         .then((response) => {
+          console.log("Exercises:", response.data);
           this.exercises = response.data;
         })
         .catch((error) => {
@@ -133,8 +142,13 @@ export default {
           console.error("Error fetching selected exercises:", error);
         });
     },
+    getImageUrl(imageName) {
+      console.log("Image name:", imageName);
+      return `http://localhost:3001/api/file/download/${imageName}`;
+    },
     editExercise(exercise) {
-      // Lógica para editar un ejercicio
+      localStorage.setItem("selectedExerciseId", exercise.id);
+      this.$router.push({ name: "exerciceEdit" });
     },
     deleteExercise(exerciseId) {
       axios
@@ -149,7 +163,7 @@ export default {
         });
     },
     addExercise() {
-      // Lógica para añadir un nuevo ejercicio
+      router.push({ name: "createExercice" });
     },
     checkboxChanged(exercise) {
       const exerciseId = exercise.id;
@@ -213,5 +227,11 @@ export default {
 .actions-row {
   display: flex;
   flex-wrap: wrap;
+}
+
+.exercise-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
 }
 </style>

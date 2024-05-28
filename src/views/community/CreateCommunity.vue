@@ -1,22 +1,40 @@
 <template>
   <v-container>
     <BackBar />
-    <v-form @submit.prevent="createCommunity">
-      <v-text-field v-model="newCommunity.name" label="Nombre"></v-text-field>
-      <v-textarea v-model="newCommunity.description" label="Descripción"></v-textarea>
-      <vue-dropzone
-        @vdropzone-success="onDropSuccess"
-        ref="dropzone"
-        :id="'dropzoneId'"
-        :options="dropzoneOptions"
-      ></vue-dropzone>
-      <v-btn @click="removeCommunityImage" 
-        class="mt-2"
-        color="error"
-        v-if="newCommunity.urlpicture"
-      >Eliminar Imagen</v-btn>
-      <v-btn type="submit" color="primary">Crear comunidad</v-btn>
-    </v-form>
+    <v-row justify="center">
+      <v-col cols="12" sm="8" md="6">
+        <v-card>
+          <v-card-title class="headline center">Crear Comunidad</v-card-title>
+          <v-card-text>
+            <v-form @submit.prevent="createCommunity">
+              <div class="form-group">
+                <v-text-field v-model="newCommunity.name" label="Nombre" required></v-text-field>
+              </div>
+              <div class="form-group">
+                <v-textarea v-model="newCommunity.description" label="Descripción" required></v-textarea>
+              </div>
+              <div class="form-group">
+                <vue-dropzone
+                  @vdropzone-success="onDropSuccess"
+                  ref="dropzone"
+                  :id="'dropzoneId'"
+                  :options="dropzoneOptions"
+                ></vue-dropzone>
+              </div>
+              <div class="form-group" v-if="newCommunity.urlpicture">
+                <v-btn @click="removeCommunityImage" 
+                  class="mt-2"
+                  color="error"
+                >Eliminar Imagen</v-btn>
+              </div>
+              <div class="form-group">
+                <v-btn type="submit" color="primary">Crear comunidad</v-btn>
+              </div>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

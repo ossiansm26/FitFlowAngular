@@ -1,24 +1,30 @@
 <template>
   <v-container>
-    <h1>Create Collection</h1>
-    <v-form @submit.prevent="createCollection">
-      <v-text-field v-model="collection.id" label="ID" required></v-text-field>
-      <v-text-field
-        v-model="collection.collectionName"
-        label="Collection Name"
-        required
-      ></v-text-field>
-      <v-text-field
-        v-model.number="collection.difficultyLevel"
-        label="Difficulty Level"
-        required
-      ></v-text-field>
-      <v-text-field
-        v-model="collection.urlExplanatoryVideo"
-        label="URL Explanatory Video"
-      ></v-text-field>
-      <v-btn type="submit" color="primary">Create</v-btn>
-    </v-form>
+    <BackBar/>
+    <v-row justify="center">
+      <v-col cols="12" sm="8" md="6">
+        <v-card>
+          <v-card-title class="headline center">Create Collection</v-card-title>
+          <v-card-text>
+            <v-form @submit.prevent="createCollection">
+              <div class="form-group">
+                <label for="collectionName">Collection Name</label>
+                <input v-model="collection.collectionName" type="text" class="form-control" id="collectionName" required>
+              </div>
+              <div class="form-group">
+                <label for="difficultyLevel">Difficulty Level</label>
+                <input v-model.number="collection.difficultyLevel" type="number" class="form-control" id="difficultyLevel" required>
+              </div>
+              <div class="form-group">
+                <label for="urlExplanatoryVideo">URL Explanatory Video</label>
+                <input v-model="collection.urlExplanatoryVideo" type="url" class="form-control" id="urlExplanatoryVideo">
+              </div>
+              <button type="submit" class="btn btn-primary">Create</button>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
   
@@ -41,7 +47,7 @@ export default {
         )
         .then((response) => {
           console.log("Collection created:", response.data);
-          this.$router.push("collectionExercices");
+          this.$router.push("exercicesCollection");
         })
         .catch((error) => {
           console.error("Error creating collection:", error);

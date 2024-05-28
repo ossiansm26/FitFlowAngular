@@ -5,6 +5,12 @@
     <v-card class="mb-4">
       <v-card-title>{{ exercise.exerciseName }}</v-card-title>
       <v-card-text>
+        <v-img
+          class="exercise-image"
+          :src="getImageUrl(exercise.urlImage)"
+          :alt="exercise.exerciseName"
+          contain
+        ></v-img>
         <p><strong>Duración:</strong> {{ exercise.duration }} minutos</p>
         <p><strong>Descripción:</strong> {{ exercise.description }}</p>
         <p><strong>Intensidad (1-10):</strong> {{ exercise.feelings }}</p>
@@ -53,6 +59,9 @@ export default {
           console.error(error);
         });
     },
+    getImageUrl(imageName) {
+      return `http://localhost:3001/api/file/download/${imageName}`;
+    },
     addMaterial() {
       localStorage.setItem('exerciseId', this.exercise.id);
       router.push({ name: 'material' });
@@ -60,8 +69,16 @@ export default {
     addMuscleGroup() {
       localStorage.setItem('exerciseId', this.exercise.id);
       router.push({ name: 'muscleGroup' });
-
     }
   }
 };
 </script>
+
+<style scoped>
+.exercise-image {
+  width: 100%;
+  height: 300px;
+  object-fit: contain;
+  margin-bottom: 20px;
+}
+</style>

@@ -3,7 +3,7 @@ export default class Exercices {
   exerciseName: string;
   duration: number;
   description: string;
-  feelings: number;
+  urlImage: string;
   material: any[];
   muscleGroup: any[];
 
@@ -12,7 +12,7 @@ export default class Exercices {
     exerciseName: string,
     duration: number,
     description: string,
-    feelings: number,
+    urlImage: string,
     material: any[],
     muscleGroup: any[]
   ) {
@@ -20,7 +20,7 @@ export default class Exercices {
     this.exerciseName = exerciseName;
     this.duration = duration;
     this.description = description;
-    this.feelings = feelings;
+    this.urlImage = urlImage;
     this.material = material;
     this.muscleGroup = muscleGroup;
   }

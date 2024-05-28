@@ -57,7 +57,7 @@
         </table>
       </v-card-text>
       <div class="floating-button">
-        <v-btn fab dark color="green" @click="addExercise">
+        <v-btn fab dark color="green" @click="createExercise">
           <v-icon dark>mdi-plus</v-icon>
         </v-btn>
         <v-btn fab dark color="blue" @click="goBack">
@@ -127,6 +127,20 @@ export default {
     },
     editExercise(exercise) {
       // Lógica para editar un ejercicio
+    },
+    deleteExercise(exerciseId) {
+      axios
+        .delete(`http://localhost:3001/api/collectionExercices/delete/${exerciseId}`)
+        .then(() => {
+          console.log("Ejercicio eliminado con éxito");
+          this.fetchExercises();
+        })
+        .catch((error) => {
+          console.error("Error eliminando ejercicio:", error);
+        });
+    },
+    createExercise() {
+      this.$router.push("createExercicesCollection");
     },
     checkboxChanged(exerciseId) {
       if (this.selectedExercises.includes(exerciseId)) {

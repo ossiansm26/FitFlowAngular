@@ -30,7 +30,9 @@ import EditMuscleGroup from '@/views/muscleGroup/EditMuscleGroup.vue'
 import MuscleGroupDetails from '@/views/muscleGroup/MuscleGroupDetails.vue'
 import CreateExercice from '@/views/exercice/CreateExercice.vue'
 import ExercicesDetails from '@/views/exercice/ExercicesDetails.vue'
-
+import CreateExercicesCollection from '@/views/collectionExercices/CreateExercicesCollection.vue'
+import ExercicesLogView from '@/views/exercicesLog/ExercicesLogView.vue'
+import ExerciceEdit from '@/views/exercice/ExerciceEdit.vue'
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
@@ -114,14 +116,24 @@ const routes: Array<RouteConfig> = [
     component: ExercicesDetails
   },
   {
+    path: '/ExerciceEdit',
+    name: 'exerciceEdit',
+    component: ExerciceEdit
+  },
+  {
     path: '/CreateExercice',
-    name: 'createExercicen',
+    name: 'createExercice',
     component: CreateExercice
   },
   {
     path: '/ExercicesCollection',
     name: 'exercicesCollection',
     component: ExercicesCollectionView
+  },
+  {
+    path: '/CreateExercicesCollection',
+    name: 'createExercicesCollection',
+    component:CreateExercicesCollection
   },
   {
     path: '/Routine',
@@ -184,6 +196,12 @@ const routes: Array<RouteConfig> = [
     path: '/EditAchievement',
     name: 'editAchievement',
     component: EditAchievement
+  },
+  {
+    path: '/ExercicesLogView',
+    name: 'exercicesLogView',
+    component: ExercicesLogView
+
   }
 ]
 
