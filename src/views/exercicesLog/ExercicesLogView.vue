@@ -201,61 +201,73 @@ filterLogsByDate() {
   this.selectFirstExercise();
 }
 ,
-    updateChart() {
-      const ctx = document.getElementById('exercise-progress-chart').getContext('2d');
-      if (this.chart) {
-        this.chart.destroy();
-        this.chart = null;
-      }
+updateChart() {
+  const ctx = document.getElementById('exercise-progress-chart').getContext('2d');
+  if (this.chart) {
+    this.chart.destroy();
+    this.chart = null;
+  }
 
-      const labels = [];
-      const repsData = [];
-      const weightData = [];
+  const labels = [];
+  const repsData = [];
+  const weightData = [];
+  const setsByDate = {};
 
-      this.selectedExercise.forEach(log => {
-        log.sets.forEach((set, index) => {
-          labels.push(`${new Date(log.date).toLocaleDateString()} Set ${index + 1}`);
-          repsData.push(set.reps);
-          weightData.push(set.weight);
-        });
-      });
+  this.selectedExercise.forEach(log => {
+    const dateKey = new Date(log.date).toLocaleDateString();
+    if (!setsByDate[dateKey]) {
+      setsByDate[dateKey] = [];
+    }
+    log.sets.forEach((set, index) => {
+      setsByDate[dateKey].push(set);
+    });
+  });
 
-      this.chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              label: 'Repeticiones',
-              data: repsData,
-              borderColor: 'rgba(75, 192, 192, 1)',
-              backgroundColor: 'rgba(18, 230, 230, 0.2)',
-              borderWidth: 1,
-              fill: true
-            },
-            {
-              label: 'Peso',
-              data: weightData,
-              borderColor: 'rgba(255, 99, 132, 1)',
-              backgroundColor: 'rgba(255, 99, 132, 0.2)',
-              borderWidth: 1,
-              fill: true
-            }
-          ]
+  Object.keys(setsByDate).forEach(date => {
+    setsByDate[date].forEach((set, index) => {
+      labels.push(`${date} Set ${index + 1}`);
+      repsData.push(set.reps);
+      weightData.push(set.weight);
+    });
+  });
+
+  this.chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Repeticiones',
+          data: repsData,
+          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: 'rgba(18, 230, 230, 0.2)',
+          borderWidth: 1,
+          fill: true
         },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-              title: {
-                display: true,
-                text: 'Valor'
-              }
-            }
+        {
+          label: 'Peso',
+          data: weightData,
+          borderColor: 'rgba(255, 99, 132, 1)',
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderWidth: 1,
+          fill: true
+        }
+      ]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Valor'
           }
         }
-      });
-    },
+      }
+    }
+  });
+}
+,
     updateSummaries() {
       const repsData = [];
       const weightData = [];
@@ -303,35 +315,28 @@ filterLogsByDate() {
   doc.setLineWidth(0.5);
   doc.line(14, yOffset, 196, yOffset);
   yOffset += 10;
+
   const tableColumn = ['Set', 'Repeticiones', 'Peso'];
   const tableRows = [];
-  const groupedLogs = this.selectedExercise.reduce((acc, log) => {
-    const date = new Date(log.date).toLocaleDateString();
-    const exerciseName = log.exercice.exerciseName;
-    const key = `${date}-${exerciseName}`;
-    if (!acc[key]) {
-      acc[key] = {
-        date: date,
-        exerciseName: exerciseName,
-        sets: []
-      };
+  const setsByDate = {};
+
+  this.selectedExercise.forEach(log => {
+    const dateKey = new Date(log.date).toLocaleDateString();
+    if (!setsByDate[dateKey]) {
+      setsByDate[dateKey] = [];
     }
     log.sets.forEach((set, index) => {
-      acc[key].sets.push({
-        set: `Set ${index + 1}`,
-        reps: set.reps,
-        weight: set.weight
-      });
+      setsByDate[dateKey].push({ set: `Set ${setsByDate[dateKey].length + 1}`, reps: set.reps, weight: set.weight });
     });
-    return acc;
-  }, {});
+  });
 
-  Object.values(groupedLogs).forEach(log => {
-    tableRows.push([`${log.date} - ${log.exerciseName}`, '', '']);
-    log.sets.forEach(set => {
+  Object.keys(setsByDate).forEach(date => {
+    tableRows.push([`${date}`, '', '']);
+    setsByDate[date].forEach(set => {
       tableRows.push([set.set, set.reps, set.weight]);
     });
   });
+
   doc.autoTable({
     head: [tableColumn],
     body: tableRows,
@@ -360,12 +365,15 @@ filterLogsByDate() {
       }
     }
   });
+
   const canvas = document.getElementById('exercise-progress-chart');
   const imageData = canvas.toDataURL('image/png');
   doc.addPage();
   doc.addImage(imageData, 'PNG', 10, 10, 180, 100);
   doc.save('exercise_logs.pdf');
 }
+
+
 
   },
   
@@ -377,4 +385,5 @@ filterLogsByDate() {
   height: 150px;
   object-fit: cover;
 }
+
 </style>
