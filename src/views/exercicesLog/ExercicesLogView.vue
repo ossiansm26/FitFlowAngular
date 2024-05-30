@@ -13,7 +13,7 @@
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
               v-model="startDateFormatted"
-              label="Start Date"
+              label="Fecha de inicio"
               prepend-icon="mdi-calendar"
               readonly
               v-bind="attrs"
@@ -35,7 +35,7 @@
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
               v-model="endDateFormatted"
-              label="End Date"
+              label="Fecha de fin"
               prepend-icon="mdi-calendar"
               readonly
               v-bind="attrs"
@@ -60,7 +60,7 @@
                       :alt="log[0].exercice.exerciseName" 
                       contain class="exercise-card-image mb-3"
                     ></v-img>
-                    <div>Description: {{ log[0].exercice.description }}</div>
+                    <div>Descripción: {{ log[0].exercice.description }}</div>
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -76,16 +76,16 @@
           <v-card-text>
             <div>Fechas: {{ dateRange }}</div>
             <div>Total de Repeticiones: {{ totalReps }}</div>
-            <div>Total de Peso Levantado: {{ totalWeight }}</div>
+            <div>Peso Total Levantado: {{ totalWeight }}</div>
             <div>Máximo de Repeticiones: {{ maxReps }}</div>
-            <div>Máximo de Peso: {{ maxWeight }}</div>
+            <div>Máximo Peso: {{ maxWeight }}</div>
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12">
-        <v-btn color="primary" @click="downloadPDF">Descargar Datos en PDF</v-btn>
+        <v-btn color="primary" @click="downloadPDF">Descargar como PDF</v-btn>
       </v-col>
     </v-row>
     <v-row>
@@ -182,92 +182,89 @@ export default {
       this.filterLogsByDate();
     },
     formatDate(date) {
-  if (!date) return '';
-  const d = new Date(date);
-  const formattedDate = d.toISOString().split('T')[0];
-  return formattedDate;
-}
-,
-filterLogsByDate() {
-  if (!this.startDate || !this.endDate) return;
-  const startDate = new Date(this.startDate);
-  const endDate = new Date(this.endDate);
- startDate.setDate(startDate.getDate() - 1);
-  const filteredLogs = this.exerciseLogs.filter(log => {
-    const logDate = new Date(log.date);
-    return logDate >= startDate && logDate < endDate;
-  });
-  this.groupExercisesById(filteredLogs);
-  this.selectFirstExercise();
-}
-,
-updateChart() {
-  const ctx = document.getElementById('exercise-progress-chart').getContext('2d');
-  if (this.chart) {
-    this.chart.destroy();
-    this.chart = null;
-  }
-
-  const labels = [];
-  const repsData = [];
-  const weightData = [];
-  const setsByDate = {};
-
-  this.selectedExercise.forEach(log => {
-    const dateKey = new Date(log.date).toLocaleDateString();
-    if (!setsByDate[dateKey]) {
-      setsByDate[dateKey] = [];
-    }
-    log.sets.forEach((set, index) => {
-      setsByDate[dateKey].push(set);
-    });
-  });
-
-  Object.keys(setsByDate).forEach(date => {
-    setsByDate[date].forEach((set, index) => {
-      labels.push(`${date} Set ${index + 1}`);
-      repsData.push(set.reps);
-      weightData.push(set.weight);
-    });
-  });
-
-  this.chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Repeticiones',
-          data: repsData,
-          borderColor: 'rgba(75, 192, 192, 1)',
-          backgroundColor: 'rgba(18, 230, 230, 0.2)',
-          borderWidth: 1,
-          fill: true
-        },
-        {
-          label: 'Peso',
-          data: weightData,
-          borderColor: 'rgba(255, 99, 132, 1)',
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderWidth: 1,
-          fill: true
-        }
-      ]
+      if (!date) return '';
+      const d = new Date(date);
+      const formattedDate = d.toISOString().split('T')[0];
+      return formattedDate;
     },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: 'Valor'
+    filterLogsByDate() {
+      if (!this.startDate || !this.endDate) return;
+      const startDate = new Date(this.startDate);
+      const endDate = new Date(this.endDate);
+      startDate.setDate(startDate.getDate() - 1);
+      const filteredLogs = this.exerciseLogs.filter(log => {
+        const logDate = new Date(log.date);
+        return logDate >= startDate && logDate < endDate;
+      });
+      this.groupExercisesById(filteredLogs);
+      this.selectFirstExercise();
+    },
+    updateChart() {
+      const ctx = document.getElementById('exercise-progress-chart').getContext('2d');
+      if (this.chart) {
+        this.chart.destroy();
+        this.chart = null;
+      }
+
+      const labels = [];
+      const repsData = [];
+      const weightData = [];
+      const setsByDate = {};
+
+      this.selectedExercise.forEach(log => {
+        const dateKey = new Date(log.date).toLocaleDateString();
+        if (!setsByDate[dateKey]) {
+          setsByDate[dateKey] = [];
+        }
+        log.sets.forEach((set, index) => {
+          setsByDate[dateKey].push(set);
+        });
+      });
+
+      Object.keys(setsByDate).forEach(date => {
+        setsByDate[date].forEach((set, index) => {
+          labels.push(`${date} Set ${index + 1}`);
+          repsData.push(set.reps);
+          weightData.push(set.weight);
+        });
+      });
+
+      this.chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Repeticiones',
+              data: repsData,
+              borderColor: 'rgba(75, 192, 192, 1)',
+              backgroundColor: 'rgba(18, 230, 230, 0.2)',
+              borderWidth: 1,
+              fill: true
+            },
+            {
+              label: 'Peso',
+              data: weightData,
+              borderColor: 'rgba(255, 99, 132, 1)',
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderWidth: 1,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Value'
+              }
+            }
           }
         }
-      }
-    }
-  });
-}
-,
+      });
+    },
     updateSummaries() {
       const repsData = [];
       const weightData = [];
@@ -293,90 +290,86 @@ updateChart() {
       }
     },
     downloadPDF() {
-  const doc = new jsPDF();
-  doc.setFontSize(20);
-  doc.text('Datos de Ejercicios', 14, 16);
+      const doc = new jsPDF();
+      doc.setFontSize(20);
+      doc.text('Exercise Data', 14, 16);
 
-  doc.setFontSize(14);
-  doc.setTextColor(40);
-  let yOffset = 26;
-  const summaryData = [
-    `Fechas: ${this.dateRange}`,
-    `Total de Repeticiones: ${this.totalReps}`,
-    `Total de Peso Levantado: ${this.totalWeight}`,
-    `Máximo de Repeticiones: ${this.maxReps}`,
-    `Máximo de Peso: ${this.maxWeight}`
-  ];
+      doc.setFontSize(14);
+      doc.setTextColor(40);
+      let yOffset = 26;
+      const summaryData = [
+        `Dates: ${this.dateRange}`,
+        `Total Repetitions: ${this.totalReps}`,
+        `Total Weight Lifted: ${this.totalWeight}`,
+        `Max Repetitions: ${this.maxReps}`,
+        `Max Weight: ${this.maxWeight}`
+      ];
 
-  summaryData.forEach((text) => {
-    doc.text(text, 14, yOffset);
-    yOffset += 8;
-  });
-  doc.setLineWidth(0.5);
-  doc.line(14, yOffset, 196, yOffset);
-  yOffset += 10;
+      summaryData.forEach((text) => {
+        doc.text(text, 14, yOffset);
+        yOffset += 8;
+      });
+      doc.setLineWidth(0.5);
+      doc.line(14, yOffset, 196, yOffset);
+      yOffset += 10;
 
-  const tableColumn = ['Set', 'Repeticiones', 'Peso'];
-  const tableRows = [];
-  const setsByDate = {};
+      const tableColumn = ['Set', 'Reps', 'Weight'];
+      const tableRows = [];
+      const setsByDate = {};
 
-  this.selectedExercise.forEach(log => {
-    const dateKey = new Date(log.date).toLocaleDateString();
-    if (!setsByDate[dateKey]) {
-      setsByDate[dateKey] = [];
+      this.selectedExercise.forEach(log => {
+        const dateKey = new Date(log.date).toLocaleDateString();
+        if (!setsByDate[dateKey]) {
+          setsByDate[dateKey] = [];
+        }
+        log.sets.forEach((set, index) => {
+          setsByDate[dateKey].push({ set: `Set ${setsByDate[dateKey].length + 1}`, reps: set.reps, weight: set.weight });
+        });
+      });
+
+      Object.keys(setsByDate).forEach(date => {
+        tableRows.push([`${date}`, '', '']);
+        setsByDate[date].forEach(set => {
+          tableRows.push([set.set, set.reps, set.weight]);
+        });
+      });
+
+      doc.autoTable({
+        head: [tableColumn],
+        body: tableRows,
+        startY: yOffset,
+        styles: {
+          overflow: 'linebreak',
+          cellPadding: 4,
+          fontSize: 10,
+          halign: 'center',
+          valign: 'middle'
+        },
+        headStyles: {
+          fillColor: [41, 128, 185],
+          textColor: [255, 255, 255],
+          fontSize: 12
+        },
+        alternateRowStyles: {
+          fillColor: [245, 245, 245]
+        },
+        theme: 'striped',
+        didDrawCell: (data) => {
+          if (data.row.index === 0 && data.column.index === 0) {
+            doc.setFont(undefined, 'bold');
+          } else if (data.section === 'body' && data.column.index === 0 && !data.cell.raw.includes('Set')) {
+            doc.setFont(undefined, 'normal');
+          }
+        }
+      });
+
+      const canvas = document.getElementById('exercise-progress-chart');
+      const imageData = canvas.toDataURL('image/png');
+      doc.addPage();
+      doc.addImage(imageData, 'PNG', 10, 10, 180, 100);
+      doc.save('exercise_logs.pdf');
     }
-    log.sets.forEach((set, index) => {
-      setsByDate[dateKey].push({ set: `Set ${setsByDate[dateKey].length + 1}`, reps: set.reps, weight: set.weight });
-    });
-  });
-
-  Object.keys(setsByDate).forEach(date => {
-    tableRows.push([`${date}`, '', '']);
-    setsByDate[date].forEach(set => {
-      tableRows.push([set.set, set.reps, set.weight]);
-    });
-  });
-
-  doc.autoTable({
-    head: [tableColumn],
-    body: tableRows,
-    startY: yOffset,
-    styles: {
-      overflow: 'linebreak',
-      cellPadding: 4,
-      fontSize: 10,
-      halign: 'center',
-      valign: 'middle'
-    },
-    headStyles: {
-      fillColor: [41, 128, 185],
-      textColor: [255, 255, 255],
-      fontSize: 12
-    },
-    alternateRowStyles: {
-      fillColor: [245, 245, 245]
-    },
-    theme: 'striped',
-    didDrawCell: (data) => {
-      if (data.row.index === 0 && data.column.index === 0) {
-        doc.setFont(undefined, 'bold');
-      } else if (data.section === 'body' && data.column.index === 0 && !data.cell.raw.includes('Set')) {
-        doc.setFont(undefined, 'normal');
-      }
-    }
-  });
-
-  const canvas = document.getElementById('exercise-progress-chart');
-  const imageData = canvas.toDataURL('image/png');
-  doc.addPage();
-  doc.addImage(imageData, 'PNG', 10, 10, 180, 100);
-  doc.save('exercise_logs.pdf');
-}
-
-
-
   },
-  
 };
 </script>
 
@@ -384,6 +377,46 @@ updateChart() {
 .exercise-card-image {
   height: 150px;
   object-fit: cover;
+  border-radius: 8px;
 }
 
+.exercise-card {
+  transition: transform 0.3s;
+}
+
+.exercise-card:hover {
+  transform: scale(1.05);
+}
+
+.exercise-card .v-card-title {
+  background-color: #1E88E5 !important;
+  color: #ffffff !important;
+}
+
+.exercise-card .v-card-text {
+  padding: 16px;
+}
+
+.v-btn {
+  border-radius: 8px;
+  padding: 12px 20px;
+}
+
+.v-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.v-container {
+  padding-top: 20px;
+}
+
+.v-text-field {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.v-text-field input {
+  padding-left: 10px;
+}
 </style>

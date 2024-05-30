@@ -36,6 +36,10 @@
 
           <v-divider class="my-3"></v-divider>
 
+          <v-date-picker v-model="selectedDate" label="Fecha de realización" required></v-date-picker>
+
+          <v-divider class="my-3"></v-divider>
+
           <v-row v-for="(set, index) in sets" :key="index">
             <v-col cols="4">
               <v-text-field v-model.number="set.weight" label="Peso (kg)" type="number" required></v-text-field>
@@ -68,7 +72,8 @@ export default {
       sets: [{ weight: 0, reps: 0 }],
       exercises: [],
       exerciseNames: [],
-      selectedExerciseImage: ''
+      selectedExerciseImage: '',
+      selectedDate: new Date().toISOString().substr(0, 10) // Fecha actual en formato YYYY-MM-DD
     };
   },
   methods: {
@@ -127,7 +132,7 @@ export default {
       console.log('id', this.selectedExercise.id);
       const exerciceLog = {
         exercice: this.exercises.find(exercise => exercise.id === this.selectedExercise.id),
-        date: new Date().toISOString(),
+        date: this.selectedDate,
         sets: setsToSend
       };
       try {
@@ -135,6 +140,7 @@ export default {
         await axios.post('http://localhost:3001/api/exerciceLog/create', exerciceLog);
         this.selectedExercise = null;
         this.sets = [{ weight: 0, reps: 0 }];
+        this.selectedDate = new Date().toISOString().substr(0, 10);
         await this.fetchExercises();
       } catch (error) {
         console.error('Error submitting exercise:', error);
