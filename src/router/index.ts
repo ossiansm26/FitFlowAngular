@@ -34,7 +34,7 @@ import CreateExercicesCollection from '@/views/collectionExercices/CreateExercic
 import ExercicesLogView from '@/views/exercicesLog/ExercicesLogView.vue'
 import ExerciceEdit from '@/views/exercice/ExerciceEdit.vue'
 import ExercicesLogCreate from '@/views/exercicesLog/ExercicesLogCreate.vue'
-
+import chats from '@/views/chats.vue'
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
@@ -208,6 +208,12 @@ const routes: Array<RouteConfig> = [
     path: '/ExercicesLogCreate',
     name: 'exercicesLogCreate',
     component: ExercicesLogCreate
+  },
+  {
+    path: '/Chats',
+    name: 'chats',
+    component: chats
+  
   }
 ]
 

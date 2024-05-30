@@ -64,6 +64,7 @@
 
 <script>
 import axios from 'axios';
+import router from '@/router';
 
 export default {
   data() {
@@ -73,7 +74,7 @@ export default {
       exercises: [],
       exerciseNames: [],
       selectedExerciseImage: '',
-      selectedDate: new Date().toISOString().substr(0, 10) // Fecha actual en formato YYYY-MM-DD
+      selectedDate: new Date().toISOString().substr(0, 10) 
     };
   },
   methods: {
@@ -141,6 +142,7 @@ export default {
         this.selectedExercise = null;
         this.sets = [{ weight: 0, reps: 0 }];
         this.selectedDate = new Date().toISOString().substr(0, 10);
+        router.push('exercicesLogView');
         await this.fetchExercises();
       } catch (error) {
         console.error('Error submitting exercise:', error);
