@@ -11,7 +11,7 @@
       <h3>Mensajes:</h3>
       <ul>
         <li v-for="message in chat.messages" :key="message.id">
-          <b>{{ message.sender.username }}</b>: {{ message.content }}
+          <b>{{ message.sender ? message.sender.username : 'Desconocido' }}</b>: {{ message.content }}
         </li>
       </ul>
       <input type="text" v-model="messageInput" @keyup.enter="sendMessage" placeholder="Escribe un mensaje...">
@@ -23,16 +23,17 @@
 </template>
 
 <script>
+import axios from 'axios';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-import axios from 'axios';
 
 export default {
   data() {
     return {
       chat: null,
       stompClient: null,
-      messageInput: ''
+      messageInput: '',
+      userId: 1 
     };
   },
   created() {
@@ -41,22 +42,18 @@ export default {
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, () => {
       console.log('Conectado al WebSocket');
-      // Suscribirse al topic del WebSocket
-      this.stompClient.subscribe('/user/queue/messages', message => {
-        console.log('Mensaje recibido:', message);
-        const newMessage = JSON.parse(message.body);
-        // Si el mensaje es del usuario 2, lo agregamos al chat
-        if (newMessage.sender.id === 2) {
-          this.chat.messages.push(newMessage);
-        }
+      this.stompClient.subscribe('/topic/chat/1', message => {
+        console.log('Mensaje recibido:',  JSON.parse(message.body));
       });
-      // Solicitar chats una vez conectado
       this.getChats();
+    });
+    axios.get('http://localhost:3001/api/chat/chat.getMessages/1')
+    .then(response => {
+      console.log('Chats:', response.data);
     });
   },
   methods: {
     getChats() {
-      // Replace this temporary mock with actual chat retrieval logic from backend
       this.chat = {
         participants: [
           { id: 1, username: 'Usuario1' },
@@ -69,21 +66,23 @@ export default {
       };
     },
     sendMessage() {
-      // Send message to the backend WebSocket server
-      if (this.messageInput.trim() !== '') {
+    if (this.messageInput.trim() !== '') {
+    
         const messagePayload = {
-          content: this.messageInput,
-          sender: { id: 1 }, // Adjust sender ID as needed
-          recipient: { id: 2 } // Adjust recipient ID as needed
+            content: this.messageInput,
+            timestamp: new Date(),
+            senderId:2,  
+            recipientId: 1 
         };
+        console.log('Enviando mensaje:', messagePayload);
         this.stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(messagePayload));
         this.messageInput = '';
-      }
     }
+}
+
   }
 };
 </script>
-
 
 <style scoped>
 /* Estilos opcionales */
