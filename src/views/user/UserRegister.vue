@@ -78,7 +78,7 @@ import axios from 'axios';
 import User from '@/models/User';
 import VueDropzone from "vue2-dropzone";
 import CustomDialog from '@/components/dialogs/CustomDialog.vue';
-import BackBar from '@/components/navbar/BackBar.vue';
+
 
 export default {
   components: {
