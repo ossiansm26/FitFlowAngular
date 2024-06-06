@@ -29,7 +29,11 @@ export default {
   },
   methods: {
     fetchCommunity(communityId) {
-      axios.get(`http://localhost:3001/api/community/getCommunityById/${communityId}`)
+      axios.get(`http://localhost:3001/api/community/getCommunityById/${communityId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(response => {
             console.log('Comunidad cargada exitosamente:', response.data);
           this.editedCommunity = response.data;
@@ -39,7 +43,11 @@ export default {
         });
     },
     editCommunity() {
-      axios.put(`http://localhost:3001/api/community/update/${this.editedCommunity.id}`, this.editedCommunity)
+      axios.put(`http://localhost:3001/api/community/update/${this.editedCommunity.id}`, this.editedCommunity,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(response => {
           console.log('Comunidad editada exitosamente:', response.data);
             this.$router.push({ name: 'community' });

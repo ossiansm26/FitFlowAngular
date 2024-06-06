@@ -66,7 +66,11 @@ export default {
   },
   methods: {
     fetchAchievements(userId) {
-      axios.get(`http://localhost:3001/api/user/getAllAchievementsById/${userId}`)
+      axios.get(`http://localhost:3001/api/user/getAllAchievementsById/${userId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then((response) => {
           this.achievements = response.data;
         })
@@ -79,7 +83,11 @@ export default {
       this.$router.push({ name: "editAchievement" });
     },
     deleteAchievement(achievement) {
-      axios.delete(`http://localhost:3001/api/user/${this.userId}/removeAchievement/${achievement.id}`)
+      axios.delete(`http://localhost:3001/api/user/${this.userId}/removeAchievement/${achievement.id}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           this.achievements = this.achievements.filter(
             (a) => a.id !== achievement.id

@@ -70,7 +70,11 @@ export default {
   methods: {
     async createExercise() {
       try {
-        await axios.post("http://localhost:3001/api/exercices/create", this.exercise);
+        await axios.post("http://localhost:3001/api/exercices/create", this.exercise,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              });
         console.log("Ejercicio creado", this.exercise);
         this.$router.push({ name: "exercices" });
       } catch (error) {

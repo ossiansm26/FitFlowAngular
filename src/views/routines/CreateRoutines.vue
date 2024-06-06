@@ -60,7 +60,11 @@ export default {
   methods: {
     crearRutina() {
       const nuevaRutina = this.routine;
-      axios.post(`http://localhost:3001/api/user/createRoutine/${this.userId}`, nuevaRutina)
+      axios.post(`http://localhost:3001/api/user/createRoutine/${this.userId}`, nuevaRutina,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           console.log('Rutina creada');
           this.$router.push({ name: 'routine' });

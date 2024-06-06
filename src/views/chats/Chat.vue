@@ -125,7 +125,11 @@ export default {
             }
         },
         createNewChat(user) {
-            axios.post(`http://localhost:3001/api/chat/createChat/${this.userId}/${user.id}`)
+            axios.post(`http://localhost:3001/api/chat/createChat/${this.userId}/${user.id}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
                 .then(response => {
                     console.log('Nuevo chat creado:', response.data);
                     this.chats.push(response.data);
@@ -185,7 +189,11 @@ export default {
     mounted() {
         this.userId = localStorage.getItem('userId');
         console.log('User ID:', this.userId);
-        axios.get('http://localhost:3001/api/user/getAllUser')
+        axios.get('http://localhost:3001/api/user/getAllUser',{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
             .then(response => {
                 console.log('All Users:', response.data);
                 this.allUsers = response.data;
@@ -194,7 +202,11 @@ export default {
                 console.error('Error fetching all users!', error);
             });
 
-        axios.get(`http://localhost:3001/api/chat/getChats/${this.userId}`)
+        axios.get(`http://localhost:3001/api/chat/getChats/${this.userId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
             .then(response => {
                 console.log('Chats:', response.data);
                 this.chats = response.data;

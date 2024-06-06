@@ -1,91 +1,91 @@
 <template>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center" @click="goBack">
-        <v-img
-          alt="FitFLow Logo"
-          class="shrink mr-2"
-          contain
-          src="https://raw.githubusercontent.com/ossiansm26/FitFlow/main/images/fitflow-home.png"
-          transition="scale-transition"
-          width="55"
-        />
-         <v-img
-            alt="FitFlow name"
-            class="shrink mt-1 hidden-sm-and-down"
-            contain
-            min-width="100"
-            src="https://raw.githubusercontent.com/ossiansm26/FitFlow/main/images/logo-texto.png"
-            width="200"
-          />
-      </div>
-      <v-spacer></v-spacer>
-      <v-menu offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <v-avatar color="indigo" size="57" v-bind="attrs" v-on="on">
-            <img :src="userImageUrl" alt="User Image">
-          </v-avatar>
-        </template>
-        <v-list>
-          <v-list-item link>
-            <v-list-item-title @click="viewProfile">View Profile</v-list-item-title>
-          </v-list-item>
-          <v-list-item link>
-            <v-list-item-title @click="editProfile">Edit Profile</v-list-item-title>
-          </v-list-item>
-          <v-list-item link>
-            <v-list-item-title @click="logout">Log Out</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </v-app-bar>
-  </template>
+  <v-app-bar app color="primary" dark>
+    <div class="d-flex align-center" @click="goBack">
+      <v-img
+        alt="FitFLow Logo"
+        class="shrink mr-2"
+        contain
+        src="https://raw.githubusercontent.com/ossiansm26/FitFlow/main/images/fitflow-home.png"
+        transition="scale-transition"
+        width="55"
+      />
+      <v-img
+        alt="FitFlow name"
+        class="shrink mt-1 hidden-sm-and-down"
+        contain
+        min-width="100"
+        src="https://raw.githubusercontent.com/ossiansm26/FitFlow/main/images/logo-texto.png"
+        width="200"
+      />
+    </div>
+    <v-spacer></v-spacer>
+    <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-avatar color="indigo" size="57" v-bind="attrs" v-on="on">
+          <img :src="userImageUrl" alt="User Image" />
+        </v-avatar>
+      </template>
+      <v-list>
+        <v-list-item link>
+          <v-list-item-title @click="viewProfile"
+            >View Profile</v-list-item-title
+          >
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-title @click="editProfile"
+            >Edit Profile</v-list-item-title
+          >
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-title @click="logout">Log Out</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+  </v-app-bar>
+</template>
   
   <script>
-  export default {
-    data() {
-      return {
-        userImageUrl: ''
-      }
+export default {
+  data() {
+    return {
+      userImageUrl: "",
+    };
+  },
+  mounted() {
+    this.fetchUserImage();
+  },
+  methods: {
+    goBack() {
+      window.history.go(-1);
     },
-    mounted() {
-      this.fetchUserImage();
-    },
-    methods: {
-      goBack() {
-        window.history.go(-1);
-      },fetchUserImage() {
-      const cachedLogoImage = localStorage.getItem('cachedLogoImage');
+    fetchUserImage() {
+      const cachedLogoImage = localStorage.getItem("cachedLogoImage");
       if (cachedLogoImage) {
         this.userImageUrl = cachedLogoImage;
       } else {
-        const nameImg = localStorage.getItem('userImg');
+        const nameImg = localStorage.getItem("userImg");
         if (nameImg) {
           this.userImageUrl = `http://localhost:3001/api/file/download/${nameImg}`;
-          localStorage.setItem('cachedLogoImage', this.userImageUrl);
+          localStorage.setItem("cachedLogoImage", this.userImageUrl);
         } else {
-          console.error('No image name found in localStorage');
+          console.error("No image name found in localStorage");
         }
       }
-    },logout() {
-      console.log('Cerrando sesión...');
-      this.$router.push('/'); 
+    },
+    logout() {
+      console.log("Cerrando sesión...");
+      this.$router.push("/");
     },
     viewProfile() {
-      this.$router.push({ name: 'UserDetails'});
+      this.$router.push({ name: "UserDetails" });
     },
     editProfile() {
-      this.$router.push({ name: 'editarUsuario'});
-    }
-  }
-    
-  }
-  </script>
+      this.$router.push({ name: "editarUsuario" });
+    },
+  },
+};
+</script>
   
   <style>
-  
-  </style>
+</style>
   

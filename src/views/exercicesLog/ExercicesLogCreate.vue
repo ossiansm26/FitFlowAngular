@@ -86,7 +86,11 @@ export default {
     },
     async fetchExercises() {
       try {
-        const response = await axios.get('http://localhost:3001/api/exercices');
+        const response = await axios.get('http://localhost:3001/api/exercices',{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              });
         this.exercises = response.data;
         this.exerciseNames = response.data.map(exercise => ({
           exerciseName: exercise.exerciseName,
@@ -138,7 +142,11 @@ export default {
       };
       try {
         console.log('exerciceLog', exerciceLog);
-        await axios.post('http://localhost:3001/api/exerciceLog/create', exerciceLog);
+        await axios.post('http://localhost:3001/api/exerciceLog/create', exerciceLog,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              });
         this.selectedExercise = null;
         this.sets = [{ weight: 0, reps: 0 }];
         this.selectedDate = new Date().toISOString().substr(0, 10);

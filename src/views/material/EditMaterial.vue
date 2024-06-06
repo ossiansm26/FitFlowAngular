@@ -42,7 +42,11 @@ export default {
     submitForm() {
       this.editedMaterial.lastMaintence = new Date(this.editedMaterial.lastMaintence).toISOString();
 
-      axios.put(`http://localhost:3001/api/material/update/${this.editedMaterial.id}`, this.editedMaterial)
+      axios.put(`http://localhost:3001/api/material/update/${this.editedMaterial.id}`, this.editedMaterial,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           console.log('Cambios guardados', this.editedMaterial);
           this.$router.push({ name: 'material' });

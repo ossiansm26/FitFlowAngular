@@ -44,7 +44,11 @@ export default {
   methods: {
     async crearLogro() {
       try {
-        await axios.post('http://localhost:3001/api/achievement/add', this.logro);
+        await axios.post('http://localhost:3001/api/achievement/add', this.logro,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              });
         console.log('Logro creado:', this.logro);
         this.$router.push('achievement');
       } catch (error) {

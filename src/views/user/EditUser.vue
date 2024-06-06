@@ -67,7 +67,11 @@ export default {
   },
   methods: {
     fetchExerciseDetails(exerciseId) {
-      axios.get(`http://localhost:3001/api/exercices/getExerciseById/${exerciseId}`)
+      axios.get(`http://localhost:3001/api/exercices/getExerciseById/${exerciseId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(response => {
           this.exercise = response.data;
         })
@@ -82,7 +86,11 @@ export default {
       this.exercise.urlImage = file.upload.filename;
     },
     saveExercise() {
-      axios.post(`http://localhost:3001/api/exercices/update/${this.exercise.id}`, this.exercise)
+      axios.post(`http://localhost:3001/api/exercices/update/${this.exercise.id}`, this.exercise,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(response => {
           router.push({ name: 'exercices' });
         })

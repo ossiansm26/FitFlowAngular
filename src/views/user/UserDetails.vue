@@ -121,7 +121,11 @@ export default {
   },
   methods: {
     fetchUser(ID) {
-      axios.get(`http://localhost:3001/api/user/getById/${ID}`)
+      axios.get(`http://localhost:3001/api/user/getById/${ID}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(response => {
           this.user = response.data;
           this.user.age = calculateAge(this.user.age);

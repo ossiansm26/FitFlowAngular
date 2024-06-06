@@ -65,7 +65,11 @@ export default {
   methods: {
     fetchRoutineDetails(routineId) {
       axios
-        .get(`http://localhost:3001/api/routine/getRoutineById/${routineId}`)
+        .get(`http://localhost:3001/api/routine/getRoutineById/${routineId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then((response) => {
           console.log("Routine details:", response.data);
           this.editedRoutine = response.data;
@@ -82,7 +86,11 @@ export default {
       axios
         .put(
           `http://localhost:3001/api/routine/update/${this.editedRoutine.id}`,
-          this.editedRoutine
+          this.editedRoutine,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              }
         )
         .then(() => {
           this.$router.push({ name: "routine" });

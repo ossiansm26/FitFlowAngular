@@ -35,7 +35,11 @@ export default {
   },
   methods: {
     fetchMuscleGroup(muscleGroupId) {
-      axios.get(`http://localhost:3001/api/muscleGroup/getById/${muscleGroupId}`)
+      axios.get(`http://localhost:3001/api/muscleGroup/getById/${muscleGroupId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(response => {
           this.muscleGroup = response.data;
           this.muscleGroup.muscleImage=`http://localhost:3001/api/file/download/${response.data.muscleImage}`;

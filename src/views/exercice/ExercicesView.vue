@@ -123,7 +123,11 @@ export default {
   methods: {
     loadExercises() {
       axios
-        .get(`http://localhost:3001/api/exercices`)
+        .get(`http://localhost:3001/api/exercices`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then((response) => {
           console.log("Exercises:", response.data);
           this.exercises = response.data;
@@ -134,7 +138,11 @@ export default {
     },
     loadSelectedExercises() {
       axios
-        .get(`http://localhost:3001/api/collectionExercices/${this.collectionId}/getExercices`)
+        .get(`http://localhost:3001/api/collectionExercices/${this.collectionId}/getExercices`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then((response) => {
           this.selectedExercises = response.data.map(exercise => exercise.id);
         })
@@ -152,7 +160,11 @@ export default {
     },
     deleteExercise(exerciseId) {
       axios
-        .delete(`http://localhost:3001/api/exercices/${exerciseId}`)
+        .delete(`http://localhost:3001/api/exercices/${exerciseId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           this.exercises = this.exercises.filter(
             (exercise) => exercise.id !== exerciseId
@@ -175,7 +187,11 @@ export default {
     },
     addExerciseToCollection(exerciseId) {
       axios
-        .post(`http://localhost:3001/api/collectionExercices/${this.collectionId}/addExercices/${exerciseId}`)
+        .post(`http://localhost:3001/api/collectionExercices/${this.collectionId}/addExercices/${exerciseId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           console.log(`Exercise ${exerciseId} added to collection ${this.collectionId}`);
         })
@@ -185,7 +201,11 @@ export default {
     },
     removeExerciseFromCollection(exerciseId) {
       axios
-        .delete(`http://localhost:3001/api/collectionExercices/${this.collectionId}/removeExercices/${exerciseId}`)
+        .delete(`http://localhost:3001/api/collectionExercices/${this.collectionId}/removeExercices/${exerciseId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           console.log(`Exercise ${exerciseId} removed from collection ${this.collectionId}`);
         })

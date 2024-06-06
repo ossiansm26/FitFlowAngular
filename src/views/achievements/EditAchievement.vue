@@ -39,7 +39,11 @@ export default {
   methods: {
     async fetchAchievement(achievementId) {
       try {
-        const response = await axios.get(`http://localhost:3001/api/achievement/getAchievementById/${achievementId}`);
+        const response = await axios.get(`http://localhost:3001/api/achievement/getAchievementById/${achievementId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              });
         this.achievement = response.data;
       } catch (error) {
         console.error('Error al obtener el logro:', error);

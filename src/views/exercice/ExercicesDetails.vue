@@ -73,7 +73,11 @@ export default {
   },
   methods: {
     fetchExerciseDetails(exerciseId) {
-      axios.get(`http://localhost:3001/api/exercices/getExerciseById/${exerciseId}`)
+      axios.get(`http://localhost:3001/api/exercices/getExerciseById/${exerciseId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(response => {
           console.log(response.data);
           this.exercise = response.data;

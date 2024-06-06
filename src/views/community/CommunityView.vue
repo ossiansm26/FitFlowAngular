@@ -55,7 +55,11 @@ export default {
   },
   methods: {
     fetchData(userId) {
-      axios.get(`http://localhost:3001/api/user/getCommunity/${userId}`)
+      axios.get(`http://localhost:3001/api/user/getCommunity/${userId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(response => {
           console.log('Comunidades:', response.data);
           this.communities = response.data;
@@ -65,7 +69,11 @@ export default {
         });
     },
     deleteCommunity(communityId) {
-      axios.delete(`http://localhost:3001/api/user/${this.userId}/removeCommunity/${communityId}`)
+      axios.delete(`http://localhost:3001/api/user/${this.userId}/removeCommunity/${communityId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           this.communities = this.communities.filter(c => c.id !== communityId);
         })

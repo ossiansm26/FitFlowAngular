@@ -50,7 +50,11 @@ export default {
   },
   methods: {
     fetchRoutineDetails(routineId) {
-      axios.get(`http://localhost:3001/api/routine/getRoutineById/${routineId}`)
+      axios.get(`http://localhost:3001/api/routine/getRoutineById/${routineId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(response => {
           console.log(response.data);
           this.routine = response.data;

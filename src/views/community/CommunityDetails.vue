@@ -167,7 +167,11 @@ export default {
   methods: {
     fetchCommunityDetails(communityId) {
       axios
-        .get(`http://localhost:3001/api/community/getCommunityById/${communityId}`)
+        .get(`http://localhost:3001/api/community/getCommunityById/${communityId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then((response) => {
           this.community = response.data;
         })
@@ -184,7 +188,11 @@ export default {
         comment: [],
       };
       axios
-        .post(`http://localhost:3001/api/community/addPost/${this.community.id}/${this.userId}`, newPost)
+        .post(`http://localhost:3001/api/community/addPost/${this.community.id}/${this.userId}`, newPost,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           this.fetchCommunityDetails(this.community.id);
           this.newPostTitle = "";
@@ -205,7 +213,11 @@ export default {
         creationDate: new Date().toISOString(),
       };
       axios
-        .post(`http://localhost:3001/api/community/addReply/${postId}/${this.userId}`, newReply)
+        .post(`http://localhost:3001/api/community/addReply/${postId}/${this.userId}`, newReply,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           this.fetchCommunityDetails(this.community.id);
           this.newReplyContent = "";

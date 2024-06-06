@@ -85,7 +85,11 @@ export default {
   methods: {
     fetchUsers() {
       axios
-        .get(`http://localhost:3001/api/user/getAllUser`)
+        .get(`http://localhost:3001/api/user/getAllUser`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then((response) => {
           console.log("Usuarios recuperados:", response.data);
           this.users = response.data;
@@ -130,7 +134,11 @@ export default {
     deleteUser(user) {
       console.log("Borrando usuario con ID:", user.id);
       axios
-        .delete(`http://localhost:3001/api/user/delete/${user.id}`)
+        .delete(`http://localhost:3001/api/user/delete/${user.id}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then((response) => {
           console.log("Usuario borrado:", response.data);
           this.fetchUsers();

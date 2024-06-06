@@ -69,7 +69,11 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get("http://localhost:3001/api/muscleGroup/getAll");
+        const response = await axios.get("http://localhost:3001/api/muscleGroup/getAll",{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              });
         this.muscleGroups = response.data;
         console.log("Grupos musculares:", this.muscleGroups);
       } catch (error) {
@@ -84,7 +88,11 @@ export default {
       this.$router.push({ name: "editMuscleGroup" });
     },
     deleteGroup(groupId) {
-      axios.delete(`http://localhost:3001/api/muscleGroup/${groupId}`)
+      axios.delete(`http://localhost:3001/api/muscleGroup/${groupId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           this.muscleGroups = this.muscleGroups.filter(
             (group) => group.id !== groupId
@@ -112,7 +120,11 @@ export default {
       }
     },
     addGroupToExercise(groupId) {
-      axios.post(`http://localhost:3001/api/exercices/${this.exerciseId}/addMuscleGroup/${groupId}`)
+      axios.post(`http://localhost:3001/api/exercices/${this.exerciseId}/addMuscleGroup/${groupId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           console.log(`Muscle group ${groupId} added to exercise ${this.exerciseId}`);
         })
@@ -121,7 +133,11 @@ export default {
         });
     },
     removeGroupFromExercise(groupId) {
-      axios.delete(`http://localhost:3001/api/exercices/${this.exerciseId}/deleteMuscleGroup/${groupId}`)
+      axios.delete(`http://localhost:3001/api/exercices/${this.exerciseId}/deleteMuscleGroup/${groupId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           console.log(`Muscle group ${groupId} removed from exercise ${this.exerciseId}`);
         })
@@ -130,7 +146,11 @@ export default {
         });
     },
     fetchSelectedGroups() {
-      axios.get(`http://localhost:3001/api/exercices/${this.exerciseId}/muscleGroups`)
+      axios.get(`http://localhost:3001/api/exercices/${this.exerciseId}/muscleGroups`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(response => {
           this.selectedGroups = response.data.map(group => group.id);
           console.log('Selected muscle groups:', this.selectedGroups);

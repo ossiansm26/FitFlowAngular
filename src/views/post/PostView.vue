@@ -45,7 +45,11 @@ export default {
     },
     methods: {
         fetchPosts(userId) {
-            axios.get(`http://localhost:3001/api/user/get/findPostById/${userId}`)
+            axios.get(`http://localhost:3001/api/user/get/findPostById/${userId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
             .then(response => {
                 this.posts = response.data;
             })

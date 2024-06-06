@@ -74,7 +74,11 @@ export default {
   },
   methods: {
     async crearObjeto() {
-      axios.post("http://localhost:3001/api/muscleGroup/create", this.nuevoObjeto)
+      axios.post("http://localhost:3001/api/muscleGroup/create", this.nuevoObjeto,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           console.log("Objeto creado");
           this.$router.push({ name: "muscleGroup" });

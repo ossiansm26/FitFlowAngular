@@ -78,7 +78,11 @@ export default {
   },
   mounted() {
     this.exerciceId = localStorage.getItem('exerciseId');
-    axios.get('http://localhost:3001/api/material')
+    axios.get('http://localhost:3001/api/material',{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
       .then(response => {
         this.materials = response.data;
         console.log('Materiales cargados:', this.materials);
@@ -98,7 +102,11 @@ export default {
       console.log('Editar material:', material);
     },
     deleteMaterial(materialId) {
-      axios.delete(`http://localhost:3001/api/material/${materialId}`)
+      axios.delete(`http://localhost:3001/api/material/${materialId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           this.materials = this.materials.filter(material => material.id !== materialId);
         })
@@ -120,7 +128,11 @@ export default {
       }
     },
     addMaterialToCollection(materialId) {
-      axios.post(`http://localhost:3001/api/exercices/${this.exerciceId}/addMaterial/${materialId}`)
+      axios.post(`http://localhost:3001/api/exercices/${this.exerciceId}/addMaterial/${materialId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           console.log(`Material ${materialId} added to exercise ${this.exerciceId}`);
         })
@@ -129,7 +141,11 @@ export default {
         });
     },
     removeMaterialFromCollection(materialId) {
-      axios.delete(`http://localhost:3001/api/exercices/${this.exerciceId}/deleteMaterial/${materialId}`)
+      axios.delete(`http://localhost:3001/api/exercices/${this.exerciceId}/deleteMaterial/${materialId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           console.log(`Material ${materialId} removed from exercise ${this.exerciceId}`);
         })
@@ -138,7 +154,11 @@ export default {
         });
     },
     fetchSelectedMaterials() {
-      axios.get(`http://localhost:3001/api/exercices/${this.exerciceId}/materials`)
+      axios.get(`http://localhost:3001/api/exercices/${this.exerciceId}/materials`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(response => {
           this.selectedMaterials = response.data.map(material => material.id);
           console.log('Selected materials:', this.selectedMaterials);

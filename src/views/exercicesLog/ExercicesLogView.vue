@@ -133,7 +133,11 @@ export default {
       return `http://localhost:3001/api/file/download/${imageName}`;
     },
     fetchExerciseLogs() {
-      axios.get('http://localhost:3001/api/exerciceLog/getAllExerciceLog')
+      axios.get('http://localhost:3001/api/exerciceLog/getAllExerciceLog',{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(response => {
           console.log('Exercise Logs:', response.data);
           this.exerciseLogs = response.data;

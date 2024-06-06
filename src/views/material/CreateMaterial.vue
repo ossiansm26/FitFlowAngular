@@ -116,7 +116,11 @@ export default {
         console.log("Registrando material:", this.material);
         const response = await axios.post(
           "http://localhost:3001/api/material",
-          this.material
+          this.material,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              }
         );
         console.log("Material registrado:", response.data);
         this.successText = "¡Material registrado con éxito!";

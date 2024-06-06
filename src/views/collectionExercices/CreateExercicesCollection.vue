@@ -43,7 +43,11 @@ export default {
       axios
         .post(
           "http://localhost:3001/api/collectionExercices/add",
-          this.collection
+          this.collection,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              }
         )
         .then((response) => {
           console.log("Collection created:", response.data);

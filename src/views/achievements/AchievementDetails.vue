@@ -30,7 +30,11 @@ export default {
   },
   methods: {
     async fetchAchievement(achievementId) {
-       axios.get(`http://localhost:3001/api/achievement/getAchievementById/${achievementId}`)
+       axios.get(`http://localhost:3001/api/achievement/getAchievementById/${achievementId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(response => {
           this.achievement = response.data;
         })

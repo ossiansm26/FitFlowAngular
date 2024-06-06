@@ -97,7 +97,11 @@ export default {
   methods: {
     fetchExercises() {
       axios
-        .get("http://localhost:3001/api/collectionExercices")
+        .get("http://localhost:3001/api/collectionExercices",{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then((response) => {
           this.exercises = response.data;
         })
@@ -107,7 +111,11 @@ export default {
     },
     fetchRoutineExercises() {
       axios
-        .get(`http://localhost:3001/api/routine/${this.routineId}/getExercices`)
+        .get(`http://localhost:3001/api/routine/${this.routineId}/getExercices`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then((response) => {
           console.log("Routine exercises:", response.data);
           this.selectedExercises = response.data.map((exercise) => exercise.id);
@@ -131,7 +139,11 @@ export default {
     },
     deleteExercise(exerciseId) {
       axios
-        .delete(`http://localhost:3001/api/collectionExercices/delete/${exerciseId}`)
+        .delete(`http://localhost:3001/api/collectionExercices/delete/${exerciseId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           console.log("Ejercicio eliminado con éxito");
           this.fetchExercises();
@@ -156,7 +168,11 @@ export default {
     addExercise(exerciseId) {
       axios
         .post(
-          `http://localhost:3001/api/routine/${this.routineId}/addExercices/${exerciseId}`
+          `http://localhost:3001/api/routine/${this.routineId}/addExercices/${exerciseId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              }
         )
         .then(() => {
           console.log("Ejercicio añadido a la rutina con éxito");
@@ -168,7 +184,11 @@ export default {
     deleteExercise(exerciseId) {
       axios
         .delete(
-          `http://localhost:3001/api/routine/${this.routineId}/removeExercices/${exerciseId}`
+          `http://localhost:3001/api/routine/${this.routineId}/removeExercices/${exerciseId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              }
         )
         .then(() => {
           console.log("Ejercicio eliminado de la rutina con éxito");

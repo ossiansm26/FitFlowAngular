@@ -65,7 +65,11 @@ export default {
   },
   methods: {
     createCommunity() {
-      axios.post(`http://localhost:3001/api/community/create/${this.userId}`, this.newCommunity)
+      axios.post(`http://localhost:3001/api/community/create/${this.userId}`, this.newCommunity,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(response => {
           this.$router.push({ name: 'community' });
         })

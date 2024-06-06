@@ -57,7 +57,11 @@ export default {
   methods: {
     async fetchRoutines() {
       try {
-        const response = await axios.get(`http://localhost:3001/api/user/getUserRoutines/${this.id}`);
+        const response = await axios.get(`http://localhost:3001/api/user/getUserRoutines/${this.id}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              });
         this.routines = response.data;
       } catch (error) {
         console.error('Error fetching routines:', error);
@@ -72,7 +76,11 @@ export default {
       this.$router.push({ name: 'editRoutine' });
     },
     deleteRoutine(routineId) {
-      axios.delete(`http://localhost:3001/api/user/${this.id}/removeRoutine/${routineId}`)
+      axios.delete(`http://localhost:3001/api/user/${this.id}/removeRoutine/${routineId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(() => {
           this.routines = this.routines.filter(routine => routine.id !== routineId);
         })

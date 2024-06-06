@@ -56,7 +56,11 @@ export default {
   },
   mounted() {
     const muscleGroupId = localStorage.getItem('editGroupID');
-    axios.get(`http://localhost:3001/api/muscleGroup/getById/${muscleGroupId}`)
+    axios.get(`http://localhost:3001/api/muscleGroup/getById/${muscleGroupId}`,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
       .then(response => {
         this.editedMuscleGroup = response.data;
         this.preview = `http://localhost:3001/api/file/download/${this.editedMuscleGroup.muscleImage}`;
@@ -68,7 +72,11 @@ export default {
   },
   methods: {
     saveMuscleGroup() {
-      axios.put('http://localhost:3001/api/muscleGroup/update', this.editedMuscleGroup)
+      axios.put('http://localhost:3001/api/muscleGroup/update', this.editedMuscleGroup,{
+                headers: {
+                  Authorization: `Bearer ${token}`, 
+                },
+              })
         .then(response => {
           console.log('Muscle Group saved successfully:', response.data);
           this.$router.push({ name: 'muscleGroup' });
