@@ -76,6 +76,7 @@ export default {
     },
     removeCommunityImage() {
       this.newCommunity.urlpicture = '';
+      this.$refs.dropzone.removeAllFiles();
     },
     onDropSuccess(file) {
       this.newCommunity.urlpicture = file.upload.filename;

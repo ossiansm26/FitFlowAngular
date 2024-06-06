@@ -4,49 +4,33 @@
     <v-row justify="center">
       <v-col cols="12" sm="8" md="6">
         <v-card>
-          <v-card-title class="headline center">Edit User</v-card-title>
+          <v-card-title class="headline center">Editar Ejercicio</v-card-title>
           <v-card-text>
-            <v-form @submit.prevent="saveUser">
+            <v-form @submit.prevent="saveExercise">
               <div class="form-group">
-                <label for="name">Name</label>
-                <input v-model="user.name" type="text" class="form-control" id="name" required>
+                <label for="exerciseName">Nombre del Ejercicio</label>
+                <input v-model="exercise.exerciseName" type="text" class="form-control" id="exerciseName" required>
               </div>
               <div class="form-group">
-                <label for="lastNames">Last Names</label>
-                <input v-model="user.lastNames" type="text" class="form-control" id="lastNames" required>
+                <label for="duration">Duración (min)</label>
+                <input v-model="exercise.duration" type="text" class="form-control" id="duration" required>
               </div>
               <div class="form-group">
-                <label for="age">Age</label>
-                <input v-model="user.age" type="date" class="form-control" id="age" required>
+                <label for="description">Descripción</label>
+                <input v-model="exercise.description" type="text" class="form-control" id="description" required>
               </div>
               <div class="form-group">
-                <label for="email">Email</label>
-                <input v-model="user.email" type="email" class="form-control" id="email" required>
-              </div>
-              <div class="form-group">
-                <label for="password">Password</label>
-                <input v-model="user.password" type="password" class="form-control" id="password" required>
-              </div>
-              <div class="form-group">
-                <label for="phoneNumber">Phone Number</label>
-                <input v-model="user.phoneNumber" type="text" class="form-control" id="phoneNumber" required>
-              </div>
-              <div class="form-group">
-                <label for="address">Address</label>
-                <input v-model="user.address" type="text" class="form-control" id="address" required>
-              </div>
-              <div class="form-group">
-                <label for="picture">Picture</label>
-                <img class="imagePicture" :src="getImageUrl(user.image)" alt="User picture">
+                <label for="picture">Imagen</label>
+                <img class="exercise-image" :src="exercise.urlImage ? getImageUrl(exercise.urlImage) : ''" :alt="exercise.exerciseName">
                 <vue-dropzone
                   @vdropzone-success="onDropSuccess"
-                  ref="dropzone"
-                  :id="'dropzoneId'"
+                  ref="exerciseImageDropzone"
+                  :id="'exercise-image-dropzone'"
                   :options="dropzoneOptions">
                   <div class="dropzone"></div>
                 </vue-dropzone>
               </div>
-              <button type="submit" class="btn btn-primary">Save</button>
+              <button type="submit" class="btn btn-primary">Guardar Cambios</button>
             </v-form>
           </v-card-text>
         </v-card>
@@ -56,11 +40,11 @@
 </template>
 
 <script>
-import User from '@/models/User';
-import axios from 'axios';
 import BackBar from '@/components/navbar/BackBar.vue';
-import VueDropzone from "vue2-dropzone";
-import { formatDateYYMMDD } from '@/utils/utils';
+import axios from 'axios';
+import Exercices from '@/models/Exercices.ts';
+import router from '@/router';
+import VueDropzone from 'vue2-dropzone';
 
 export default {
   components: {
@@ -69,7 +53,7 @@ export default {
   },
   data() {
     return {
-      user: new User(),
+      exercise: new Exercices('', '', '', '', [], [], []),
       dropzoneOptions: {
         url: "http://localhost:3001/api/file/upload",
         maxFilesize: 10, // MB
@@ -77,41 +61,37 @@ export default {
       }
     };
   },
-  created() {
-    const userId = localStorage.getItem('userId');
-    this.fetchUser(userId);
+  mounted() {
+    const exerciseId = localStorage.getItem('selectedExerciseId');
+    this.fetchExerciseDetails(exerciseId);
   },
   methods: {
-    saveUser() {
-      axios.put(`http://localhost:3001/api/user/update/${this.user.id}`, this.user)
-        .then(() => {
-          window.history.go(-1);
-        })
-        .catch(error => {
-          console.error('Error saving user:', error);
-        });
-    },
-    fetchUser(userId) {
-      axios.get(`http://localhost:3001/api/user/getById/${userId}`)
+    fetchExerciseDetails(exerciseId) {
+      axios.get(`http://localhost:3001/api/exercices/getExerciseById/${exerciseId}`)
         .then(response => {
-          this.user = response.data;
-          this.user.age = formatDateYYMMDD(this.user.age);
+          this.exercise = response.data;
         })
         .catch(error => {
-          console.error('Error fetching user:', error);
+          console.error(error);
         });
     },
     getImageUrl(imageName) {
       return `http://localhost:3001/api/file/download/${imageName}`;
     },
     onDropSuccess(file) {
-      console.log("Archivo subido:", file.upload.filename);
-      this.user.image = file.upload.filename;
-      localStorage.removeItem('cachedLogoImage');
-      localStorage.setItem('userImg', file.upload.filename);
+      this.exercise.urlImage = file.upload.filename;
+    },
+    saveExercise() {
+      axios.post(`http://localhost:3001/api/exercices/update/${this.exercise.id}`, this.exercise)
+        .then(response => {
+          router.push({ name: 'exercices' });
+        })
+        .catch(error => {
+          console.error('Error updating exercise:', error);
+        });
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -119,7 +99,7 @@ export default {
   display: flex;
   justify-content: center;
 }
-.imagePicture {
+.exercise-image {
   display: flex;
   justify-content: center;
   width: 200px;

@@ -42,17 +42,17 @@
                                 </v-col>
                             </v-row>
                         </v-container>
-                        <v-text-field v-model="newMessage" label="Type your message" outlined @keyup.enter="sendMessage">
-                            <template v-slot:append-outer>
-                                <v-btn icon @click="sendMessage">
-                                    <v-icon>mdi-send</v-icon>
-                                </v-btn>
-                            </template>
-                        </v-text-field>
                     </div>
                     <div v-else class="empty-chat">
                         <p>Select a chat to start messaging</p>
                     </div>
+                    <v-text-field v-if="selectedChat" v-model="newMessage" label="Type your message" outlined @keyup.enter="sendMessage" class="message-input">
+                        <template v-slot:append-outer>
+                            <v-btn icon @click="sendMessage">
+                                <v-icon>mdi-send</v-icon>
+                            </v-btn>
+                        </template>
+                    </v-text-field>
                 </v-col>
             </v-row>
         </v-container>
@@ -107,7 +107,6 @@ export default {
                     this.scrollToBottom();
                 });
             });
-
             this.$nextTick(() => {
                 this.scrollToBottom();
             });
@@ -115,8 +114,6 @@ export default {
         getMessageClass(message) {
             const senderId = parseInt(message.sender.id);
             const currentUserId = parseInt(this.userId);
-            console.log("Sender ID:", senderId);
-            console.log("Current User ID:", currentUserId);
             return senderId === currentUserId ? 'sent-message' : 'received-message';
         },
         selectChatWithUser(user) {
@@ -210,31 +207,25 @@ export default {
 </script>
 
 <style scoped>
-html,
-body,
-#app {
-    height: 100%;
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-}
-
 .chat-list {
     height: 100vh;
-    overflow-y: auto;
-    background: #f5f5f5;
+    background-color: #f0f0f0;
+    padding: 16px;
     border-right: 1px solid #e0e0e0;
 }
 
 .chat-window {
     height: 100vh;
     background: #ffffff;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
 }
 
 .messages-container {
-    height: calc(100vh - 64px);
+    flex-grow: 1;
     overflow-y: auto;
-    padding-right: 100px;
+    padding-right: 16px;
 }
 
 .messages-container::-webkit-scrollbar {
@@ -265,15 +256,21 @@ body,
 }
 
 .sent-message .message-card {
-    background-color: #e0f7fa;
+    background-color: #d1f8ff;
+    color: #004d66;
     max-width: 90%;
     min-width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .received-message .message-card {
-    background-color: #fff9c4;
+    background-color: #fff5cc;
+    color: #665500;
     max-width: 90%;
     min-width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .sender-name {
@@ -295,6 +292,8 @@ body,
 
 .selected-chat {
     background-color: #eeeeee;
+    border-radius: 8px;
+    padding: 8px;
 }
 
 .empty-chat {
@@ -303,5 +302,15 @@ body,
     align-items: center;
     height: 100%;
     color: #9e9e9e;
+    font-size: 1.2em;
+    background: #f7f7f7;
+    border-radius: 8px;
+}
+
+.message-input {
+    position: sticky;   
+    display: flex;
+    align-items: end;
+
 }
 </style>

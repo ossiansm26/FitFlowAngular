@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <BackBar/>
+    <BackBar />
     <v-row justify="center">
       <v-col cols="12" sm="8" md="6">
         <v-card>
@@ -32,7 +32,7 @@
                   @click="removeExerciseImage"
                   class="mt-2"
                   color="error"
-                  v-if="exercise.exerciseImage"
+                  v-if="exercise.urlImage"
                   >Eliminar Imagen</v-btn>
               </div>
               <button type="submit" class="btn btn-primary">Crear Ejercicio</button>
@@ -59,7 +59,7 @@ export default {
   },
   data() {
     return {
-      exercise: new Exercices("", "", "", "","", [], []),
+      exercise: new Exercices("", "", "", "", "", [], []),
       dropzoneOptions: {
         url: "http://localhost:3001/api/file/upload",
         maxFilesize: 10, // MB
@@ -71,20 +71,29 @@ export default {
     async createExercise() {
       try {
         await axios.post("http://localhost:3001/api/exercices/create", this.exercise);
-        console.log("Ejercicio creado",this.exercise);
+        console.log("Ejercicio creado", this.exercise);
         this.$router.push({ name: "exercices" });
       } catch (error) {
         console.error("Error creando el ejercicio:", error);
       }
     },
     removeExerciseImage() {
-      this.exercise.exerciseImage = "";
+      this.exercise.urlImage = "";
       this.$refs.dropzone.removeAllFiles();
     },
     onDropSuccess(file) {
       console.log("Archivo subido:", file.upload.filename);
-      this.exercise.urlImage  = file.upload.filename;
+      this.exercise.urlImage = file.upload.filename;
     },
   },
 };
 </script>
+
+<style>
+.dropzone {
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+}
+</style>

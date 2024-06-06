@@ -39,7 +39,7 @@ export default {
         });
     },
     editCommunity() {
-      axios.put(`http://localhost:3001/api/community/${this.editedCommunity.id}`, this.editedCommunity)
+      axios.put(`http://localhost:3001/api/community/update/${this.editedCommunity.id}`, this.editedCommunity)
         .then(response => {
           console.log('Comunidad editada exitosamente:', response.data);
             this.$router.push({ name: 'community' });
@@ -53,5 +53,5 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos opcionales */
+
 </style>

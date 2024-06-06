@@ -36,14 +36,14 @@
               <td>
                 <ul>
                   <li v-for="(material, index) in exercise.material" :key="index">
-                    {{ material }}
+                    {{ material.materialName }}
                   </li>
                 </ul>
               </td>
               <td>
                 <ul>
                   <li v-for="(muscle, index) in exercise.muscleGroup" :key="index">
-                    {{ muscle }}
+                    {{ muscle.groupName }}
                   </li>
                 </ul>
               </td>

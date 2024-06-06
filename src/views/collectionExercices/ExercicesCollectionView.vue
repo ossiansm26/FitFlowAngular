@@ -13,7 +13,6 @@
               <th>ID</th>
               <th>Nombre de la Colección</th>
               <th>Nivel de Dificultad</th>
-              <th>Total de Ejercicios</th>
               <th>Video Explicativo</th>
               <th>Acciones</th>
             </tr>
@@ -30,9 +29,9 @@
               <td>{{ exercise.id }}</td>
               <td>{{ exercise.collectionName }}</td>
               <td>{{ exercise.difficultyLevel }}</td>
-              <td>{{ exercise.totalExercises }}</td>
               <td>
                 <iframe
+                  v-if="getYouTubeEmbedUrl(exercise.urlExplanatoryVideo)"
                   title="Exercise Video"
                   width="560"
                   height="315"
@@ -118,15 +117,17 @@ export default {
         });
     },
     getYouTubeEmbedUrl(url) {
-      const videoId = url.split("v=")[1];
-      return `https://www.youtube.com/embed/${videoId}`;
+      const regExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|embed)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+      const match = url.match(regExp);
+      return match && match[1] ? `https://www.youtube.com/embed/${match[1]}` : null;
     },
     viewExerciseDetail(exercise) {
       localStorage.setItem("selectedExerciseId", exercise);
       this.$router.push("Exercices");
     },
     editExercise(exercise) {
-      // Lógica para editar un ejercicio
+      localStorage.setItem("selectedExerciseId", exercise.id);
+      this.$router.push("editExercicesCollection");
     },
     deleteExercise(exerciseId) {
       axios

@@ -13,17 +13,40 @@
         ></v-img>
         <p><strong>Duración:</strong> {{ exercise.duration }} minutos</p>
         <p><strong>Descripción:</strong> {{ exercise.description }}</p>
-        <p><strong>Intensidad (1-10):</strong> {{ exercise.feelings }}</p>
+
         <p><strong>Material Necesario:</strong></p>
-        <ul>
-          <li v-for="(item, index) in exercise.material" :key="index">{{ item }}</li>
-        </ul>
-        <v-btn color="primary"  @click="addMaterial">Añadir Material</v-btn>
+        <v-list>
+          <v-list-item v-for="(item, index) in exercise.material" :key="index">
+            <v-list-item-content>
+              <v-list-item-title>{{ item.materialName }}</v-list-item-title>
+              <v-list-item-subtitle>
+                Disponibilidad: {{ item.avalibilityStatus ? 'Disponible' : 'No Disponible' }}<br>
+                Última Mantención: {{ new Date(item.lastMaintence).toLocaleDateString() }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-btn color="primary" @click="addMaterial">Añadir Material</v-btn>
+
         <p><strong>Grupos Musculares:</strong></p>
-        <ul>
-          <li v-for="(group, index) in exercise.muscleGroup" :key="index">{{ group }}</li>
-        </ul>
-        <v-btn color="primary"  @click="addMuscleGroup">Añadir Grupo Muscular</v-btn>
+        <v-list>
+          <v-list-item v-for="(group, index) in exercise.muscleGroup" :key="index">
+            <v-list-item-avatar>
+              <v-img
+                :src="getImageUrl(group.muscleImage)"
+                :alt="group.groupName"
+                class="muscle-image"
+              ></v-img>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title>{{ group.groupName }}</v-list-item-title>
+              <v-list-item-subtitle>
+                Parte del Cuerpo: {{ group.bodyPart }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-btn color="primary" @click="addMuscleGroup">Añadir Grupo Muscular</v-btn>
       </v-card-text>
     </v-card>
   </v-container>
@@ -80,5 +103,10 @@ export default {
   height: 300px;
   object-fit: contain;
   margin-bottom: 20px;
+}
+.muscle-image {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
 }
 </style>

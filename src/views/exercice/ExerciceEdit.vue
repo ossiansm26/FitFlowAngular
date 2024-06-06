@@ -1,7 +1,6 @@
 <template>
     <v-container>
       <BackBar />
-      <h2 class="display-4 mb-4">Detalles del Ejercicio</h2>
       <v-card class="mb-4">
         <v-card-title>
           <v-text-field v-model="exercise.exerciseName" label="Nombre del Ejercicio"></v-text-field>

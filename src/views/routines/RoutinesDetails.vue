@@ -18,7 +18,6 @@
             {{ index + 1 }}
             <p><strong>Nombre de la Colección:</strong> {{ exercise.collectionName }}</p>
             <p><strong>Nivel de Dificultad:</strong> {{ exercise.difficultyLevel }}</p>
-            <p><strong>Total de Ejercicios:</strong> {{ exercise.totalExercises }}</p>
             <p><strong>Video Explicativo:</strong> <a :href="exercise.urlExplanatoryVideo" target="_blank">Ver Video</a></p>
             <p><strong>Ejercicios:</strong></p>
             <ul>

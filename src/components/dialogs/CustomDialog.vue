@@ -43,7 +43,6 @@ export default {
     errorText: String,
     successText: String,
     routeOnSuccess: String,
-    routeOnError: String
   },
   computed: {
     showErrorDialog() {
@@ -62,9 +61,6 @@ export default {
     },
     handleErrorOK() {
       this.$emit("close");
-      if (this.routeOnError) {
-        this.$router.push(this.routeOnError);
-      }
     }
   }
 };

@@ -57,14 +57,14 @@
               <br />
               <strong>Categoria:</strong> {{ getCategoryName(post.category) }}
               <br />
-              <strong>Fecha de Creación:</strong> {{ post.creationDate }}
+              <strong>Fecha de Creación:</strong> {{ formatDate(post.creationDate) }}
               <br />
               <strong>Comentarios:</strong>
               <ul>
                 <li v-for="(comment, commentIndex) in post.comment" :key="comment.id" class="comment-item">
                   <strong>{{ commentIndex + 1 }}</strong><br />
                   <strong>Contenido:</strong> {{ comment.content }}<br />
-                  <strong>Fecha:</strong> {{ comment.creationDate }}
+                  <strong>Fecha:</strong> {{ formatDate(comment.creationDate) }}
                 </li>
               </ul>
               <v-btn @click="showReplyForm(index)" color="primary" class="mt-2">
@@ -95,11 +95,10 @@
   </v-container>
 </template>
 
-
 <script>
 import BackBar from "@/components/navbar/BackBar.vue";
 import axios from "axios";
-import Community from "@/models/Community";
+import { format } from "date-fns";
 import {
   VContainer,
   VCard,
@@ -118,8 +117,6 @@ import {
   VExpandTransition,
   VSelect,
 } from "vuetify/lib";
-import Post from "@/models/Post";
-import Comments from "@/models/Comments";
 
 export default {
   components: {
@@ -143,7 +140,7 @@ export default {
   },
   data() {
     return {
-      community: new Community(),
+      community: {},
       newPostTitle: "",
       newPostContent: "",
       newPostCategory: "",
@@ -170,11 +167,8 @@ export default {
   methods: {
     fetchCommunityDetails(communityId) {
       axios
-        .get(
-          `http://localhost:3001/api/community/getCommunityById/${communityId}`
-        )
+        .get(`http://localhost:3001/api/community/getCommunityById/${communityId}`)
         .then((response) => {
-          console.log("Comunidad cargada exitosamente:", response.data);
           this.community = response.data;
         })
         .catch((error) => {
@@ -182,23 +176,16 @@ export default {
         });
     },
     addPost() {
-      const newPost = new Post(
-        "",
-        this.newPostTitle,
-        this.newPostContent,
-        new Date().toISOString(),
-        this.newPostCategory,
-        [],
-        []
-      );
-      console.log("Nueva publicación:", newPost);
+      const newPost = {
+        title: this.newPostTitle,
+        content: this.newPostContent,
+        creationDate: new Date().toISOString(),
+        category: this.newPostCategory,
+        comment: [],
+      };
       axios
-        .post(
-          `http://localhost:3001/api/community/addPost/${this.community.id}/${this.userId}`,
-          newPost
-        )
-        .then((response) => {
-          console.log("Publicación añadida exitosamente:", response.data);
+        .post(`http://localhost:3001/api/community/addPost/${this.community.id}/${this.userId}`, newPost)
+        .then(() => {
           this.fetchCommunityDetails(this.community.id);
           this.newPostTitle = "";
           this.newPostContent = "";
@@ -206,7 +193,6 @@ export default {
           this.showForm = false;
         })
         .catch((error) => {
-          console.error("Error al añadir publicación:", newPost);
           console.error("Error al añadir publicación:", error);
         });
     },
@@ -214,26 +200,27 @@ export default {
       this.replyFormIndex = this.replyFormIndex === index ? null : index;
     },
     addReply(postId) {
-      const newReply = new Comments("", this.newReplyContent, new Date().toISOString().replace(/\.\d{3}Z$/, '+00:00'));
-      console.log("Nueva respuesta:", newReply);
-      axios.post(`http://localhost:3001/api/community/addReply/${postId}/${this.userId}`,newReply)
-        .then((response) => {
-          console.log("Respuesta añadida exitosamente:", response.data);
+      const newReply = {
+        content: this.newReplyContent,
+        creationDate: new Date().toISOString(),
+      };
+      axios
+        .post(`http://localhost:3001/api/community/addReply/${postId}/${this.userId}`, newReply)
+        .then(() => {
           this.fetchCommunityDetails(this.community.id);
           this.newReplyContent = "";
           this.replyFormIndex = null;
         })
         .catch((error) => {
-          console.log("Nueva respuesta:", newReply);
-      console.log("ID de la publicación:", postId);
           console.error("Error al añadir respuesta:", error);
         });
     },
     getCategoryName(categoryValue) {
-      const category = this.categories.find(
-        (cat) => cat.value === categoryValue
-      );
+      const category = this.categories.find((cat) => cat.value === categoryValue);
       return category ? category.name : categoryValue;
+    },
+    formatDate(dateString) {
+      return format(new Date(dateString), 'dd/MM/yyyy HH:mm');
     },
   },
 };

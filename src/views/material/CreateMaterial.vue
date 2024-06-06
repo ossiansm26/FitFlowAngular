@@ -15,7 +15,9 @@
             </v-col>
             <v-col cols="12" sm="6">
               <v-switch
-                v-model="material.availabilityStatus"
+                v-model="material.avalibilityStatus
+
+"
                 label="Estado de Disponibilidad"
               ></v-switch>
             </v-col>
@@ -27,18 +29,21 @@
                 offset-y
                 min-width="auto"
               >
-                <template v-slot:activator="{ on }">
+                <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     v-model="formattedLastMaintenance"
                     label="Último Mantenimiento"
                     readonly
                     v-on="on"
+                    v-bind="attrs"
                     required
                   ></v-text-field>
                 </template>
                 <v-date-picker
-                  v-model="material.lastMaintenance"
-                  @input="menu = false"
+                  v-model="material.lastMaintence
+
+"
+                  @input="updateLastMaintenance"
                   scrollable
                 ></v-date-picker>
               </v-menu>
@@ -54,8 +59,7 @@
       :error-text="errorText"
       :success-text="successText"
       :route-on-success="routeOnSuccess"
-      :route-on-error="routeOnError"
-      @close="showDialog = false"
+      @close="handleDialogClose"
     ></CustomDialog>
   </v-container>
 </template>
@@ -80,22 +84,32 @@ export default {
         new Date().toISOString().substr(0, 10)
       ),
       menu: false,
-      showDialog: false,
       loading: false,
       successText: "",
       errorText: "",
       routeOnSuccess: "",
-      routeOnError: ""
     };
   },
   computed: {
     formattedLastMaintenance() {
-      return this.material.lastMaintenance
-        ? new Date(this.material.lastMaintenance).toLocaleDateString()
+      return this.material.lastMaintence
+
+
+        ? new Date(this.material.lastMaintence
+
+).toLocaleDateString()
         : "";
     }
   },
   methods: {
+    updateLastMaintenance() {
+      this.menu = false;
+      this.material.lastMaintence
+
+ = this.material.lastMaintence
+
+;
+    },
     async submitForm() {
       this.loading = true;
       try {
@@ -106,19 +120,18 @@ export default {
         );
         console.log("Material registrado:", response.data);
         this.successText = "¡Material registrado con éxito!";
-        this.routeOnSuccess = "/ruta-exito";
+        this.routeOnSuccess = "/Material";
       } catch (error) {
         console.error("Error al registrar material:", error);
         this.errorText = "Error al registrar el material. Por favor, inténtalo de nuevo.";
-        this.routeOnError = "/ruta-error";
       } finally {
-        this.showDialog = true;
         this.loading = false;
       }
+    },
+    handleDialogClose() {
+      this.successText = "";
+      this.errorText = "";
     }
   }
 };
 </script>
-
-<style scoped>
-</style>

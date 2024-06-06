@@ -58,7 +58,7 @@ export default {
       this.$router.push({ name: "community" });
     },
     verLogros() {
-      this.$router.push({ name: "chats" });
+      this.$router.push({ name: "Achievement" });
     },
 
   },

@@ -34,7 +34,7 @@ import CreateExercicesCollection from '@/views/collectionExercices/CreateExercic
 import ExercicesLogView from '@/views/exercicesLog/ExercicesLogView.vue'
 import ExerciceEdit from '@/views/exercice/ExerciceEdit.vue'
 import ExercicesLogCreate from '@/views/exercicesLog/ExercicesLogCreate.vue'
-import chats from '@/views/chats.vue'
+import EditExercicesCollection from '@/views/collectionExercices/EditExercicesCollection.vue'
 import chat from '@/views/chats/Chat.vue'
 Vue.use(VueRouter)
 
@@ -42,7 +42,8 @@ const routes: Array<RouteConfig> = [
   {
     path: '/home',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    meta: { requiresAuth: true }
   },{
     path: '/',
     name: 'login',
@@ -51,12 +52,15 @@ const routes: Array<RouteConfig> = [
   {
     path: '/Usuarios',
     name: 'usuarios',
-    component: UsersView
+    component: UsersView,
+    meta: { requiresAuth: true }
+
   },
   {
     path: '/userDetails',
       name: 'UserDetails',
       component: UserDetails,
+    meta: { requiresAuth: true }
   }
   ,{
     path: '/ReguistrarUsuario',
@@ -66,154 +70,189 @@ const routes: Array<RouteConfig> = [
   {
     path: '/EditarUsuario',
     name: 'editarUsuario',
-    component: EditUser
+    component: EditUser,
+    meta: { requiresAuth: true }
   },
   {
     path: '/Material',
     name: 'material',
-    component: MaterialView
+    component: MaterialView,
+    meta: { requiresAuth: true }
   },
   {
     path: '/EditMaterial',
     name: 'editMaterial',
-    component: EditMaterial
+    component: EditMaterial,
+    meta: { requiresAuth: true }
   },
   {
     path: '/CrearMaterial',
     name: 'crearMaterial',
-    component: CreateMaterial
+    component: CreateMaterial,
+    meta: { requiresAuth: true }
   },
   {
     path: '/MuscleGroup',
     name: 'muscleGroup',
-    component: MuscleGroupView
+    component: MuscleGroupView,
+    meta: { requiresAuth: true }
   },
   {
     path: '/EditRoutine',
     name: 'editRoutine',
-    component: EditRoutine
+    component: EditRoutine,
+    meta: { requiresAuth: true }
   },
   {
     path: '/CreateMuscleGroup',
     name: 'createMuscleGroup',
-    component: CreateMuscleGroup
+    component: CreateMuscleGroup,
+    meta: { requiresAuth: true }
   },
   {
     path: '/EditMuscleGroup',
     name: 'editMuscleGroup',
-    component: EditMuscleGroup
+    component: EditMuscleGroup,
+    meta: { requiresAuth: true }
   },
   {
     path: '/MusleGroupDetails',
     name: 'muscleGroupDetails',
-    component: MuscleGroupDetails
+    component: MuscleGroupDetails,
+    meta: { requiresAuth: true }
   },
   {
     path: '/Exercices',
     name: 'exercices',
-    component: ExercicesView
+    component: ExercicesView,
+    meta: { requiresAuth: true }
   },
   {
     path: '/ExercicesDetails',
     name: 'exercicesDetails',
-    component: ExercicesDetails
+    component: ExercicesDetails,
+    meta: { requiresAuth: true }
   },
   {
     path: '/ExerciceEdit',
     name: 'exerciceEdit',
-    component: ExerciceEdit
+    component: ExerciceEdit,
+    meta: { requiresAuth: true }
   },
   {
     path: '/CreateExercice',
     name: 'createExercice',
-    component: CreateExercice
+    component: CreateExercice,
+    meta: { requiresAuth: true }
   },
   {
     path: '/ExercicesCollection',
     name: 'exercicesCollection',
-    component: ExercicesCollectionView
+    component: ExercicesCollectionView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/EditExercicesCollection',
+    name: 'editExercicesCollection',
+    component: EditExercicesCollection,
+    meta: { requiresAuth: true }
   },
   {
     path: '/CreateExercicesCollection',
     name: 'createExercicesCollection',
-    component:CreateExercicesCollection
+    component:CreateExercicesCollection,
+    meta: { requiresAuth: true }
   },
   {
     path: '/Routine',
     name: 'routine',
-    component: RoutinesView
+    component: RoutinesView,
+    meta: { requiresAuth: true }
   },{
     path: '/RouterDetails',
     name: 'routerDetails',
-    component: RoutinesDetails
+    component: RoutinesDetails,
+    meta: { requiresAuth: true }
   
   },{
     path: '/CreateRoutine',
     name: 'createRoutine',
-    component: CreateRoutines
+    component: CreateRoutines,
+    meta: { requiresAuth: true }
   },
   {
     path: '/Post',
     name: 'post',
-    component: PostView
+    component: PostView,
+    meta: { requiresAuth: true }
   },
   {
     path: '/Community',
     name: 'community',
-    component: CommunityView
+    component: CommunityView,
+    meta: { requiresAuth: true }
   },
   {
     path: '/EditCommunity',
     name: 'editCommunity',
-    component: EditCommunity
+    component: EditCommunity,
+    meta: { requiresAuth: true }
   },
   {
     path: '/CommunityDetails',
     name: 'communityDetails',
-    component: CommunityDetails
+    component: CommunityDetails,
+    meta: { requiresAuth: true }
   
   },
   {
     path: '/CommunityCreate',
     name: 'communityCreate',
-    component: CreateCommunity
-  
-  
+    component: CreateCommunity,
+    meta: { requiresAuth: true }
+
   },
   {
     path: '/Achievement',
     name: 'achievement',
-    component: AchievementView
+    component: AchievementView,
+    meta: { requiresAuth: true }
   },
   {
     path: '/AchievementDetails',
     name: 'achievementDetails',
-    component: AchievementDetails
+    component: AchievementDetails,
+    meta: { requiresAuth: true }
   },
   {
     path: '/CreateAchievement',
     name: 'createAchievement',
-    component: CreateAchievement
+    component: CreateAchievement,
+    meta: { requiresAuth: true }
   },
   {
     path: '/EditAchievement',
     name: 'editAchievement',
-    component: EditAchievement
+    component: EditAchievement,
+    meta: { requiresAuth: true }
   },
   {
     path: '/ExercicesLogView',
     name: 'exercicesLogView',
-    component: ExercicesLogView
+    component: ExercicesLogView,
+    meta: { requiresAuth: true }
   },
   {
     path: '/ExercicesLogCreate',
     name: 'exercicesLogCreate',
-    component: ExercicesLogCreate
+    component: ExercicesLogCreate,
+    meta: { requiresAuth: true }
   },
   {
     path: '/Chats',
     name: 'chats',
-    component: chat
+    component: chat,
+    meta: { requiresAuth: true }
   
   }
 
@@ -222,5 +261,15 @@ const routes: Array<RouteConfig> = [
 const router = new VueRouter({
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  const loggedIn = localStorage.getItem('accessToken');
+
+  if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
+    next('/');
+  } else {
+    next();
+  }
+});
 
 export default router
