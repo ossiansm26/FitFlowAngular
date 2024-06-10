@@ -107,7 +107,9 @@ export default {
       menu1: false,
       menu2: false,
       token: localStorage.getItem('token'),
+      userId: localStorage.getItem('userId'),
     };
+    
   },
   created() {
     this.fetchExerciseLogs();
@@ -117,7 +119,7 @@ export default {
       return `http://localhost:3001/api/file/download/${imageName}`;
     },
     fetchExerciseLogs() {
-      axios.get('http://localhost:3001/api/exerciceLog/getAllExerciceLog', {
+      axios.get(`http://localhost:3001/api/exerciceLog/getById/${this.userId}`, {
         headers: {
           Authorization: `Bearer ${this.token}`,
         },

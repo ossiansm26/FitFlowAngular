@@ -80,7 +80,8 @@ export default {
       exerciseNames: [],
       selectedExerciseImage: '',
       selectedDate: new Date().toISOString().substr(0, 10),
-      token: localStorage.getItem('token')
+      token: localStorage.getItem('token'),
+      userID: localStorage.getItem('userId')
     };
   },
   methods: {
@@ -148,7 +149,7 @@ export default {
       };
       try {
         console.log('exerciceLog', exerciceLog);
-        await axios.post('http://localhost:3001/api/exerciceLog/create', exerciceLog,{
+        await axios.post(`http://localhost:3001/api/exerciceLog/create/${this.userID}`, exerciceLog,{
                 headers: {
                   Authorization: `Bearer ${this.token}`, 
                 },
