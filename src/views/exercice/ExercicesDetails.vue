@@ -64,7 +64,8 @@ export default {
   },
   data() {
     return {
-      exercise: new Exercices('', '', '', '', '', '', [], [], [])
+      exercise: new Exercices('', '', '', '', '', '', [], [], []),
+      token: localStorage.getItem('token')
     };
   },
   mounted() {
@@ -75,7 +76,7 @@ export default {
     fetchExerciseDetails(exerciseId) {
       axios.get(`http://localhost:3001/api/exercices/getExerciseById/${exerciseId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(response => {

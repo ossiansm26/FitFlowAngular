@@ -36,16 +36,16 @@ export default {
   data() {
     return {
       collection: new CollectionExercices("", "", 0, 0, ""),
+      token: localStorage.getItem("token"),
     };
   },
   methods: {
     async createCollection() {
       axios
         .post(
-          "http://localhost:3001/api/collectionExercices/add",
-          this.collection,{
+          "http://localhost:3001/api/collectionExercices/add",this.collection,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               }
         )

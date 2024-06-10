@@ -1,12 +1,15 @@
 <template>
     <v-app>
-        <v-container fluid>
+
+        <v-container fluid >
             <v-row>
                 <v-col cols="3" class="chat-list">
-                    <v-text-field v-model="searchQuery" @input="searchUsers" label="Search user" outlined></v-text-field>
+                    <v-text-field v-model="searchQuery" @input="searchUsers" label="Search user"
+                        outlined></v-text-field>
                     <v-list dense>
                         <v-list-item v-for="user in filteredUsers" :key="user.id" @click="selectChatWithUser(user)"
-                            :class="{ 'selected-chat': selectedChat && user.id === getOtherParticipant(selectedChat)?.id }" ripple>
+                            :class="{ 'selected-chat': selectedChat && user.id === getOtherParticipant(selectedChat)?.id }"
+                            ripple>
                             <v-list-item-avatar>
                                 <v-avatar>
                                     <img :src="getUserAvatar(user)" alt="Avatar">
@@ -46,7 +49,8 @@
                     <div v-else class="empty-chat">
                         <p>Select a chat to start messaging</p>
                     </div>
-                    <v-text-field v-if="selectedChat" v-model="newMessage" label="Type your message" outlined @keyup.enter="sendMessage" class="message-input">
+                    <v-text-field v-if="selectedChat" v-model="newMessage" label="Type your message" outlined
+                        @keyup.enter="sendMessage" class="message-input">
                         <template v-slot:append-outer>
                             <v-btn icon @click="sendMessage">
                                 <v-icon>mdi-send</v-icon>
@@ -64,8 +68,12 @@ import axios from 'axios';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import { format } from 'date-fns';
+import BackBar from '@/components/navbar/BackBar.vue';
 
 export default {
+    components: {
+        BackBar,
+    },
     data() {
         return {
             chats: [],
@@ -76,6 +84,7 @@ export default {
             currentSubscription: null,
             newMessage: '',
             searchQuery: '',
+            token: localStorage.getItem('token')
         };
     },
     computed: {
@@ -99,7 +108,11 @@ export default {
             const url = 'http://localhost:3001/chat-socket';
             const socket = new SockJS(url);
             this.stompClient = Stomp.over(socket);
-            this.stompClient.connect({}, () => {
+            Stomp.headers = {
+                Authorization: `Bearer ${this.token}`,
+            };
+
+            this.stompClient.connect({ Authorization: `Bearer ${this.token}` }, () => {
                 const chatId = this.selectedChat.id;
                 this.currentSubscription = this.stompClient.subscribe(`/topic/chat/${chatId}`, message => {
                     console.log('Mensaje recibido:', JSON.parse(message.body));
@@ -125,11 +138,11 @@ export default {
             }
         },
         createNewChat(user) {
-            axios.post(`http://localhost:3001/api/chat/createChat/${this.userId}/${user.id}`,{
+            axios.post(`http://localhost:3001/api/chat/createChat/${this.userId}/${user.id}`, {
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                    Authorization: `Bearer ${this.token}`,
                 },
-              })
+            })
                 .then(response => {
                     console.log('Nuevo chat creado:', response.data);
                     this.chats.push(response.data);
@@ -189,11 +202,11 @@ export default {
     mounted() {
         this.userId = localStorage.getItem('userId');
         console.log('User ID:', this.userId);
-        axios.get('http://localhost:3001/api/user/getAllUser',{
-                headers: {
-                  Authorization: `Bearer ${token}`, 
-                },
-              })
+        axios.get('http://localhost:3001/api/user/getAllUser', {
+            headers: {
+                Authorization: `Bearer ${this.token}`,
+            },
+        })
             .then(response => {
                 console.log('All Users:', response.data);
                 this.allUsers = response.data;
@@ -202,11 +215,11 @@ export default {
                 console.error('Error fetching all users!', error);
             });
 
-        axios.get(`http://localhost:3001/api/chat/getChats/${this.userId}`,{
-                headers: {
-                  Authorization: `Bearer ${token}`, 
-                },
-              })
+        axios.get(`http://localhost:3001/api/chat/getChats/${this.userId}`, {
+            headers: {
+                Authorization: `Bearer ${this.token}`,
+            },
+        })
             .then(response => {
                 console.log('Chats:', response.data);
                 this.chats = response.data;
@@ -320,9 +333,10 @@ export default {
 }
 
 .message-input {
-    position: sticky;   
+    position: sticky;
     display: flex;
     align-items: end;
 
 }
+
 </style>

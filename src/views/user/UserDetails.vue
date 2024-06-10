@@ -103,7 +103,7 @@
 import BackBar from '@/components/navbar/BackBar.vue';
 import User from '@/models/User';
 import axios from 'axios';
-import { calculateAge, formatDateDDMMYYYY } from '@/utils/utils.ts';
+import { calculateAge } from '@/utils/utils.ts';
 
 export default {
   name: 'UserDetails',
@@ -113,6 +113,7 @@ export default {
   data() {
     return {
       user: new User('', '', new Date(), '', '', new Date(), '', '', 'User', '', ''),
+      token: localStorage.getItem('token'),
     };
   },
   mounted() {
@@ -123,11 +124,12 @@ export default {
     fetchUser(ID) {
       axios.get(`http://localhost:3001/api/user/getById/${ID}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(response => {
           this.user = response.data;
+          console.log('Usuario recuperado:', this.user);
           this.user.age = calculateAge(this.user.age);
         })
         .catch(error => {
@@ -136,7 +138,7 @@ export default {
     },
     getImageUrl(imageName) {
       return `http://localhost:3001/api/file/download/${imageName}`;
-    }
+    },
   }
 };
 </script>

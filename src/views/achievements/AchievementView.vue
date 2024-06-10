@@ -57,6 +57,7 @@ export default {
     return {
       achievements: [],
       userId: null,
+      token: localStorage.getItem('token')
     };
   },
   mounted() {
@@ -68,7 +69,7 @@ export default {
     fetchAchievements(userId) {
       axios.get(`http://localhost:3001/api/user/getAllAchievementsById/${userId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then((response) => {
@@ -85,7 +86,7 @@ export default {
     deleteAchievement(achievement) {
       axios.delete(`http://localhost:3001/api/user/${this.userId}/removeAchievement/${achievement.id}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {

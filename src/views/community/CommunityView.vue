@@ -29,9 +29,14 @@
         </v-card>
       </v-col>
     </v-row>
+    <div class="fixed-btn-group">
+      <v-btn class="search-btn" color="blue" fab large @click="searchCommunity">
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
     <v-btn class="create-btn" color="success" fab large @click="createCommunity">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
+      </div>
   </v-container>  
 </template>
 
@@ -45,6 +50,7 @@ export default {
   },
   data() {
     return {
+      token: localStorage.getItem('token'),
       communities: [],
       userId: ''
     };
@@ -57,7 +63,7 @@ export default {
     fetchData(userId) {
       axios.get(`http://localhost:3001/api/user/getCommunity/${userId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(response => {
@@ -71,7 +77,7 @@ export default {
     deleteCommunity(communityId) {
       axios.delete(`http://localhost:3001/api/user/${this.userId}/removeCommunity/${communityId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {
@@ -94,6 +100,9 @@ export default {
     },
     getImageUrl(imageName) {
       return `http://localhost:3001/api/file/download/${imageName}`;
+    },
+    searchCommunity() {
+      this.$router.push({ name: 'communitySearch' });
     }
   }
 }
@@ -103,11 +112,14 @@ export default {
 .card {
   margin-bottom: 20px;
 }
-.create-btn {
+.fixed-btn-group {
   position: fixed;
-  right: 20px;
   bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: row;
 }
+
 .card-image {
   height: 200px;
   width: auto;

@@ -35,7 +35,8 @@ export default {
   data() {
     return {
       editedMaterial: new Material(),
-      menu: false
+      menu: false,
+      token: localStorage.getItem('token')
     };
   },
   methods: {
@@ -44,7 +45,7 @@ export default {
 
       axios.put(`http://localhost:3001/api/material/update/${this.editedMaterial.id}`, this.editedMaterial,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {

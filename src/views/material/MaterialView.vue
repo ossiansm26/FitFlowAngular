@@ -71,16 +71,16 @@ export default {
   },
   data() {
     return {
+      token: localStorage.getItem("token"),
       materials: [],
       selectedMaterials: [],
-      exerciceId: 0
+      exerciceId: localStorage.getItem('exerciseId'),
     };
   },
   mounted() {
-    this.exerciceId = localStorage.getItem('exerciseId');
     axios.get('http://localhost:3001/api/material',{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
       .then(response => {
@@ -104,7 +104,7 @@ export default {
     deleteMaterial(materialId) {
       axios.delete(`http://localhost:3001/api/material/${materialId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {
@@ -128,9 +128,9 @@ export default {
       }
     },
     addMaterialToCollection(materialId) {
-      axios.post(`http://localhost:3001/api/exercices/${this.exerciceId}/addMaterial/${materialId}`,{
+      axios.put(`http://localhost:3001/api/exercices/${this.exerciceId}/addMaterial/${materialId}`,{},{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {
@@ -143,7 +143,7 @@ export default {
     removeMaterialFromCollection(materialId) {
       axios.delete(`http://localhost:3001/api/exercices/${this.exerciceId}/deleteMaterial/${materialId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {
@@ -156,7 +156,7 @@ export default {
     fetchSelectedMaterials() {
       axios.get(`http://localhost:3001/api/exercices/${this.exerciceId}/materials`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(response => {

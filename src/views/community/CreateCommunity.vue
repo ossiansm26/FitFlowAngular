@@ -58,6 +58,7 @@ export default {
         maxFilesize: 10, // MB
         acceptedFiles: "image/*",
       },
+      token: localStorage.getItem('token'),
     };
   },
   mounted() {
@@ -67,10 +68,12 @@ export default {
     createCommunity() {
       axios.post(`http://localhost:3001/api/community/create/${this.userId}`, this.newCommunity,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(response => {
+          console.log('Comunidad creada:', response.data);
+          
           this.$router.push({ name: 'community' });
         })
         .catch(error => {

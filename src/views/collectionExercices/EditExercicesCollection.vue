@@ -45,6 +45,7 @@ export default {
   data() {
     return {
       collection: {},
+      token: localStorage.getItem("token"),
     };
   },
   created() {
@@ -55,12 +56,11 @@ export default {
     saveCollection() {
       axios
         .put(
-          `http://localhost:3001/api/collectionExercices/update/${this.collection.id}`,
-          this.collection,{
+          `http://localhost:3001/api/collectionExercices/update/${this.collection.id}`,this.collection,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
-              }
+              },
         )
         .then(() => {
           this.$router.push({ name: "exercicesCollection" });
@@ -74,7 +74,7 @@ export default {
         .get(
           `http://localhost:3001/api/collectionExercices/getById/${collectionId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               }
         )

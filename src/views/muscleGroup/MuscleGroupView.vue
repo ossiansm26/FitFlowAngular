@@ -59,6 +59,7 @@ export default {
       muscleGroups: [],
       selectedGroups: [],
       exerciseId: 0,
+      token: localStorage.getItem('token')
     };
   },
   mounted() {
@@ -71,7 +72,7 @@ export default {
       try {
         const response = await axios.get("http://localhost:3001/api/muscleGroup/getAll",{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               });
         this.muscleGroups = response.data;
@@ -90,7 +91,7 @@ export default {
     deleteGroup(groupId) {
       axios.delete(`http://localhost:3001/api/muscleGroup/${groupId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {
@@ -120,9 +121,9 @@ export default {
       }
     },
     addGroupToExercise(groupId) {
-      axios.post(`http://localhost:3001/api/exercices/${this.exerciseId}/addMuscleGroup/${groupId}`,{
+      axios.post(`http://localhost:3001/api/exercices/${this.exerciseId}/addMuscleGroup/${groupId}`,{},{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {
@@ -135,7 +136,7 @@ export default {
     removeGroupFromExercise(groupId) {
       axios.delete(`http://localhost:3001/api/exercices/${this.exerciseId}/deleteMuscleGroup/${groupId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {
@@ -148,7 +149,7 @@ export default {
     fetchSelectedGroups() {
       axios.get(`http://localhost:3001/api/exercices/${this.exerciseId}/muscleGroups`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(response => {

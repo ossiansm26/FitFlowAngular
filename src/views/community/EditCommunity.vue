@@ -20,7 +20,8 @@ export default {
   },
   data() {
     return {
-      editedCommunity:new Community()
+      editedCommunity:new Community(),
+      token: localStorage.getItem('token')
     }
   },
   mounted() {
@@ -31,7 +32,7 @@ export default {
     fetchCommunity(communityId) {
       axios.get(`http://localhost:3001/api/community/getCommunityById/${communityId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(response => {
@@ -45,7 +46,7 @@ export default {
     editCommunity() {
       axios.put(`http://localhost:3001/api/community/update/${this.editedCommunity.id}`, this.editedCommunity,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(response => {

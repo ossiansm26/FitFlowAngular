@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <HomeBar/>
+    <HomeBar />
     <v-layout>
       <v-flex xs12 sm6 md4>
         <v-card class="mx-4" @click="verLogros">
@@ -8,7 +8,7 @@
             src="https://raw.githubusercontent.com/ossiansm26/FitFlowSpringBoot/main/images/mujerPesas.png"
             aspect-ratio="1"
           ></v-img>
-          <v-card-title class="headline text">Logros</v-card-title>
+          <v-card-title class="headline text">Chats</v-card-title>
         </v-card>
       </v-flex>
       <v-flex xs12 sm6 md4>
@@ -27,6 +27,15 @@
             aspect-ratio="1"
           ></v-img>
           <v-card-title class="headline text">Rutinas</v-card-title>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 sm6 md4>
+        <v-card class="mx-4" @click="anadirRegistro">
+          <v-img
+            src="https://raw.githubusercontent.com/ossiansm26/FitFlowSpringBoot/main/images/ejercicios.png"
+            aspect-ratio="1"
+          ></v-img>
+          <v-card-title class="headline text">Ejercicios</v-card-title>
         </v-card>
       </v-flex>
     </v-layout>
@@ -58,9 +67,11 @@ export default {
       this.$router.push({ name: "community" });
     },
     verLogros() {
-      this.$router.push({ name: "Achievement" });
+      this.$router.push({ name: "chats" });
     },
-
+    anadirRegistro() {
+      this.$router.push({ name: "exercicesLogView" });
+    },
   },
 };
 </script>

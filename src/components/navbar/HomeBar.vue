@@ -28,12 +28,17 @@
       <v-list>
         <v-list-item link>
           <v-list-item-title @click="viewProfile"
-            >View Profile</v-list-item-title
+            >Ver Perfil</v-list-item-title
           >
         </v-list-item>
         <v-list-item link>
           <v-list-item-title @click="editProfile"
-            >Edit Profile</v-list-item-title
+            >Editar Perfil</v-list-item-title
+          >
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-title @click="verLogros"
+            >Ver logros</v-list-item-title
           >
         </v-list-item>
         <v-list-item link>
@@ -59,10 +64,13 @@ export default {
       const cachedLogoImage = localStorage.getItem("cachedLogoImage");
       if (cachedLogoImage) {
         this.userImageUrl = cachedLogoImage;
+        console.log("User Image URL:", this.userImageUrl);
       } else {
         const nameImg = localStorage.getItem("userImg");
+        console.log("User Image Name:", nameImg);
         if (nameImg) {
           this.userImageUrl = `http://localhost:3001/api/file/download/${nameImg}`;
+          console.log("User Image URL:", this.userImageUrl);
           localStorage.setItem("cachedLogoImage", this.userImageUrl);
         } else {
           console.error("No image name found in localStorage");
@@ -79,6 +87,10 @@ export default {
     editProfile() {
       this.$router.push({ name: "editarUsuario" });
     },
+    verLogros() {
+      this.$router.push({ name: "achievement" });
+    },
+
   },
 };
 </script>

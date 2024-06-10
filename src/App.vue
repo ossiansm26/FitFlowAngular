@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-    <v-main>
+  <v-app >
+    <v-main class="fondo">
       <router-view/>
     </v-main>
   </v-app>
@@ -16,3 +16,8 @@ export default Vue.extend({
   })
 });
 </script>
+<style scoped>
+.fondo {
+  background: linear-gradient(to bottom , rgb(248, 248, 248), rgb(228, 227, 227));
+}
+</style>

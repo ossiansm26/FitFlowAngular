@@ -1,46 +1,23 @@
 <template>
   <v-container>
+    <BackBar/>
     <v-row>
       <v-col cols="12" sm="6">
-        <v-menu
-          ref="startMenu"
-          v-model="menu1"
-          :close-on-content-click="false"
-          transition="scale-transition"
-          offset-y
-          min-width="auto"
-        >
+        <v-menu ref="startMenu" v-model="menu1" :close-on-content-click="false" transition="scale-transition" offset-y
+          min-width="auto">
           <template v-slot:activator="{ on, attrs }">
-            <v-text-field
-              v-model="startDateFormatted"
-              label="Fecha de inicio"
-              prepend-icon="mdi-calendar"
-              readonly
-              v-bind="attrs"
-              v-on="on"
-            ></v-text-field>
+            <v-text-field v-model="startDateFormatted" label="Fecha de inicio" prepend-icon="mdi-calendar" readonly
+              v-bind="attrs" v-on="on"></v-text-field>
           </template>
           <v-date-picker v-model="startDate" no-title @input="updateStartDate"></v-date-picker>
         </v-menu>
       </v-col>
       <v-col cols="12" sm="6">
-        <v-menu
-          ref="endMenu"
-          v-model="menu2"
-          :close-on-content-click="false"
-          transition="scale-transition"
-          offset-y
-          min-width="auto"
-        >
+        <v-menu ref="endMenu" v-model="menu2" :close-on-content-click="false" transition="scale-transition" offset-y
+          min-width="auto">
           <template v-slot:activator="{ on, attrs }">
-            <v-text-field
-              v-model="endDateFormatted"
-              label="Fecha de fin"
-              prepend-icon="mdi-calendar"
-              readonly
-              v-bind="attrs"
-              v-on="on"
-            ></v-text-field>
+            <v-text-field v-model="endDateFormatted" label="Fecha de fin" prepend-icon="mdi-calendar" readonly
+              v-bind="attrs" v-on="on"></v-text-field>
           </template>
           <v-date-picker v-model="endDate" no-title @input="updateEndDate"></v-date-picker>
         </v-menu>
@@ -55,11 +32,8 @@
                 <v-card class="mb-3 hoverable" @click="selectExercise(log)">
                   <v-card-title class="bg-primary text-white">{{ log[0].exercice.exerciseName }}</v-card-title>
                   <v-card-text>
-                    <v-img v-if="log[0].exercice.urlImage" 
-                      :src="getImageUrl(log[0].exercice.urlImage)"
-                      :alt="log[0].exercice.exerciseName" 
-                      contain class="exercise-card-image mb-3"
-                    ></v-img>
+                    <v-img v-if="log[0].exercice.urlImage" :src="getImageUrl(log[0].exercice.urlImage)"
+                      :alt="log[0].exercice.exerciseName" contain class="exercise-card-image mb-3"></v-img>
                     <div>Descripción: {{ log[0].exercice.description }}</div>
                   </v-card-text>
                 </v-card>
@@ -93,6 +67,11 @@
         <canvas id="exercise-progress-chart"></canvas>
       </v-col>
     </v-row>
+    <div class="floating-button">
+      <v-btn fab dark color="green" @click="createLog">
+        <v-icon dark>mdi-plus</v-icon>
+      </v-btn>
+    </div>
   </v-container>
 </template>
 
@@ -102,10 +81,14 @@ import { Chart, registerables } from 'chart.js';
 import jsPDF from 'jspdf';
 import 'chartjs-adapter-date-fns';
 import 'jspdf-autotable';
+import BackBar from '@/components/navbar/BackBar.vue';
 
 Chart.register(...registerables);
 
 export default {
+  components: {
+    BackBar,
+  },
   data() {
     return {
       exerciseLogs: [],
@@ -122,7 +105,8 @@ export default {
       startDateFormatted: '',
       endDateFormatted: '',
       menu1: false,
-      menu2: false
+      menu2: false,
+      token: localStorage.getItem('token'),
     };
   },
   created() {
@@ -133,11 +117,11 @@ export default {
       return `http://localhost:3001/api/file/download/${imageName}`;
     },
     fetchExerciseLogs() {
-      axios.get('http://localhost:3001/api/exerciceLog/getAllExerciceLog',{
-                headers: {
-                  Authorization: `Bearer ${token}`, 
-                },
-              })
+      axios.get('http://localhost:3001/api/exerciceLog/getAllExerciceLog', {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      })
         .then(response => {
           console.log('Exercise Logs:', response.data);
           this.exerciseLogs = response.data;
@@ -176,6 +160,9 @@ export default {
       this.updateChart();
       this.updateSummaries();
       this.updateDateRange();
+    },
+    createLog() {
+      this.$router.push({ name: 'exercicesLogCreate' });
     },
     updateStartDate() {
       this.startDateFormatted = this.formatDate(this.startDate);
@@ -401,10 +388,7 @@ export default {
   padding: 16px;
 }
 
-.v-btn {
-  border-radius: 8px;
-  padding: 12px 20px;
-}
+
 
 .v-card {
   border-radius: 12px;
@@ -422,5 +406,11 @@ export default {
 
 .v-text-field input {
   padding-left: 10px;
+}
+
+.floating-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
 }
 </style>

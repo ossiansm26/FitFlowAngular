@@ -1,9 +1,9 @@
-<template>
-  <v-container>
-    <v-layout justify-center>
-      <v-flex xs12 sm8 md4>
+<template class="">
+  <v-container fluid class="text-center fondo" >
+    <v-row justify="center">
+      <v-col cols="12" sm="8" md="4">
         <v-card>
-          <v-card-title class="text-center">Inicio de Sesión</v-card-title>
+          <v-card-title>Inicio de Sesión</v-card-title>
           <v-card-text>
             <v-form ref="form" v-model="valid">
               <v-text-field
@@ -21,21 +21,23 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="login" :disabled="!valid"
-              >Iniciar Sesión</v-btn
-            >
+            <v-btn color="primary" @click="login" :disabled="!valid">Iniciar Sesión</v-btn>
             <v-btn color="success" @click="goToRegistration">Registrarse</v-btn>
           </v-card-actions>
         </v-card>
-      </v-flex>
-    </v-layout>
+      </v-col>
+      <v-col cols="12" sm="4" md="4">
+        <div class="lorem-ipsum">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio sit amet ex sagittis fermentum. Maecenas nec nisl in purus laoreet consequat. Suspendisse potenti. Integer in quam felis. Vestibulum id consequat metus. Vivamus et mi nec leo fringilla pretium ac a mauris.</p>
+        </div>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
-  
-  <script>
+
+<script>
 import axios from "axios";
 import router from "@/router";
-import User from "@/models/User";
 
 export default {
   data() {
@@ -47,12 +49,16 @@ export default {
       valid: true,
     };
   },
+  created() {
+    localStorage.clear();
+  },
   methods: {
     login() {
       axios
         .post("http://localhost:3001/api/user/login", this.user)
         .then((response) => {
           const token = response.data.token;
+          console.log("Token:", token);
           localStorage.setItem("token", token);
           if (token) {
             axios
@@ -63,6 +69,7 @@ export default {
               })
               .then((response) => {
                 localStorage.setItem("userId", response.data.id);
+                localStorage.setItem('userImg', response.data.image);
                 console.log("Usuario autenticado:", response.data);
                 router.push({ name: "home" });
               });
@@ -78,7 +85,18 @@ export default {
   },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
+.text-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.lorem-ipsum {
+  padding: 20px;
+  background-color: white;
+}
+
 </style>
-  

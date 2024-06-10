@@ -4,7 +4,7 @@
     <v-row justify="center">
       <v-col cols="12" sm="8" md="6">
         <v-card>
-          <v-card-title class="headline center">Crear Objeto</v-card-title>
+          <v-card-title class="headline center">Crear Musculo</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="crearObjeto">
               <div class="form-group">
@@ -70,13 +70,14 @@ export default {
         maxFilesize: 10, // MB
         acceptedFiles: "image/*",
       },
+      token: localStorage.getItem('token'),
     };
   },
   methods: {
     async crearObjeto() {
       axios.post("http://localhost:3001/api/muscleGroup/create", this.nuevoObjeto,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {

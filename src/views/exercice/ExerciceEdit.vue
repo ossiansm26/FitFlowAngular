@@ -56,6 +56,7 @@ export default {
         maxFilesize: 10, // MB
         acceptedFiles: "image/*",
       },
+      token: localStorage.getItem("token"),
     };
   },
   mounted() {
@@ -68,7 +69,7 @@ export default {
         .get(
           `http://localhost:3001/api/exercices/getExerciseById/${exerciseId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               }
         )
@@ -89,10 +90,9 @@ export default {
       console.log("Exercise:", this.exercise);
       axios
         .post(
-          `http://localhost:3001/api/exercices/update/${this.exercise.id}`,
-          this.exercise,{
+          `http://localhost:3001/api/exercices/update/${this.exercise.id}`,this.exercise,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               }
         )

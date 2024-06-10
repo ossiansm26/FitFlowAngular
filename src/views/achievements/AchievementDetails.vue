@@ -21,7 +21,8 @@ export default {
   },
   data() {
     return {
-      achievement: new Achievement()
+      achievement: new Achievement(),
+      token: localStorage.getItem('token')
     };
   },
   created() {
@@ -32,7 +33,7 @@ export default {
     async fetchAchievement(achievementId) {
        axios.get(`http://localhost:3001/api/achievement/getAchievementById/${achievementId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(response => {

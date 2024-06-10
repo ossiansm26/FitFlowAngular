@@ -29,7 +29,8 @@ export default {
   data() {
     return {
       achievement: new Achievement(),
-      valid: false
+      valid: false,
+      token: localStorage.getItem('token')
     };
   },
   created() {
@@ -41,7 +42,7 @@ export default {
       try {
         const response = await axios.get(`http://localhost:3001/api/achievement/getAchievementById/${achievementId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               });
         this.achievement = response.data;

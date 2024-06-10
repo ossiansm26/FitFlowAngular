@@ -80,6 +80,7 @@ export default {
       exercises: [],
       selectedExercises: [],
       routineId: 0,
+      token: localStorage.getItem("token"),
     };
   },
   computed: {
@@ -99,7 +100,7 @@ export default {
       axios
         .get("http://localhost:3001/api/collectionExercices",{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then((response) => {
@@ -113,7 +114,7 @@ export default {
       axios
         .get(`http://localhost:3001/api/routine/${this.routineId}/getExercices`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then((response) => {
@@ -141,7 +142,7 @@ export default {
       axios
         .delete(`http://localhost:3001/api/collectionExercices/delete/${exerciseId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {
@@ -168,9 +169,9 @@ export default {
     addExercise(exerciseId) {
       axios
         .post(
-          `http://localhost:3001/api/routine/${this.routineId}/addExercices/${exerciseId}`,{
+          `http://localhost:3001/api/routine/${this.routineId}/addExercices/${exerciseId}`,{},{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               }
         )
@@ -186,7 +187,7 @@ export default {
         .delete(
           `http://localhost:3001/api/routine/${this.routineId}/removeExercices/${exerciseId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               }
         )

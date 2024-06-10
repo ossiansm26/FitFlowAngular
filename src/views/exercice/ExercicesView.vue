@@ -3,7 +3,7 @@
     <BackBar />
     <v-card>
       <v-card-title>
-        Lista de Ejercicios para la Rutina {{ collectionId }}
+        Lista de Ejercicios para la Collecion de Ejercicios{{ collectionId }}
       </v-card-title>
       <v-card-text>
         <table class="table">
@@ -104,6 +104,7 @@ export default {
       exercises: [],
       selectedExercises: [],
       collectionId: 0,
+      token: localStorage.getItem("token"),
     };
   },
   computed: {
@@ -125,7 +126,7 @@ export default {
       axios
         .get(`http://localhost:3001/api/exercices`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then((response) => {
@@ -140,7 +141,7 @@ export default {
       axios
         .get(`http://localhost:3001/api/collectionExercices/${this.collectionId}/getExercices`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then((response) => {
@@ -162,7 +163,7 @@ export default {
       axios
         .delete(`http://localhost:3001/api/exercices/${exerciseId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {
@@ -187,9 +188,9 @@ export default {
     },
     addExerciseToCollection(exerciseId) {
       axios
-        .post(`http://localhost:3001/api/collectionExercices/${this.collectionId}/addExercices/${exerciseId}`,{
+        .post(`http://localhost:3001/api/collectionExercices/${this.collectionId}/addExercices/${exerciseId}`,{},{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {
@@ -203,7 +204,7 @@ export default {
       axios
         .delete(`http://localhost:3001/api/collectionExercices/${this.collectionId}/removeExercices/${exerciseId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {

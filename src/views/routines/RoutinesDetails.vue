@@ -41,7 +41,8 @@ export default {
   },
   data() {
     return {
-      routine: new Routine('', '', '', '', '', '', [])
+      routine: new Routine('', '', '', '', '', '', []),
+      token: localStorage.getItem('token')
     };
   },
   mounted() {
@@ -52,7 +53,7 @@ export default {
     fetchRoutineDetails(routineId) {
       axios.get(`http://localhost:3001/api/routine/getRoutineById/${routineId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(response => {

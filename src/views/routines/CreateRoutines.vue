@@ -50,7 +50,8 @@ export default {
   data() {
     return {
       routine: new Routine("", "", "", "", "", "", ""),
-      userId: null
+      userId: null,
+      token: localStorage.getItem('token')
     };
   },
   created() {
@@ -62,7 +63,7 @@ export default {
       const nuevaRutina = this.routine;
       axios.post(`http://localhost:3001/api/user/createRoutine/${this.userId}`, nuevaRutina,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {

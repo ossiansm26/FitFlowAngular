@@ -157,19 +157,21 @@ export default {
         { name: "Otros", value: "others" },
       ],
       userId: "",
+      token: localStorage.getItem("token"),
     };
   },
   mounted() {
     const communityId = localStorage.getItem("selectedCommunityId");
     this.userId = localStorage.getItem("userId");
     this.fetchCommunityDetails(communityId);
+    token: localStorage.getItem("token");
   },
   methods: {
     fetchCommunityDetails(communityId) {
       axios
         .get(`http://localhost:3001/api/community/getCommunityById/${communityId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then((response) => {
@@ -190,7 +192,7 @@ export default {
       axios
         .post(`http://localhost:3001/api/community/addPost/${this.community.id}/${this.userId}`, newPost,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {
@@ -215,7 +217,7 @@ export default {
       axios
         .post(`http://localhost:3001/api/community/addReply/${postId}/${this.userId}`, newReply,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(() => {

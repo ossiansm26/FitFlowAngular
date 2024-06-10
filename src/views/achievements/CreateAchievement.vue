@@ -38,7 +38,8 @@ export default {
   },
   data() {
     return {
-      logro: new Achievement('', '', '')
+      logro: new Achievement('', '', ''),
+      token: localStorage.getItem('token')
     };
   },
   methods: {
@@ -46,7 +47,7 @@ export default {
       try {
         await axios.post('http://localhost:3001/api/achievement/add', this.logro,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               });
         console.log('Logro creado:', this.logro);

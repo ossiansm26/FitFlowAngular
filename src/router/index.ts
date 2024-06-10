@@ -35,7 +35,10 @@ import ExercicesLogView from '@/views/exercicesLog/ExercicesLogView.vue'
 import ExerciceEdit from '@/views/exercice/ExerciceEdit.vue'
 import ExercicesLogCreate from '@/views/exercicesLog/ExercicesLogCreate.vue'
 import EditExercicesCollection from '@/views/collectionExercices/EditExercicesCollection.vue'
+import RoutinesSearch from '@/views/routines/RoutinesSearch.vue'
+import CommunitySearch from '@/views/community/CommunitySearh.vue'
 import chat from '@/views/chats/Chat.vue'
+import axios from 'axios'
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
@@ -48,6 +51,10 @@ const routes: Array<RouteConfig> = [
     path: '/',
     name: 'login',
     component: UserLogin
+  },{
+    path: '/ReguistrarUsuario',
+    name: 'reguistrarUsuario',
+    component: UserRegister
   },
   {
     path: '/Usuarios',
@@ -58,14 +65,9 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/userDetails',
-      name: 'UserDetails',
-      component: UserDetails,
+    name: 'UserDetails',
+    component: UserDetails,
     meta: { requiresAuth: true }
-  }
-  ,{
-    path: '/ReguistrarUsuario',
-    name: 'reguistrarUsuario',
-    component: UserRegister
   },
   {
     path: '/EditarUsuario',
@@ -116,7 +118,7 @@ const routes: Array<RouteConfig> = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/MusleGroupDetails',
+    path: '/MuscleGroupDetails',
     name: 'muscleGroupDetails',
     component: MuscleGroupDetails,
     meta: { requiresAuth: true }
@@ -160,7 +162,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/CreateExercicesCollection',
     name: 'createExercicesCollection',
-    component:CreateExercicesCollection,
+    component: CreateExercicesCollection,
     meta: { requiresAuth: true }
   },
   {
@@ -173,8 +175,14 @@ const routes: Array<RouteConfig> = [
     name: 'routerDetails',
     component: RoutinesDetails,
     meta: { requiresAuth: true }
-  
-  },{
+  },
+  {
+    path: '/SearchRoutine',
+    name: 'searchRoutine',
+    component: RoutinesSearch,
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/CreateRoutine',
     name: 'createRoutine',
     component: CreateRoutines,
@@ -193,6 +201,12 @@ const routes: Array<RouteConfig> = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/CommunitySearch',
+    name: 'communitySearch',
+    component: CommunitySearch,
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/EditCommunity',
     name: 'editCommunity',
     component: EditCommunity,
@@ -203,14 +217,12 @@ const routes: Array<RouteConfig> = [
     name: 'communityDetails',
     component: CommunityDetails,
     meta: { requiresAuth: true }
-  
   },
   {
     path: '/CommunityCreate',
     name: 'communityCreate',
     component: CreateCommunity,
     meta: { requiresAuth: true }
-
   },
   {
     path: '/Achievement',
@@ -253,23 +265,33 @@ const routes: Array<RouteConfig> = [
     name: 'chats',
     component: chat,
     meta: { requiresAuth: true }
-  
   }
-
 ]
 
 const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  const loggedIn = localStorage.getItem('accessToken');
+router.beforeEach(async (to, from, next) => {
+  if (to.path === from.path && to.path !== '/') {
+    next(false);
+  } else if (to.matched.some(record => record.meta.requiresAuth)) {
+    const token = localStorage.getItem('token');
 
-  if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
-    next('/');
+    if (!token) {
+      next({ name: 'login' });
+    } else {
+      try {
+        await axios.get(`http://localhost:3001/api/auth/verifyToken`, { params: { token } });
+        next();
+      } catch {
+        localStorage.removeItem('token'); 
+        next({ name: 'login' });
+      }
+    }
   } else {
     next();
   }
 });
 
-export default router
+export default router;

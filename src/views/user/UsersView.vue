@@ -77,6 +77,7 @@ export default {
       dialogDeleteUser: false,
       userToDelete: null,
       userId: null,
+      token: localStorage.getItem("token"),
     };
   },
   created() {
@@ -87,7 +88,7 @@ export default {
       axios
         .get(`http://localhost:3001/api/user/getAllUser`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then((response) => {
@@ -136,7 +137,7 @@ export default {
       axios
         .delete(`http://localhost:3001/api/user/delete/${user.id}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then((response) => {

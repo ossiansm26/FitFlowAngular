@@ -65,6 +65,7 @@ export default {
         maxFilesize: 10, // MB
         acceptedFiles: "image/*",
       },
+      token: localStorage.getItem('token'),
     };
   },
   methods: {
@@ -72,7 +73,7 @@ export default {
       try {
         await axios.post("http://localhost:3001/api/exercices/create", this.exercise,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               });
         console.log("Ejercicio creado", this.exercise);

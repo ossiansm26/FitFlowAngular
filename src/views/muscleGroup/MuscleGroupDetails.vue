@@ -26,7 +26,8 @@ export default {
   },
   data() {
     return {
-      muscleGroup: new MuscleGroup(0, '', '', '')
+      muscleGroup: new MuscleGroup(0, '', '', ''),
+      token: localStorage.getItem('token')
     };
   },
   mounted() {
@@ -37,7 +38,7 @@ export default {
     fetchMuscleGroup(muscleGroupId) {
       axios.get(`http://localhost:3001/api/muscleGroup/getById/${muscleGroupId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(response => {

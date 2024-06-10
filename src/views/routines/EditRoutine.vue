@@ -38,6 +38,7 @@ export default {
   data() {
     return {
       editedRoutine: new Routine("", "", "", "", "", "", []),
+      token: localStorage.getItem("token"),
     };
   },
   computed: {
@@ -67,7 +68,7 @@ export default {
       axios
         .get(`http://localhost:3001/api/routine/getRoutineById/${routineId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then((response) => {
@@ -88,7 +89,7 @@ export default {
           `http://localhost:3001/api/routine/update/${this.editedRoutine.id}`,
           this.editedRoutine,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               }
         )

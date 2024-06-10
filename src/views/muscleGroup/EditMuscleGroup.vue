@@ -40,7 +40,8 @@ import BackBar from '@/components/navbar/BackBar.vue';
 export default {
   components: {
     VueDropzone,
-    BackBar
+    BackBar,
+    token: localStorage.getItem('token')
   },
   data() {
     return {
@@ -58,7 +59,7 @@ export default {
     const muscleGroupId = localStorage.getItem('editGroupID');
     axios.get(`http://localhost:3001/api/muscleGroup/getById/${muscleGroupId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
       .then(response => {
@@ -74,7 +75,7 @@ export default {
     saveMuscleGroup() {
       axios.put('http://localhost:3001/api/muscleGroup/update', this.editedMuscleGroup,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
         .then(response => {

@@ -36,7 +36,8 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            posts: []
+            posts: [],
+            token: localStorage.getItem('token')
         }
     },
     mounted() {
@@ -47,7 +48,7 @@ export default {
         fetchPosts(userId) {
             axios.get(`http://localhost:3001/api/user/get/findPostById/${userId}`,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               })
             .then(response => {

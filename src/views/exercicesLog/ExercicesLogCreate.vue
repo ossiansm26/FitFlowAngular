@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BackBar/>
     <v-card class="pa-5">
       <v-card-title>
         <h1>Crear Ejercicio</h1>
@@ -65,8 +66,12 @@
 <script>
 import axios from 'axios';
 import router from '@/router';
+import BackBar from '@/components/navbar/BackBar.vue';
 
 export default {
+  components: {
+    BackBar
+  },
   data() {
     return {
       selectedExercise: null,
@@ -74,7 +79,8 @@ export default {
       exercises: [],
       exerciseNames: [],
       selectedExerciseImage: '',
-      selectedDate: new Date().toISOString().substr(0, 10) 
+      selectedDate: new Date().toISOString().substr(0, 10),
+      token: localStorage.getItem('token')
     };
   },
   methods: {
@@ -88,7 +94,7 @@ export default {
       try {
         const response = await axios.get('http://localhost:3001/api/exercices',{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               });
         this.exercises = response.data;
@@ -144,7 +150,7 @@ export default {
         console.log('exerciceLog', exerciceLog);
         await axios.post('http://localhost:3001/api/exerciceLog/create', exerciceLog,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
               });
         this.selectedExercise = null;

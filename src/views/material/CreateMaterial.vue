@@ -88,6 +88,7 @@ export default {
       successText: "",
       errorText: "",
       routeOnSuccess: "",
+      token: localStorage.getItem("token")
     };
   },
   computed: {
@@ -118,10 +119,9 @@ export default {
           "http://localhost:3001/api/material",
           this.material,{
                 headers: {
-                  Authorization: `Bearer ${token}`, 
+                  Authorization: `Bearer ${this.token}`, 
                 },
-              }
-        );
+              });
         console.log("Material registrado:", response.data);
         this.successText = "¡Material registrado con éxito!";
         this.routeOnSuccess = "/Material";
