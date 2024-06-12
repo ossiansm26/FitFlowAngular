@@ -28,7 +28,15 @@
       </v-col>
       <v-col cols="12" sm="4" md="4">
         <div class="lorem-ipsum">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et odio sit amet ex sagittis fermentum. Maecenas nec nisl in purus laoreet consequat. Suspendisse potenti. Integer in quam felis. Vestibulum id consequat metus. Vivamus et mi nec leo fringilla pretium ac a mauris.</p>
+          <p>El sistema propuesto se presenta como una solución completa y personalizada para la gestión de entrenamientos
+
+físicos en gimnasios. Permite a los usuarios crear y seguir rutinas adaptadas a sus necesidades, con herramientas
+
+para asignar ejercicios, planificar entrenamientos y monitorear el progreso. Además, facilita la comunicación
+
+entre usuarios y entrenadores a través de chats y foros. Esta plataforma integral busca optimizar la experiencia de
+
+entrenamiento, fomentando el logro de objetivos de salud y bienestar para todos los miembros del gimnasio.</p>
         </div>
       </v-col>
     </v-row>

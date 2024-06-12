@@ -44,7 +44,7 @@
     },
     mounted() {
       this.userId = localStorage.getItem('userId');
-      this.fetchData(this.userId);
+      this.fetchData();
     },
     methods: {
       fetchData() {
@@ -62,16 +62,22 @@
             console.error('Error al obtener los datos:', error);
           });
       },
-      viewCommunity(communityId) {
-        localStorage.setItem('selectedCommunityId', communityId);
-        this.$router.push({ name: 'communityDetails' });
+      getImageUrl(image) {
+        return `http://localhost:3001/api/file/download/${image}`;
       },
-      createCommunity() {
-        this.$router.push({ name: 'communityCreate' });
+      addToUser(community) {
+        axios.put(`http://localhost:3001/api/user/${this.userId}/addCommunity/${community.id}`,{},{
+                  headers: {
+                    Authorization: `Bearer ${this.token}`, 
+                  },
+                })
+          .then(response => {
+            console.log('Usuario agregado a la comunidad:', response.data);
+          })
+          .catch(error => {
+            console.error('Error al agregar usuario a la comunidad:', error);
+          });
       },
-      getImageUrl(imageName) {
-        return `http://localhost:3001/api/file/download/${imageName}`;
-      }
     }
   }
   </script>

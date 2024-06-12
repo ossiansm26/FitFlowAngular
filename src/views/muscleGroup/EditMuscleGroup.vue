@@ -41,7 +41,7 @@ export default {
   components: {
     VueDropzone,
     BackBar,
-    token: localStorage.getItem('token')
+    
   },
   data() {
     return {
@@ -53,6 +53,7 @@ export default {
       },
       preview: '',
       newPhoto: false,
+      token: localStorage.getItem('token')
     };
   },
   mounted() {

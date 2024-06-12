@@ -138,7 +138,7 @@ export default {
             }
         },
         createNewChat(user) {
-            axios.post(`http://localhost:3001/api/chat/createChat/${this.userId}/${user.id}`, {
+            axios.post(`http://localhost:3001/api/chat/createChat/${this.userId}/${user.id}`,{}, {
                 headers: {
                     Authorization: `Bearer ${this.token}`,
                 },
